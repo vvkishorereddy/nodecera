@@ -31,7 +31,7 @@ export default class Header extends Component {
                   <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/post-job">Post A Job</Link>
+                  <Link to="/jobs/7">Post A Job</Link>
                 </li>
                 <li>
                   <Link to="/jobs">Job List</Link>

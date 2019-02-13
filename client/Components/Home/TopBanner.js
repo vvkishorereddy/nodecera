@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class TopBanner extends Component {
   render() {
@@ -17,9 +18,9 @@ export default class TopBanner extends Component {
                 </div>
                 <h1>Find a Job</h1>
                 <span>5,798,298 Skilld People </span>
-                <a href="index1.html#" className="btn btn-primary">
+                <Link to="/jobs" className="btn btn-primary">
                   Search Jobs
-                </a>
+                </Link>
               </div>
             </div>
             <div className="col-sm-6">
@@ -33,9 +34,9 @@ export default class TopBanner extends Component {
                 </div>
                 <h1>For Employers</h1>
                 <span>5,798,298 Skilld People</span>
-                <a href="job-post.html" className="btn btn-primary">
+                <Link to="/post-job" className="btn btn-primary">
                   Post a Job
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -3,7 +3,7 @@ import AppBanner from "../AppBanner";
 import Testimonials from "./Testimonials";
 import HomeJobs from "./HomeJobs";
 import TopBanner from "./TopBanner";
-import AddResume from "./AddResume";
+import AddResume from "../AddResume";
 
 export default class Home extends Component {
   render() {
