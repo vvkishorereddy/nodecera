@@ -4,8 +4,8 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const htmlPlugin = new HtmlWebPackPlugin({
   template: "./src/index.html",
-  //filename: "../index.html"
-  filename: path.resolve(path.join(__dirname, "public", "index.html"))
+  filename: "../index.html"
+  //filename: path.resolve(path.join(__dirname, "public", "index.html"))
 });
 const cssPlugin = new ExtractTextPlugin({ filename: "style.css" });
 
