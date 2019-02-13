@@ -6,7 +6,7 @@ const { PORT } = require("./server/Config");
 app.use(express.static(path.join(__dirname, "public")));
 //app.use(express.static(path.join(__dirname, "build")));
 
-app.get("/", (req, res) => {
+app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
