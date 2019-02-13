@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 
 export default class Footer extends Component {
   render() {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+
     return (
       <div className="footer">
         <div className="footer-top section-padding">
@@ -109,8 +112,9 @@ export default class Footer extends Component {
           <div className="container">
             <div className="copyright">
               <p>
-                Copyright © 2017 <a href="index1.html#">Seeker.com.</a> All
-                rights reserved.
+                Copyright © {currentYear}{" "}
+                <a href="index1.html#">CareersEra.com.</a>
+                All rights reserved.
               </p>
             </div>
             <div className="footer-social pull-right">
