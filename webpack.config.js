@@ -3,14 +3,14 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const htmlPlugin = new HtmlWebPackPlugin({
-  template: "./src/index.html",
+  template: "./client/index.html",
   filename: "../index.html"
   //filename: path.resolve(path.join(__dirname, "public", "index.html"))
 });
 const cssPlugin = new ExtractTextPlugin({ filename: "style.css" });
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./client/index.js",
   output: {
     path: path.resolve(path.join(__dirname, "public", "build")),
     filename: "bundle.js"
