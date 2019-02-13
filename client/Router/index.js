@@ -8,6 +8,10 @@ import Contact from "../Components/Contact";
 import PageNotFound from "../Components/ErrorPages/404";
 import PostJob from "../Components/PostJob";
 import JobDetails from "../Components/JobDetails";
+import ResumeDetails from "../Components/ResumeDetails";
+import CompanyDetails from "../Components/CompanyDetails";
+import Employee from "../Components/Employee";
+import Employer from "../Components/Employer";
 
 export default class Index extends Component {
   render() {
@@ -17,6 +21,10 @@ export default class Index extends Component {
         <Route path="/jobs" exact component={Jobs} />
         <Route path="/jobs/:id" exact component={JobDetails} />
         <Route path="/post-job" exact component={PostJob} />
+        <Route path="/resume/:id" exact component={ResumeDetails} />
+        <Route path="/company/:id" exact component={CompanyDetails} />
+        <Route path="/employee-profile" exact component={Employee} />
+        <Route path="/employer-profile" exact component={Employer} />
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <Route path="/contact" exact component={Contact} />
