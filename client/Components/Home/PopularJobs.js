@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import JobRow from "./JobRow";
+import JobRow from "../JobRow";
 
 const popularJobs = [
   {

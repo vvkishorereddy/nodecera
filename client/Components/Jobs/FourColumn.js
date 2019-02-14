@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import JobRow from "../JobRow";
+import AddResume from "../AddResume";
 
-const hotJobs = [
+const jobs = [
   {
     id: 1,
     title: "Project Manager",
@@ -88,27 +89,37 @@ const hotJobs = [
   }
 ];
 
-export default class HotJobs extends Component {
+export default class FourColumn extends Component {
   state = {
-    hotJobs: []
+    jobs: []
   };
 
   componentDidMount() {
     this.setState({
       ...this.state,
-      hotJobs: hotJobs
+      jobs: jobs
     });
   }
 
   render() {
-    const { hotJobs } = this.state;
+    const { jobs } = this.state;
 
     return (
-      <div className="row">
-        {hotJobs.map(data => {
-          return <JobRow job={data} key={data.id} />;
-        })}
-      </div>
+      <Fragment>
+        <div className="row">
+          {jobs.map(data => (
+            <JobRow job={data} key={data.id} />
+          ))}
+        </div>
+
+        <AddResume />
+
+        <div className="row">
+          {jobs.map(data => (
+            <JobRow job={data} key={data.id} />
+          ))}
+        </div>
+      </Fragment>
     );
   }
 }

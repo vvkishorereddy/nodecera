@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import JobRow from "../JobRow";
+import React, { Component, Fragment } from "react";
+import JobRowOtherType from "../JobRowOtherType";
 
-const hotJobs = [
+const jobs = [
   {
     id: 1,
     title: "Project Manager",
@@ -88,27 +88,45 @@ const hotJobs = [
   }
 ];
 
-export default class HotJobs extends Component {
+export default class TwoColumn extends Component {
   state = {
-    hotJobs: []
+    jobs: []
   };
 
   componentDidMount() {
     this.setState({
       ...this.state,
-      hotJobs: hotJobs
+      jobs: jobs
     });
   }
 
   render() {
-    const { hotJobs } = this.state;
-
+    const { jobs } = this.state;
     return (
-      <div className="row">
-        {hotJobs.map(data => {
-          return <JobRow job={data} key={data.id} />;
-        })}
-      </div>
+      <Fragment>
+        <div className="row">
+          {jobs.map(data => (
+            <JobRowOtherType job={data} key={data.id} />
+          ))}
+        </div>
+        <div className="tr-cta">
+          <div className="cta-content section">
+            <div className="cta-info">
+              <div className="pull-left">
+                <h1>Add your resume and let your next job find you.</h1>
+              </div>
+              <a href="listing.html#" className="btn btn-primary pull-right">
+                Add Your Resume
+              </a>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          {jobs.map(data => (
+            <JobRowOtherType job={data} key={data.id} />
+          ))}
+        </div>
+      </Fragment>
     );
   }
 }
