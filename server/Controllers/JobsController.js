@@ -7,4 +7,14 @@ jobs.get = (req, res) => {
   });
 };
 
+jobs.post = (req, res) => {
+  let job = new jobsModel({
+    title: req.body.title
+  });
+  job.save(err => {
+    if (err) return next();
+    res.json({ status: "created sucessfully" });
+  });
+};
+
 module.exports = jobs;

@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyparser = require("body-parser");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
@@ -12,7 +13,10 @@ mongoose.connect(mongoUrl, { useNewUrlParser: true }, err => {
   if (err) return console.log(err);
 });
 
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+
 const apiRoutes = require("./server/Routes");
 app.use("/api", apiRoutes);
 
