@@ -1,12 +1,19 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const mongoose = require("mongoose");
 const { PORT } = require("./server/Config");
 
-const apiRoutes = require("./server/Routes");
+const mongoUrl = `mongodb://careersera:${encodeURIComponent(
+  `VKr@1987`
+)}@ds135305.mlab.com:35305/careersera`;
+
+mongoose.connect(mongoUrl, { useNewUrlParser: true }, err => {
+  if (err) return console.log(err);
+});
 
 app.use(express.static(path.join(__dirname, "public")));
-
+const apiRoutes = require("./server/Routes");
 app.use("/api", apiRoutes);
 
 //  /^\/?/
