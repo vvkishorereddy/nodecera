@@ -12,7 +12,7 @@ export default class Home extends Component {
         <TopBanner />
         <HomeJobs />
         <AddResume />
-        <Testimonials />
+        {/*<Testimonials />*/}
         <AppBanner />
       </Fragment>
     );
