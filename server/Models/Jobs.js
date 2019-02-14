@@ -6,6 +6,7 @@ let JobSchema = new Schema({
     type: String,
     required: true
   },
+  workType: String,
   location: String,
   category: String,
   salary: String,
@@ -14,6 +15,7 @@ let JobSchema = new Schema({
   requirements: String,
   experience: String,
   company_name: String,
+  company_logo: String,
   company_description: String,
   company_address: String,
   company_phone: String,
