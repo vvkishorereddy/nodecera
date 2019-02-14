@@ -41,7 +41,7 @@ export default class Footer extends Component {
                   <h3>Job Seekers</h3>
                   <ul className="tr-list">
                     <li>
-                      <a href="index1.html#">Create Account</a>
+                      <Link to="/register">Create Account</Link>
                     </li>
                     <li>
                       <a href="index1.html#">Career Counseling</a>
@@ -63,13 +63,13 @@ export default class Footer extends Component {
                   <h3>Employers</h3>
                   <ul className="tr-list">
                     <li>
-                      <a href="index1.html#">Create Account</a>
+                      <Link to="/register">Create Account</Link>
                     </li>
                     <li>
                       <a href="index1.html#">Products/Service</a>
                     </li>
                     <li>
-                      <a href="index1.html#">Post a Job</a>
+                      <Link to="/post-job">Post a Job</Link>
                     </li>
                     <li>
                       <a href="index1.html#">FAQ</a>
@@ -112,7 +112,7 @@ export default class Footer extends Component {
           <div className="container">
             <div className="copyright">
               <p>
-                Copyright © {currentYear}{" "}
+                Copyright © {currentYear}
                 <a href="index1.html#">CareersEra.com.</a>
                 All rights reserved.
               </p>
