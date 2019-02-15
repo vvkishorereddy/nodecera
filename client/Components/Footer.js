@@ -1,7 +1,16 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default class Footer extends Component {
+  state = {};
+
+  handleSubscribeForm = () => {
+    axios.post("/api/subscribe", { email: this.email.value }).then(response => {
+      this.email.value = "";
+    });
+  };
+
   render() {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
@@ -81,22 +90,25 @@ export default class Footer extends Component {
                 <div className="footer-widget">
                   <h3>Newsletter</h3>
                   <p>Earum cumque doloribus, incidunt! Tempora voluptatibus</p>
-                  <form
-                    className="contact-form"
-                    method="post"
-                    action="index1.html#"
-                  >
+                  <form className="contact-form">
                     <div className="form-group">
                       <input
                         type="email"
                         className="form-control"
                         required="required"
                         placeholder="Your email Id"
+                        ref={element => {
+                          this.email = element;
+                        }}
                       />
                     </div>
                     <div className="form-group">
-                      <button type="submit" className="btn btn-primary">
-                        Sign Up
+                      <button
+                        type="button"
+                        onClick={this.handleSubscribeForm}
+                        className="btn btn-primary"
+                      >
+                        Subscribe
                       </button>
                     </div>
                   </form>
@@ -113,7 +125,7 @@ export default class Footer extends Component {
             <div className="copyright">
               <p>
                 Copyright © {currentYear}
-                <a href="index1.html#">CareersEra.com.</a>
+                <Link to="/"> CareersEra.com.</Link>
                 All rights reserved.
               </p>
             </div>
