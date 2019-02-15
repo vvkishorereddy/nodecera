@@ -1,18 +1,32 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default class LoginForm extends Component {
+  handleLoginForm = () => {
+    axios
+      .post("/api/login", {
+        email: this.email.value,
+        password: this.password.value
+      })
+      .then(response => {
+        console.log(response);
+      });
+  };
+
   render() {
     return (
       <div className="tr-account section-padding">
         <div className="container text-center">
           <div className="user-account">
             <div className="account-content">
-              <form action="signin.html#" className="tr-form">
+              <form className="tr-form">
                 <div className="form-group">
                   <input
                     type="email"
                     className="form-control"
                     placeholder="Please Enter Your Email"
+                    ref={ele => (this.email = ele)}
                   />
                 </div>
                 <div className="form-group">
@@ -20,32 +34,30 @@ export default class LoginForm extends Component {
                     type="password"
                     className="form-control"
                     placeholder="Password"
+                    ref={ele => (this.password = ele)}
                   />
                 </div>
                 <div className="user-option">
-                  <div className="checkbox">
-                    <label htmlFor="logged">
-                      <input type="checkbox" name="logged" id="logged" />
-                      Remember me
-                    </label>
-                  </div>
                   <div className="forgot-password">
-                    <a href="signin.html#">I forgot password</a>
+                    <Link to="/forgot-password">I forgot password</Link>
                   </div>
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <button
+                  onClick={this.handleLoginForm}
+                  type="button"
+                  className="btn btn-primary"
+                >
                   Login
                 </button>
               </form>
               <div className="new-user text-center">
                 <span>
-                  <a href="signup.html">Create a New Account</a>{" "}
+                  <Link to="/register">Create a New Account</Link>
                 </span>
               </div>
             </div>
           </div>
         </div>
-        {/* container */}
       </div>
     );
   }

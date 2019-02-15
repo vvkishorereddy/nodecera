@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyparser = require("body-parser");
+const session = require("express-session");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
@@ -12,6 +13,18 @@ const mongoUrl = `mongodb://careersera:${encodeURIComponent(
 mongoose.connect(mongoUrl, { useNewUrlParser: true }, err => {
   if (err) return console.log(err);
 });
+app.use(
+  session({
+    secret: "abcdefghijklmnopqrstuvwxyz1234567890",
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
+/* app.use((req, res, next) => {
+  console.log("req.session", req.session);
+  return next();
+}); */
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
