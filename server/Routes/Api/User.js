@@ -4,10 +4,10 @@ const passport = require("passport");
 
 const loginController = require("../../Controllers/loginController");
 
-router.post(
-  "/",
-  passport.authenticate("login", { session: false }),
-  loginController.post
+router.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  loginController.getProfile
 );
 
 module.exports = router;

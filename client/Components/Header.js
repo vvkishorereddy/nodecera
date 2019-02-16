@@ -36,6 +36,9 @@ export default class Header extends Component {
                 <li>
                   <Link to="/jobs">Job List</Link>
                 </li>
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
               </ul>
             </div>
             <div className="navbar-right">

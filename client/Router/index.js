@@ -12,6 +12,7 @@ import ResumeDetails from "../Components/ResumeDetails";
 import CompanyDetails from "../Components/CompanyDetails";
 import Employee from "../Components/Employee";
 import Employer from "../Components/Employer";
+import Dashboard from "../Components/Dashboard";
 
 export default class Index extends Component {
   render() {
@@ -28,6 +29,7 @@ export default class Index extends Component {
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <Route path="/contact" exact component={Contact} />
+        <Route path="/dashboard" exact component={Dashboard} />
         <Route component={PageNotFound} />
       </Switch>
     );
