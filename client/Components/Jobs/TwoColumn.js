@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import JobRowOtherType from "../JobRowOtherType";
+import axios from "axios";
 
 const jobs = [
   {
@@ -94,6 +95,7 @@ export default class TwoColumn extends Component {
   };
 
   componentDidMount() {
+    axios.get("/api/jobs").then(res => console.log(res));
     this.setState({
       ...this.state,
       jobs: jobs
