@@ -1,8 +1,11 @@
 const LocalStrategy = require("passport-local").Strategy;
-const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
+//const  JwtStrategy = require("passport-jwt").Strategy;
+const { Strategy, ExtractJwt } = require("passport-jwt");
+const { JWT_SECRET } = require("../Config");
 
 userModel = require("../Models/User");
+
+const JwtStrategy = Strategy;
 
 module.exports = function(passport) {
   passport.use(
@@ -67,10 +70,12 @@ module.exports = function(passport) {
   passport.use(
     new JwtStrategy(
       {
-        secretOrKey: "top_secret",
-        jwtFromRequest: ExtractJwt.fromUrlQueryParameter("secret_token")
+        secretOrKey: JWT_SECRET,
+        //jwtFromRequest: ExtractJwt.fromUrlQueryParameter("secret_token")
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
       },
       (token, done) => {
+        console.log(token, 888);
         return done(null, token.user);
       }
     )

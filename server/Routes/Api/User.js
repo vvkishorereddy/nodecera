@@ -6,7 +6,7 @@ const loginController = require("../../Controllers/loginController");
 
 router.get(
   "/profile",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   loginController.getProfile
 );
 

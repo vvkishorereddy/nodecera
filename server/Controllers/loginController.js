@@ -1,5 +1,8 @@
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../Config");
+
+const User = require("../Models/User");
 
 const login = {};
 
@@ -20,7 +23,7 @@ login.post = (req, res, next) => {
       }
 
       const body = { _id: req.user._id, email: req.user.email };
-      const token = jwt.sign({ user: body }, "top_secret");
+      const token = jwt.sign({ user: body }, JWT_SECRET);
       res.json({
         data: { access_token: token },
         status: true
@@ -29,12 +32,26 @@ login.post = (req, res, next) => {
   })(req, res, next);
 };
 
-login.getProfile = (req, res) => {
-  res.json({
-    status: 1,
-    message: "logged in Sucessfully",
-    token: req.user
-  });
+login.getProfile = (request, response, next) => {
+  passport.authenticate("jwt", { session: false }, async (error, token) => {
+    if (error || !token) {
+      response.status(401).json({ message: "Unauthorized" });
+    }
+    try {
+      const user = await User.findOne({
+        where: { email: token.email }
+      });
+      request.user = user;
+      response.json({
+        status: 1,
+        message: "logged in Sucessfully",
+        token: user
+      });
+    } catch (error) {
+      next(error);
+    }
+    next();
+  })(request, response, next);
 };
 
 module.exports = login;

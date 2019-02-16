@@ -4,9 +4,15 @@ import Axios from "axios";
 
 export default class Dashboard extends Component {
   componentDidMount() {
+    const access_token = localStorage.getItem("access_token") || "";
+    let headers;
+    if (access_token) {
+      let headers = `Authorization: bearer ${access_token}`;
+    }
+
     Axios.get("/api/user/profile", {
-      params: {
-        secret_token: localStorage.getItem("access_token")
+      headers: {
+        headers
       }
     }).then(data => console.log(data));
   }
