@@ -6,6 +6,7 @@ const passport = require("passport");
 
 // import local files
 const { PORT, mongoDBUrl } = require("./server/Config");
+const PassportConfiguration = require("./server/Passport/Strategy");
 const DB = require("./server/DB");
 const apiRoutes = require("./server/Routes");
 
@@ -17,7 +18,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // db connection
 DB(mongoDBUrl);
 
-require("./server/Passport/localStrategy");
+//passport configure
+PassportConfiguration(passport);
 
 // routes
 app.use("/api", apiRoutes);

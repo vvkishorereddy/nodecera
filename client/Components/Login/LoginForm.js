@@ -10,7 +10,7 @@ export default class LoginForm extends Component {
         password: this.password.value
       })
       .then(response => {
-        localStorage.setItem("access_token", response.data.token);
+        localStorage.setItem("access_token", response.data.data.access_token);
       });
   };
 
