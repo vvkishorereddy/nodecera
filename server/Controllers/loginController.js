@@ -24,7 +24,7 @@ login.post = (req, res, next) => {
       const body = { _id: req.user._id, email: req.user.email };
       const token = jwt.sign({ user: body }, JWT_SECRET);
       res.json(
-        JsonResponse.format(200, true, "Created Sucessfully", {
+        JsonResponse.format(200, true, "Logged in Sucessfully", {
           access_token: token
         })
       );

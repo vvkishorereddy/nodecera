@@ -20,7 +20,7 @@ export default class Dashboard extends Component {
   render() {
     return (
       <Fragment>
-        <Profile />
+        <Profile val="kkk" />
       </Fragment>
     );
   }

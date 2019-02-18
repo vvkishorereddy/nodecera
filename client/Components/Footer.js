@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-export default class Footer extends Component {
+class Footer extends Component {
   state = {};
 
   handleSubscribeForm = () => {
@@ -160,3 +160,5 @@ export default class Footer extends Component {
     );
   }
 }
+
+export default Footer;

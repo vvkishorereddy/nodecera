@@ -4,7 +4,7 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import Index from "./Router";
 
-export default class App extends Component {
+class App extends Component {
   render() {
     return (
       <Fragment>
@@ -15,3 +15,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default App;

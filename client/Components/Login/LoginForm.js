@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
-export default class LoginForm extends Component {
+import withContext from "../../Context/ConsumerHOC";
+
+class LoginForm extends Component {
   handleLoginForm = () => {
-    axios
-      .post("/api/login", {
-        email: this.email.value,
-        password: this.password.value
-      })
-      .then(response => {
-        localStorage.setItem("access_token", response.data.data.access_token);
-      });
+    this.props.context.methodsList.LoginUser(
+      this.email.value,
+      this.password.value
+    );
+    this.email.value = "";
+    this.password.value = "";
   };
 
   render() {
@@ -62,3 +61,5 @@ export default class LoginForm extends Component {
     );
   }
 }
+
+export default withContext(LoginForm);

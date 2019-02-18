@@ -1,8 +1,46 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
+import withContext from "../Context/ConsumerHOC";
 
-export default class Header extends Component {
+class Header extends Component {
+  handleLogOut = () => {
+    this.props.context.methodsList.userLogOut();
+  };
+
   render() {
+    const { isLoggedIn, loggedUser } = this.props.context;
+
+    let rightNavContent = "",
+      leftNavContent = "";
+    if (isLoggedIn) {
+      rightNavContent = (
+        <Fragment>
+          <li>
+            <Link to="/dashboard">Dashboard </Link>
+          </li>
+          <li>
+            <Link to="/logout" onClick={this.handleLogOut}>
+              Log Out
+            </Link>
+          </li>
+        </Fragment>
+      );
+    } else {
+      rightNavContent = (
+        <Fragment>
+          <li>
+            <i className="fa fa-user" />
+          </li>
+          <li>
+            <Link to="/login">Sign In </Link>
+          </li>
+          <li>
+            <Link to="/register">Register </Link>
+          </li>
+        </Fragment>
+      );
+    }
+
     return (
       <header className="tr-header">
         <nav className="navbar navbar-expand-lg">
@@ -31,28 +69,13 @@ export default class Header extends Component {
                   <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/jobs/7">Post A Job</Link>
-                </li>
-                <li>
                   <Link to="/jobs">Job List</Link>
                 </li>
-                <li>
-                  <Link to="/dashboard">Dashboard</Link>
-                </li>
+                {leftNavContent}
               </ul>
             </div>
             <div className="navbar-right">
-              <ul className="sign-in tr-list">
-                <li>
-                  <i className="fa fa-user" />
-                </li>
-                <li>
-                  <Link to="/login">Sign In</Link>
-                </li>
-                <li>
-                  <Link to="/register">Register</Link>
-                </li>
-              </ul>
+              <ul className="sign-in tr-list">{rightNavContent}</ul>
               <Link to="/post-job" className="btn btn-primary">
                 Post Job
               </Link>
@@ -66,3 +89,5 @@ export default class Header extends Component {
     );
   }
 }
+
+export default withContext(Header);

@@ -14,7 +14,7 @@ import Employee from "../Components/Employee";
 import Employer from "../Components/Employer";
 import Dashboard from "../Components/Dashboard";
 
-export default class Index extends Component {
+class Index extends Component {
   render() {
     return (
       <Switch>
@@ -35,3 +35,5 @@ export default class Index extends Component {
     );
   }
 }
+
+export default Index;

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import withContext from "../../Context/ConsumerHOC";
 
-export default class Profile extends Component {
+class Profile extends Component {
   render() {
     return <div>Profile</div>;
   }
 }
+
+export default withContext(Profile);
