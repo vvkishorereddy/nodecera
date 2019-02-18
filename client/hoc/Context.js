@@ -7,37 +7,20 @@ const AppConsumer = AppContext.Consumer;
 
 class AppProviderBasic extends Component {
   constructor() {
-    console.log("AppProvider constructor");
     super();
     this.state = {
       isLoggedIn: false,
       loggedUser: {},
-      methodsList: { LoginUser: this.LoginUser, userLogOut: this.userLogOut }
+      methodsList: {
+        LoginUser: this.LoginUser,
+        userLogOut: this.userLogOut,
+        checkUser: this.checkUser,
+        isLoggedIn: this.isLoggedIn
+      }
     };
   }
-  componentWillMount() {
-    console.log("AppProvider componentWillMount");
-    this.checkUser();
-  }
 
-  componentDidMount() {
-    console.log("AppProvider componentDidMount");
-  }
-
-  componentWillUnmount() {
-    console.log("AppProvider componentwillUnMount");
-  }
-
-  checkUser = () => {
-    let access_token = localStorage.getItem("access_token");
-    console.log(access_token, "access_token Appprovider");
-    if (access_token) {
-      this.setState({
-        ...this.state,
-        isLoggedIn: true
-      });
-    }
-  };
+  //Auth Functions
 
   LoginUser = (email, password) => {
     axios
@@ -46,11 +29,10 @@ class AppProviderBasic extends Component {
         password
       })
       .then(response => {
-        console.log(response, "response");
         const { data } = response;
 
         if (!data.data || !data.status) {
-          localStorage.removeItem("access_token");
+          this.removeToken();
           this.setState(
             {
               ...this.state,
@@ -58,22 +40,21 @@ class AppProviderBasic extends Component {
               loggedUser: {}
             },
             () => {
-              this.props.history.push("/login");
+              this.props.history.replace("/login");
             }
           );
         } else {
-          localStorage.setItem("access_token", data.data.access_token);
+          this.setToken(data.data.access_token);
           this.setState(
             {
               ...this.state,
               isLoggedIn: true,
               loggedUser: {
-                user: "kishore",
                 access_token: data.data.access_token
               }
             },
             () => {
-              this.props.history.push("/dashboard");
+              this.props.history.replace("/dashboard");
             }
           );
         }
@@ -81,7 +62,7 @@ class AppProviderBasic extends Component {
   };
 
   userLogOut = () => {
-    localStorage.removeItem("access_token");
+    this.removeToken();
     this.setState(
       {
         ...this.state,
@@ -89,13 +70,29 @@ class AppProviderBasic extends Component {
         loggedUser: {}
       },
       () => {
-        this.props.history.push("/login");
+        this.props.history.replace("/login");
       }
     );
   };
 
+  isLoggedIn = () => {
+    if (!!this.getToken()) {
+      this.setState({
+        ...this.state,
+        isLoggedIn: true
+      });
+    }
+
+    return !!this.getToken();
+  };
+
+  setToken = access_token => localStorage.setItem("access_token", access_token);
+
+  getToken = () => localStorage.getItem("access_token");
+
+  removeToken = () => localStorage.removeItem("access_token");
+
   render() {
-    console.log("AppProvider render");
     return (
       <AppContext.Provider value={{ ...this.state }}>
         {this.props.children}

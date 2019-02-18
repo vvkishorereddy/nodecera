@@ -3,7 +3,7 @@ import { AppConsumer } from "./Context";
 
 export default function withContext(Component) {
   return function(props) {
-    console.log("consumer HOC");
+    console.log("consumer");
     return (
       <AppConsumer>
         {context => <Component {...props} context={context} />}

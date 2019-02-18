@@ -5,24 +5,11 @@ import withContext from "../../hoc/ContextConsumer";
 import Auth from "../../hoc/Auth";
 
 class Login extends Component {
-  constructor() {
-    super();
-    console.log("Login construcctor");
-  }
   componentWillMount() {
-    console.log("Login componentWillMount");
+    this.props.context.methodsList.isLoggedIn() &&
+      this.props.history.replace("/dashboard");
   }
-
-  componentDidMount() {
-    console.log("Login componentDidMount");
-  }
-
-  componentWillUnmount() {
-    console.log("Login componentwillUnMount");
-  }
-
   render() {
-    console.log("Login render", this.props);
     return (
       <Fragment>
         <TopBanner />
@@ -32,4 +19,4 @@ class Login extends Component {
   }
 }
 
-export default withContext(Auth(Login));
+export default withContext(Login);

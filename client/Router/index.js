@@ -16,28 +16,13 @@ import Employer from "../Components/Employer";
 import Dashboard from "../Components/Dashboard";
 
 class Index extends Component {
-  constructor() {
-    super();
-    console.log("Router Constructor");
-  }
-  componentWillMount() {
-    console.log("Router componentWillMount");
-  }
-  componentDidMount() {
-    console.log("Router componentDidMount");
-  }
-  componentWillUnmount() {
-    console.log("Router  componentWillUnmount");
-  }
   render() {
-    console.log("Router render");
     return (
       <Switch>
         <Route path="/" exact component={Home} />
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <PrivateRoutes path="/dashboard" exact component={Dashboard} />
-
         <Route path="/jobs" exact component={Jobs} />
         <Route path="/jobs/:id" exact component={JobDetails} />
         <Route path="/post-job" exact component={PostJob} />
