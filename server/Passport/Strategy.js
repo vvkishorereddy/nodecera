@@ -30,7 +30,8 @@ module.exports = function(passport) {
             }
 
             if (
-              user.password != userModel.checkPassword(password, user.password)
+              //user.password != userModel.checkPassword(password, user.password)
+              user.password != password
             ) {
               return done(null, false);
             }
