@@ -50,8 +50,6 @@ module.exports = function(passport) {
         passReqToCallback: true
       },
       function(req, email, password, done) {
-        console.log("signup");
-
         let user = {
           email: email,
           password: password,

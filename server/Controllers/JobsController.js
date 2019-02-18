@@ -1,20 +1,20 @@
 const jobsModel = require("../Models/Jobs");
+const JsonResponse = require("../Helpers/JsonResponse");
 const jobs = {};
 
 jobs.get = (req, res) => {
-  console.log(req.user);
   jobsModel.find((err, jobs) => {
-    res.json(jobs);
+    res.json(JsonResponse.format(200, true, "Fetched Sucessfully", jobs));
   });
 };
 
 jobs.post = (req, res) => {
-  let job = new jobsModel({
+  let job = {
     title: req.body.title
-  });
-  job.save(err => {
+  };
+  jobsModel.create(job, (err, jobs) => {
     if (err) return next();
-    res.json({ status: "created sucessfully" });
+    res.json(JsonResponse.format(200, true, "created Sucessfully", jobs));
   });
 };
 
