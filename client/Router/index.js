@@ -16,7 +16,21 @@ import Employer from "../Components/Employer";
 import Dashboard from "../Components/Dashboard";
 
 class Index extends Component {
+  constructor() {
+    super();
+    console.log("Router Constructor");
+  }
+  componentWillMount() {
+    console.log("Router componentWillMount");
+  }
+  componentDidMount() {
+    console.log("Router componentDidMount");
+  }
+  componentWillUnmount() {
+    console.log("Router  componentWillUnmount");
+  }
   render() {
+    console.log("Router render");
     return (
       <Switch>
         <Route path="/" exact component={Home} />

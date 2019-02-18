@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Link, NavLink } from "react-router-dom";
-import withContext from "../Context/ConsumerHOC";
+import withContext from "../hoc/ContextConsumer";
 
 class Header extends Component {
   handleLogOut = () => {

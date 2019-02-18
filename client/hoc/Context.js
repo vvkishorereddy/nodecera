@@ -7,6 +7,7 @@ const AppConsumer = AppContext.Consumer;
 
 class AppProviderBasic extends Component {
   constructor() {
+    console.log("AppProvider constructor");
     super();
     this.state = {
       isLoggedIn: false,
@@ -14,14 +15,22 @@ class AppProviderBasic extends Component {
       methodsList: { LoginUser: this.LoginUser, userLogOut: this.userLogOut }
     };
   }
+  componentWillMount() {
+    console.log("AppProvider componentWillMount");
+    this.checkUser();
+  }
 
   componentDidMount() {
-    this.checkUser();
+    console.log("AppProvider componentDidMount");
+  }
+
+  componentWillUnmount() {
+    console.log("AppProvider componentwillUnMount");
   }
 
   checkUser = () => {
     let access_token = localStorage.getItem("access_token");
-    console.log(access_token, "access_token");
+    console.log(access_token, "access_token Appprovider");
     if (access_token) {
       this.setState({
         ...this.state,
@@ -86,6 +95,7 @@ class AppProviderBasic extends Component {
   };
 
   render() {
+    console.log("AppProvider render");
     return (
       <AppContext.Provider value={{ ...this.state }}>
         {this.props.children}

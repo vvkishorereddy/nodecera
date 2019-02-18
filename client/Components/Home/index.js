@@ -6,7 +6,20 @@ import TopBanner from "./TopBanner";
 import AddResume from "../AddResume";
 
 export default class Home extends Component {
+  componentWillMount() {
+    console.log("Home componentWillMount");
+  }
+
+  componentDidMount() {
+    console.log("Home componentDidMount");
+  }
+
+  componentWillUnmount() {
+    console.log("Home componentwillUnMount");
+  }
+
   render() {
+    console.log("Home render");
     return (
       <Fragment>
         <TopBanner />

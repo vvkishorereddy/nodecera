@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-import withContext from "../../Context/ConsumerHOC";
+import withContext from "../../hoc/ContextConsumer";
 
 class LoginForm extends Component {
   handleLoginForm = () => {
