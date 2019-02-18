@@ -15,6 +15,21 @@ class AppProviderBasic extends Component {
     };
   }
 
+  componentDidMount() {
+    this.checkUser();
+  }
+
+  checkUser = () => {
+    let access_token = localStorage.getItem("access_token");
+    console.log(access_token, "access_token");
+    if (access_token) {
+      this.setState({
+        ...this.state,
+        isLoggedIn: true
+      });
+    }
+  };
+
   LoginUser = (email, password) => {
     axios
       .post("/api/login", {
@@ -71,7 +86,6 @@ class AppProviderBasic extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <AppContext.Provider value={{ ...this.state }}>
         {this.props.children}

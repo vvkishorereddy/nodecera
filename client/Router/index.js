@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
+import PrivateRoutes from "./PrivateRoutes";
 import Home from "../Components/Home";
 import Jobs from "../Components/Jobs";
 import Register from "../Components/Register";
@@ -19,6 +20,10 @@ class Index extends Component {
     return (
       <Switch>
         <Route path="/" exact component={Home} />
+        <Route path="/register" exact component={Register} />
+        <Route path="/login" exact component={Login} />
+        <PrivateRoutes path="/dashboard" exact component={Dashboard} />
+
         <Route path="/jobs" exact component={Jobs} />
         <Route path="/jobs/:id" exact component={JobDetails} />
         <Route path="/post-job" exact component={PostJob} />
@@ -26,10 +31,7 @@ class Index extends Component {
         <Route path="/company/:id" exact component={CompanyDetails} />
         <Route path="/employee-profile" exact component={Employee} />
         <Route path="/employer-profile" exact component={Employer} />
-        <Route path="/register" exact component={Register} />
-        <Route path="/login" exact component={Login} />
         <Route path="/contact" exact component={Contact} />
-        <Route path="/dashboard" exact component={Dashboard} />
         <Route component={PageNotFound} />
       </Switch>
     );
