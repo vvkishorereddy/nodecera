@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import Profile from "./Profile";
 import Axios from "axios";
 import withContext from "../../hoc/ContextConsumer";
-import Auth from "../../hoc/Auth";
 
 class Dashboard extends Component {
   constructor() {
