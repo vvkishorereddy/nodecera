@@ -9,10 +9,7 @@ jobs.get = (req, res) => {
 };
 
 jobs.post = (req, res) => {
-  let job = {
-    title: req.body.title
-  };
-  jobsModel.create(job, (err, jobs) => {
+  jobsModel.create(req.body, (err, jobs) => {
     if (err) return next();
     res.json(JsonResponse.format(200, true, "created Sucessfully", jobs));
   });

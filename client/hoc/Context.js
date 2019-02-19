@@ -28,7 +28,8 @@ class AppProviderBasic extends Component {
       setToken: this.setToken,
       getToken: this.getToken,
       removeToken: this.removeToken,
-      getUserProfile: this.getUserProfile
+      getUserProfile: this.getUserProfile,
+      saveJob: this.saveJob
     };
   }
 
@@ -145,6 +146,62 @@ class AppProviderBasic extends Component {
     Axios.get("/api/user/profile", {
       headers: headers
     }).then(data => console.log(data));
+  };
+
+  saveJob = form => {
+    const data = {
+      title: form.title.value,
+      category: form.category.value,
+      workType: form.jobType.value,
+      location: form.address.value,
+      city: form.city.value,
+      country: form.country.value,
+      salary: form.salary.value,
+      last_date: form.lastDate.value,
+      experience: form.exprienceLevel.value,
+      summary: form.summary.value,
+      responsibilities: form.responsibilites.value,
+      requirements: form.minRequirements.value,
+      company_name: "Kishore Dig File",
+      company_logo: "images/job/1.png",
+      company_description:
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore",
+      company_address: "London, UK",
+      company_phone: "+1234 567 8910",
+      company_email: "admin@company.com",
+      company_website: "www.company.com"
+    };
+
+    const access_token = this.getToken();
+    let headers = {};
+    if (!!access_token) {
+      headers["x-access-token"] = access_token;
+    }
+
+    Axios.post("/api/jobs", data, {
+      headers: headers
+    }).then(response => console.log(response));
+
+    form.title.value = "";
+    form.category.value = "";
+    form.jobType.value = "";
+    form.address.value = "";
+    form.city.value = "";
+    form.country.value = "";
+    form.salary.value = "";
+    form.lastDate.value = "";
+    form.exprienceLevel.value = "";
+    form.summary.value = "";
+    form.responsibilites.value = "";
+    form.minRequirements.value = "";
+    form.terms.value = "";
+    form.exprienceLevel.forEach(e => {
+      e.checked = false;
+    });
+    form.jobType.forEach(e => {
+      e.checked = false;
+    });
+    form.terms.parentElement.classList.value = "";
   };
 
   render() {
