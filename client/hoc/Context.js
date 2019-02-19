@@ -7,17 +7,18 @@ const AppConsumer = AppContext.Consumer;
 
 class AppProviderBasic extends Component {
   constructor() {
+    console.log("AppProvider contructor");
     super();
     this.state = {
+      isLoading: false,
       isLoggedIn: false,
-      loggedUser: {},
-      methodsList: {
-        LoginUser: this.LoginUser,
-        userLogOut: this.userLogOut,
-        checkUser: this.checkUser,
-        isLoggedIn: this.isLoggedIn
-      }
+      jobs: [],
+      loggedUser: {}
     };
+  }
+
+  componentDidMount() {
+    console.log("AppProvider did mount");
   }
 
   //Auth Functions
@@ -92,9 +93,38 @@ class AppProviderBasic extends Component {
 
   removeToken = () => localStorage.removeItem("access_token");
 
+  // fetch jobs list
+
+  fetchJobs = () => {
+    this.setState({
+      ...this.state,
+      isLoading: true
+    });
+    axios.get("/api/jobs").then(res => {
+      const { data } = res;
+      if (!!data.data) {
+        this.setState(state => {
+          return {
+            ...state,
+            jobs: data.data,
+            isLoading: false
+          };
+        });
+      }
+    });
+  };
+
   render() {
+    console.log("AppProvider render");
+    const methodsList = {
+      LoginUser: this.LoginUser,
+      userLogOut: this.userLogOut,
+      checkUser: this.checkUser,
+      isLoggedIn: this.isLoggedIn,
+      fetchJobs: this.fetchJobs
+    };
     return (
-      <AppContext.Provider value={{ ...this.state }}>
+      <AppContext.Provider value={{ ...this.state, ...methodsList }}>
         {this.props.children}
       </AppContext.Provider>
     );

@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import TwoColumn from "./TwoColumn";
 import FourColumn from "./FourColumn";
+import withContext from "../../hoc/ContextConsumer";
+import Loader from "../Loader";
 
-export default class JobsList extends Component {
+class JobsList extends Component {
+  componentDidMount() {
+    this.props.context.fetchJobs();
+  }
+
   changeViewType = e => {
     let liTag = document.querySelectorAll(".tabTitle");
     let dataDivTag = document.querySelectorAll(".tab-pane");
@@ -21,7 +27,9 @@ export default class JobsList extends Component {
   };
 
   render() {
-    return (
+    return this.props.context.isLoading ? (
+      <Loader />
+    ) : (
       <div className="jobs-listing section-padding">
         <div className="container">
           <div className="job-topbar">
@@ -173,7 +181,7 @@ export default class JobsList extends Component {
             </div>
             <div
               role="tabpanel"
-              className="tab-pane fade two-column"
+              className="tab-pane fade two-column "
               id="two-column"
             >
               <TwoColumn />
@@ -184,3 +192,5 @@ export default class JobsList extends Component {
     );
   }
 }
+
+export default withContext(JobsList);
