@@ -1,52 +1,11 @@
 import React, { Component } from "react";
 import SimilarJobs from "./SimilarJobs";
 import AddResume from "../AddResume";
+import withContext from "../../hoc/ContextConsumer";
 
-const singleJobData = {
-  id: 1,
-  title: "Project Manager",
-  workType: "Full Time",
-  location: "San Francisco, CA, US",
-  category: "",
-  salary: "$5,000 - $6,000",
-  summary:
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, seddo eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco  laboris nisi ut aliquip ex ea commodo consequat. Duis aute  irure dolor in reprehenderit in voluptate velit esse cillum  dolore eu fugiat nulla pariatur. Excepteur sint occaecat  cupidatat non proident, sunt in culpa qui officia deserunt  mollit anim id est laborum.",
-  responsibilities:
-    "Execute all visual design stages of website design from  concept to final hand-off to development Create print  advertisements, social media advertisements, client collateral  &amp; digital resizes according to Client demands With  direction of the Creative team, input into new design ideas  for client branding Update &amp; keep all agency collateral  materials, including keeping records of Client's logos, fonts,  images, etc.",
-  requirements: `<ul className="tr-list">  <li>Bachelor's Degree</li>  <li>    2-5 years of relevant experience ( or equivalent educational
-    experience)  </li>  <li>    Experience developing in Wordpress and other web design    platforms  </li>
-  <li>HTML, CSS and JavaScript experience a plus</li>  <li>    In depth knowledge &amp; technical experience of Photoshop,
-    Illustrator, InDesign, Adobe PDF, Keynote, PowerPoint,    Microsoft Word &amp; Excel  </li>  <li>
-    Exceptional eye for design, deep understanding of creativity    and ability to recognize fresh approaches to Advertising  </li>  <li>
-    Must be fluent in Spanish; working written and spoken    proficiency  </li>  <li>    **All applicants must be eligible to work in the U.S.
-    without sponsorship  </li></ul><script>alert(0)</script>`,
-  experience: "Mid Level",
-  company_name: "Dig File",
-  company_logo: "images/job/8.png",
-  company_description:
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore",
-  company_address: "London, UK",
-  company_phone: "+1234 567 8910",
-  company_email: "admin@company.com",
-  company_website: "www.company.com",
-  last_date: "",
-  created_at: "Posted 23 hours ago"
-};
-
-export default class JobData extends Component {
-  state = {
-    singleJobData: {}
-  };
-
-  componentDidMount() {
-    this.setState({
-      ...this.state,
-      singleJobData: singleJobData
-    });
-  }
-
+class JobData extends Component {
   render() {
-    const { singleJobData } = this.state;
+    const { jobsDetails, isLoading } = this.props.context;
 
     return (
       <div className="job-details section-padding">
@@ -55,13 +14,13 @@ export default class JobData extends Component {
             <div className="col-md-8 col-lg-9">
               <div className="job-summary section">
                 <span className="tr-title">Job Summary</span>
-                <p>{singleJobData.summary}</p>
+                <p>{jobsDetails.summary}</p>
                 <span>Key Responsibilities:</span>
-                <p>{singleJobData.responsibilities}</p>
+                <p>{jobsDetails.responsibilities}</p>
                 <span>Minimum Requirements</span>
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: singleJobData.requirements
+                    __html: jobsDetails.requirements
                   }}
                 />
               </div>
@@ -78,7 +37,7 @@ export default class JobData extends Component {
                         </div>
                         <div className="media-body">
                           <span>Published:</span>
-                          {singleJobData.created_at}
+                          {jobsDetails.created_at}
                         </div>
                       </li>
                       <li className="media">
@@ -103,7 +62,7 @@ export default class JobData extends Component {
                         </div>
                         <div className="media-body">
                           <span>Experience:</span>
-                          {singleJobData.experience}
+                          {jobsDetails.experience}
                         </div>
                       </li>
                       <li className="media">
@@ -120,11 +79,11 @@ export default class JobData extends Component {
                   {/* /.widger */}
                   <div className="widget cmpany-info">
                     <h3 className="widget_title">Cmpany Info</h3>
-                    <span>{singleJobData.company_name}</span>
-                    <p>{singleJobData.company_description}</p>
+                    <span>{jobsDetails.company_name}</span>
+                    <p>{jobsDetails.company_description}</p>
                     <ul className="tr-list">
                       <li>
-                        <span>Address:</span> {singleJobData.company_address}
+                        <span>Address:</span> {jobsDetails.company_address}
                       </li>
                       <li>
                         <span>Compnay SIze:</span> 2k Employee
@@ -134,18 +93,18 @@ export default class JobData extends Component {
                         <a href="job-details.html#">Technology</a>
                       </li>
                       <li>
-                        <span>Phone:</span> {singleJobData.company_phone}
+                        <span>Phone:</span> {jobsDetails.company_phone}
                       </li>
                       <li>
                         <span>Email:</span>{" "}
                         <a href="job-details.html#">
-                          {singleJobData.company_email}
+                          {jobsDetails.company_email}
                         </a>
                       </li>
                       <li>
                         <span>Website:</span>{" "}
                         <a href="job-details.html#">
-                          {singleJobData.company_website}
+                          {jobsDetails.company_website}
                         </a>
                       </li>
                       <li>
@@ -206,3 +165,5 @@ export default class JobData extends Component {
     );
   }
 }
+
+export default withContext(JobData);

@@ -17,13 +17,13 @@ export default class JobRowOtherType extends Component {
                 />
               </div>
               <span className="tr-title">
-                <Link to={`/jobs/${job.id}`}>{job.title}</Link>
+                <Link to={`/jobs/${job._id}`}>{job.title}</Link>
                 <span>
-                  <Link to={`/jobs/${job.id}`}>{job.company_name}</Link>
+                  <Link to={`/jobs/${job._id}`}>{job.company_name}</Link>
                 </span>
               </span>
               <span>
-                <Link to={`/jobs/${job.id}`} className="btn btn-primary">
+                <Link to={`/jobs/${job._id}`} className="btn btn-primary">
                   {job.workType}
                 </Link>
               </span>

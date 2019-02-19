@@ -4,42 +4,38 @@ import withContext from "../hoc/ContextConsumer";
 
 class Header extends Component {
   handleLogOut = () => {
-    this.props.context.methodsList.userLogOut();
+    this.props.context.userLogOut();
   };
 
   render() {
-    const { isLoggedIn, loggedUser } = this.props.context;
+    const { isLogged, loggedUser } = this.props.context;
 
     let rightNavContent = "",
       leftNavContent = "";
-    if (isLoggedIn) {
-      rightNavContent = (
-        <Fragment>
-          <li>
-            <Link to="/dashboard">Dashboard </Link>
-          </li>
-          <li>
-            <Link to="/logout" onClick={this.handleLogOut}>
-              Log Out
-            </Link>
-          </li>
-        </Fragment>
-      );
-    } else {
-      rightNavContent = (
-        <Fragment>
-          <li>
-            <i className="fa fa-user" />
-          </li>
-          <li>
-            <Link to="/login">Sign In </Link>
-          </li>
-          <li>
-            <Link to="/register">Register </Link>
-          </li>
-        </Fragment>
-      );
-    }
+    rightNavContent = isLogged ? (
+      <Fragment>
+        <li>
+          <Link to="/dashboard">Dashboard </Link>
+        </li>
+        <li>
+          <Link to="/logout" onClick={this.handleLogOut}>
+            Log Out
+          </Link>
+        </li>
+      </Fragment>
+    ) : (
+      <Fragment>
+        <li>
+          <i className="fa fa-user" />
+        </li>
+        <li>
+          <Link to="/login">Sign In </Link>
+        </li>
+        <li>
+          <Link to="/register">Register </Link>
+        </li>
+      </Fragment>
+    );
 
     return (
       <header className="tr-header">
