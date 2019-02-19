@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import axios from "axios";
+import Axios from "axios";
 
 const AppContext = React.createContext();
 const AppConsumer = AppContext.Consumer;
@@ -11,7 +11,7 @@ class AppProviderBasic extends Component {
     super();
     this.state = {
       isLoading: false,
-      isLoggedIn: false,
+      isLogged: false,
       jobs: [],
       hotJobs: [],
       popularJobs: [],
@@ -19,6 +19,16 @@ class AppProviderBasic extends Component {
       similarJobs: [],
       jobsDetails: {},
       loggedUser: {}
+    };
+    this.methodsList = {
+      LoginUser: this.LoginUser,
+      userLogOut: this.userLogOut,
+      isLoggedIn: this.isLoggedIn,
+      fetchJobs: this.fetchJobs,
+      setToken: this.setToken,
+      getToken: this.getToken,
+      removeToken: this.removeToken,
+      getUserProfile: this.getUserProfile
     };
   }
 
@@ -29,42 +39,43 @@ class AppProviderBasic extends Component {
   //Auth Functions
 
   LoginUser = (email, password) => {
-    axios
-      .post("/api/login", {
-        email,
-        password
-      })
-      .then(response => {
-        const { data } = response;
+    this.setState({ ...this.state, isLoading: true });
+    Axios.post("/api/login", {
+      email,
+      password
+    }).then(response => {
+      const { data } = response;
 
-        if (!data.data || !data.status) {
-          this.removeToken();
-          this.setState(
-            {
-              ...this.state,
-              isLoggedIn: false,
-              loggedUser: {}
-            },
-            () => {
-              this.props.history.replace("/login");
+      if (!data.data || !data.status) {
+        this.removeToken();
+        this.setState(
+          {
+            ...this.state,
+            isLogged: false,
+            isLoading: false,
+            loggedUser: {}
+          },
+          () => {
+            this.props.history.replace("/login");
+          }
+        );
+      } else {
+        this.setToken(data.data.access_token);
+        this.setState(
+          {
+            ...this.state,
+            isLogged: true,
+            isLoading: false,
+            loggedUser: {
+              access_token: data.data.access_token
             }
-          );
-        } else {
-          this.setToken(data.data.access_token);
-          this.setState(
-            {
-              ...this.state,
-              isLoggedIn: true,
-              loggedUser: {
-                access_token: data.data.access_token
-              }
-            },
-            () => {
-              this.props.history.replace("/dashboard");
-            }
-          );
-        }
-      });
+          },
+          () => {
+            this.props.history.replace("/dashboard");
+          }
+        );
+      }
+    });
   };
 
   userLogOut = () => {
@@ -72,7 +83,7 @@ class AppProviderBasic extends Component {
     this.setState(
       {
         ...this.state,
-        isLoggedIn: false,
+        isLogged: false,
         loggedUser: {}
       },
       () => {
@@ -85,7 +96,7 @@ class AppProviderBasic extends Component {
     if (!!this.getToken()) {
       this.setState({
         ...this.state,
-        isLoggedIn: true
+        isLogged: true
       });
     }
 
@@ -105,7 +116,7 @@ class AppProviderBasic extends Component {
       ...this.state,
       isLoading: true
     });
-    axios.get("/api/jobs").then(res => {
+    Axios.get("/api/jobs").then(res => {
       const { data } = res;
       if (!!data.data) {
         this.setState(state => {
@@ -124,17 +135,25 @@ class AppProviderBasic extends Component {
     });
   };
 
+  getUserProfile = () => {
+    const access_token = this.getToken();
+    let headers;
+    if (!!access_token) {
+      //  headers = `Authorization: bearer ${access_token}`;
+    }
+
+    Axios.get("/api/user/profile?secret_token=" + access_token, {
+      headers: {
+        headers
+      }
+    }).then(data => console.log(data));
+  };
+
   render() {
-    console.log("AppProvider render");
-    const methodsList = {
-      LoginUser: this.LoginUser,
-      userLogOut: this.userLogOut,
-      checkUser: this.checkUser,
-      isLoggedIn: this.isLoggedIn,
-      fetchJobs: this.fetchJobs
-    };
+    console.log("AppProvider render", this.methodsList);
+
     return (
-      <AppContext.Provider value={{ ...this.state, ...methodsList }}>
+      <AppContext.Provider value={{ ...this.state, ...this.methodsList }}>
         {this.props.children}
       </AppContext.Provider>
     );

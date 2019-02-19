@@ -5,10 +5,7 @@ import withContext from "../../hoc/ContextConsumer";
 
 class LoginForm extends Component {
   handleLoginForm = () => {
-    this.props.context.methodsList.LoginUser(
-      this.email.value,
-      this.password.value
-    );
+    this.props.context.LoginUser(this.email.value, this.password.value);
     this.email.value = "";
     this.password.value = "";
   };

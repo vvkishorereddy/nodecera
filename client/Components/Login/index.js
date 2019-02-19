@@ -6,8 +6,7 @@ import withContext from "../../hoc/ContextConsumer";
 class Login extends Component {
   componentWillMount() {
     console.log(this.props, "props");
-    this.props.context.methodsList.isLoggedIn() &&
-      this.props.history.replace("/dashboard");
+    this.props.context.isLoggedIn() && this.props.history.replace("/dashboard");
   }
   render() {
     return (
