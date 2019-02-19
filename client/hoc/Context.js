@@ -16,6 +16,8 @@ class AppProviderBasic extends Component {
       hotJobs: [],
       popularJobs: [],
       recentJobs: [],
+      similarJobs: [],
+      jobsDetails: {},
       loggedUser: {}
     };
   }
@@ -113,6 +115,8 @@ class AppProviderBasic extends Component {
             hotJobs: data.data.slice(0, 8),
             popularJobs: data.data.slice(9, 18),
             recentJobs: data.data.slice(15, 22),
+            similarJobs: data.data.slice(1, 5),
+            jobsDetails: data.data[0],
             isLoading: false
           };
         });
