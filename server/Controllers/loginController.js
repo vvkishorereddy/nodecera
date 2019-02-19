@@ -1,61 +1,65 @@
-const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../Config");
-
-const User = require("../Models/User");
 const JsonResponse = require("../Helpers/JsonResponse");
+const userModel = require("../Models/User");
 
 const login = {};
 
 login.post = (req, res, next) => {
-  passport.authenticate("login", (err, user, info) => {
-    if (err || !user) {
-      return res
-        .status(200)
-        .json(JsonResponse.format(401, false, "Authentication Failed", null));
-    }
-    req.login(user, { session: false }, error => {
-      if (error) {
+  userModel.findOne(
+    {
+      email: req.body.email
+    },
+    function(err, user) {
+      console.log(err, user, 65);
+      if (err || !user) {
         return res
           .status(200)
-          .json(JsonResponse.format(401, false, error, null));
+          .json(
+            JsonResponse.format(401, false, "Authentication Failedv", null)
+          );
       }
 
-      const body = { _id: req.user._id, email: req.user.email };
-      const token = jwt.sign({ user: body }, JWT_SECRET);
+      if (
+        //user.password != userModel.checkPassword(password, user.password)
+        user.password != req.body.password
+      ) {
+        return res
+          .status(200)
+          .json(JsonResponse.format(401, false, "Password Failed", null));
+      }
+
+      const body = { _id: user._id, email: user.email };
+      const token = jwt.sign({ user: body }, JWT_SECRET, {
+        expiresIn: 86400 // expires in 24 hours
+      });
       res.json(
         JsonResponse.format(200, true, "Logged in Sucessfully", {
           access_token: token
         })
       );
-    });
-    next();
-  })(req, res, next);
+    }
+  );
 };
 
-login.getProfile = (request, response, next) => {
-  passport.authenticate("jwt", { session: false }, async (error, token) => {
-    if (error || !token) {
-      response
+login.getProfile = (req, res, next) => {
+  var token = req.headers["x-access-token"];
+  if (!token)
+    return res.status(401).send({ auth: false, message: "No token provided." });
+
+  jwt.verify(token, JWT_SECRET, function(err, decoded) {
+    if (err)
+      return res
         .status(200)
-        .json(JsonResponse.format(401, false, "Unauthorized", null));
-    } else {
-      try {
-        const user = await User.findOne({
-          where: { email: token.email }
-        });
-        request.user = user;
-        response.json(
-          JsonResponse.format(200, true, "logged in Sucessfully", {
-            token: user
-          })
+        .json(
+          JsonResponse.format(401, false, "Failed to authenticate token.", null)
         );
-        next();
-      } catch (error) {
-        next(error);
-      }
-    }
-  })(request, response, next);
+    res
+      .status(200)
+      .json(
+        JsonResponse.format(401, false, "Authentication Succeess", decoded.user)
+      );
+  });
 };
 
 module.exports = login;

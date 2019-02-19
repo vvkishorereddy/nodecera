@@ -137,15 +137,13 @@ class AppProviderBasic extends Component {
 
   getUserProfile = () => {
     const access_token = this.getToken();
-    let headers;
+    let headers = {};
     if (!!access_token) {
-      //  headers = `Authorization: bearer ${access_token}`;
+      headers["x-access-token"] = access_token;
     }
 
-    Axios.get("/api/user/profile?secret_token=" + access_token, {
-      headers: {
-        headers
-      }
+    Axios.get("/api/user/profile", {
+      headers: headers
     }).then(data => console.log(data));
   };
 

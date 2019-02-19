@@ -2,11 +2,10 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const path = require("path");
 const app = express();
-const passport = require("passport");
 
 // import local files
 const { PORT, mongoDBUrl } = require("./server/Config");
-const PassportConfiguration = require("./server/Passport/Strategy");
+
 const DB = require("./server/DB");
 const apiRoutes = require("./server/Routes");
 
@@ -17,9 +16,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // db connection
 DB(mongoDBUrl);
-
-//passport configure
-PassportConfiguration(passport);
 
 // routes
 app.use("/api", apiRoutes);
