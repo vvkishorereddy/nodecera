@@ -13,6 +13,9 @@ class AppProviderBasic extends Component {
       isLoading: false,
       isLoggedIn: false,
       jobs: [],
+      hotJobs: [],
+      popularJobs: [],
+      recentJobs: [],
       loggedUser: {}
     };
   }
@@ -107,6 +110,9 @@ class AppProviderBasic extends Component {
           return {
             ...state,
             jobs: data.data,
+            hotJobs: data.data.slice(0, 8),
+            popularJobs: data.data.slice(9, 18),
+            recentJobs: data.data.slice(15, 22),
             isLoading: false
           };
         });
