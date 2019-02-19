@@ -33,7 +33,7 @@ class AppProviderBasic extends Component {
   }
 
   componentDidMount() {
-    console.log("AppProvider did mount");
+    this.isLoggedIn() && this.props.history.replace("/");
   }
 
   //Auth Functions
@@ -71,7 +71,7 @@ class AppProviderBasic extends Component {
             }
           },
           () => {
-            this.props.history.replace("/dashboard");
+            this.props.history.replace("/");
           }
         );
       }
@@ -148,8 +148,6 @@ class AppProviderBasic extends Component {
   };
 
   render() {
-    console.log("AppProvider render", this.methodsList);
-
     return (
       <AppContext.Provider value={{ ...this.state, ...this.methodsList }}>
         {this.props.children}
