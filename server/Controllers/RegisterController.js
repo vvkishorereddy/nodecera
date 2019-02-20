@@ -1,4 +1,14 @@
+/**
+ * while register
+ *  update db
+ * user,company
+ *
+ *
+ *
+ */
+
 const userModel = require("../Models/User");
+const companyModel = require("../Models/Company");
 const JsonResponse = require("../Helpers/JsonResponse");
 
 const register = {};
@@ -12,12 +22,12 @@ register.post = (req, res, next) => {
     user_type: req.body.user_type
   };
   userModel.create(user, (err, data) => {
-    console.log(err);
-    res.json(
-      JsonResponse.format(200, true, "Account created Sucessfully", {
-        data: data
-      })
-    );
+    //company data
+    companyModel.create({ user: data._id }, (err, data) => {
+      res.json(
+        JsonResponse.format(200, true, "Account created Sucessfully", data)
+      );
+    });
   });
 };
 
