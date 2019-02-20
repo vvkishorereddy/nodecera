@@ -2,8 +2,9 @@ import React, { Component, Fragment } from "react";
 import AppBanner from "../AppBanner";
 import TopBanner from "./TopBanner";
 import Profile from "./Profile";
+import withContext from "../../hoc/ContextConsumer";
 
-export default class Employer extends Component {
+class Employer extends Component {
   render() {
     return (
       <Fragment>
@@ -14,3 +15,4 @@ export default class Employer extends Component {
     );
   }
 }
+export default withContext(Employer);

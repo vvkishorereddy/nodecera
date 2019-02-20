@@ -174,4 +174,13 @@ openTab = (e, page) => {
       .querySelector(`[data-id=${e.currentTarget.dataset.id}] a`)
       .classList.add("active");
   }
+
+  if (page === "profile") {
+    liTag.forEach(element => {
+      element.querySelector("a").classList.remove("active");
+    });
+    document
+      .querySelector(`[data-id=${e.currentTarget.dataset.id}] a`)
+      .classList.add("active");
+  }
 };

@@ -67,6 +67,9 @@ class Header extends Component {
                 <li>
                   <Link to="/jobs">Job List</Link>
                 </li>
+                <li>
+                  <Link to="/employer-profile">employer profile</Link>
+                </li>
                 {leftNavContent}
               </ul>
             </div>
