@@ -15,4 +15,10 @@ jobs.post = (req, res) => {
   });
 };
 
+jobs.singleJob = (req, res) => {
+  jobsModel.findOne({ _id: req.params.id }, (err, data) => {
+    res.json(JsonResponse.format(200, true, "Fetched Sucessfully", data));
+  });
+};
+
 module.exports = jobs;

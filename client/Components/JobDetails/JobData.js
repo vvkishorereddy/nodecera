@@ -5,7 +5,7 @@ import withContext from "../../hoc/ContextConsumer";
 
 class JobData extends Component {
   render() {
-    const { jobsDetails, isLoading } = this.props.context;
+    const { jobsDetails } = this.props.context;
 
     return (
       <div className="job-details section-padding">

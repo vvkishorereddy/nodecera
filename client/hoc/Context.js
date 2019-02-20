@@ -32,7 +32,8 @@ class AppProviderBasic extends Component {
       removeToken: this.removeToken,
       getUserProfile: this.getUserProfile,
       saveJob: this.saveJob,
-      saveUserSubscribe: this.saveUserSubscribe
+      saveUserSubscribe: this.saveUserSubscribe,
+      getSingleJob: this.getSingleJob
     };
   }
 
@@ -149,11 +150,24 @@ class AppProviderBasic extends Component {
             popularJobs: data.data.slice(9, 18),
             recentJobs: data.data.slice(15, 22),
             similarJobs: data.data.slice(1, 5),
-            jobsDetails: data.data[0],
             isLoading: false
           };
         });
       }
+    });
+  };
+
+  getSingleJob = id => {
+    this.setLoadingTrue();
+    Axios.get(`/api/jobs/${id}`).then(response => {
+      const { data } = response.data;
+      this.setState(state => {
+        return {
+          ...state,
+          jobsDetails: data
+        };
+      });
+      this.setLoadingFalse();
     });
   };
 

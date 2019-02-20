@@ -7,6 +7,7 @@ import Loader from "../Loader";
 
 class JobDetails extends Component {
   componentDidMount() {
+    this.props.context.getSingleJob(this.props.match.params.id);
     this.props.context.fetchJobs();
   }
   render() {
