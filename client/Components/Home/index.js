@@ -4,10 +4,19 @@ import Testimonials from "./Testimonials";
 import HomeJobs from "./HomeJobs";
 import TopBanner from "./TopBanner";
 import AddResume from "../AddResume";
+import withContext from "../../hoc/ContextConsumer";
+import Loader from "../Loader";
 
-export default class Home extends Component {
+class Home extends Component {
+  componentDidMount() {
+    this.props.context.fetchJobs();
+  }
+
   render() {
-    return (
+    const { isLoading } = this.props.context;
+    return isLoading ? (
+      <Loader />
+    ) : (
       <Fragment>
         <TopBanner />
         <HomeJobs />
@@ -18,3 +27,5 @@ export default class Home extends Component {
     );
   }
 }
+
+export default withContext(Home);

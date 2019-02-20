@@ -21,6 +21,8 @@ class AppProviderBasic extends Component {
       loggedUser: {}
     };
     this.methodsList = {
+      setLoadingTrue: this.setLoadingTrue,
+      setLoadingFalse: this.setLoadingFalse,
       LoginUser: this.LoginUser,
       userLogOut: this.userLogOut,
       isLoggedIn: this.isLoggedIn,
@@ -36,6 +38,24 @@ class AppProviderBasic extends Component {
   componentDidMount() {
     this.isLoggedIn() && this.props.history.replace("/");
   }
+
+  setLoadingTrue = () => {
+    this.setState(state => {
+      return {
+        ...state,
+        isLoading: true
+      };
+    });
+  };
+
+  setLoadingFalse = () => {
+    this.setState(state => {
+      return {
+        ...state,
+        isLoading: false
+      };
+    });
+  };
 
   //Auth Functions
 
@@ -137,6 +157,7 @@ class AppProviderBasic extends Component {
   };
 
   getUserProfile = () => {
+    this.setLoadingTrue();
     const access_token = this.getToken();
     let headers = {};
     if (!!access_token) {
@@ -145,7 +166,10 @@ class AppProviderBasic extends Component {
 
     Axios.get("/api/user/profile", {
       headers: headers
-    }).then(data => console.log(data));
+    }).then(data => {
+      console.log(data);
+      this.setLoadingFalse();
+    });
   };
 
   saveJob = form => {

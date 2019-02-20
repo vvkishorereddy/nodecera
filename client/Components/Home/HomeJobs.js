@@ -3,13 +3,8 @@ import PopularJobs from "./PopularJobs";
 import RecentJobs from "./RecentJobs";
 import HotJobs from "./HotJobs";
 import withContext from "../../hoc/ContextConsumer";
-import Loader from "../Loader";
 
 class HomeJobs extends Component {
-  componentDidMount() {
-    this.props.context.fetchJobs();
-  }
-
   openTab = e => {
     let liTag = document.querySelectorAll(".tabTitle");
     let dataDivTag = document.querySelectorAll(".tab-pane");
@@ -28,10 +23,7 @@ class HomeJobs extends Component {
   };
 
   render() {
-    const { isLoading } = this.props.context;
-    return isLoading ? (
-      <Loader />
-    ) : (
+    return (
       <div className="tr-job-posted section-padding">
         <div className="container">
           <div className="section-title">

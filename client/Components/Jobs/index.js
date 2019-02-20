@@ -2,10 +2,17 @@ import React, { Component, Fragment } from "react";
 import JobsList from "./JobsList";
 import TopBanner from "./TopBanner";
 import AppBanner from "../AppBanner";
+import withContext from "../../hoc/ContextConsumer";
+import Loader from "../Loader";
 
-export default class Jobs extends Component {
+class Jobs extends Component {
+  componentDidMount() {
+    this.props.context.fetchJobs();
+  }
   render() {
-    return (
+    return this.props.context.isLoading ? (
+      <Loader />
+    ) : (
       <Fragment>
         <TopBanner />
         <JobsList />
@@ -14,3 +21,4 @@ export default class Jobs extends Component {
     );
   }
 }
+export default withContext(Jobs);

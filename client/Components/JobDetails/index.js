@@ -12,10 +12,7 @@ class JobDetails extends Component {
   render() {
     const { isLoading } = this.props.context;
     return isLoading ? (
-      <Fragment>
-        <Loader />
-        <AppBanner />
-      </Fragment>
+      <Loader />
     ) : (
       <Fragment>
         <TopBanner />

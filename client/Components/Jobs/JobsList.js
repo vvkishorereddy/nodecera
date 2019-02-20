@@ -2,13 +2,8 @@ import React, { Component } from "react";
 import TwoColumn from "./TwoColumn";
 import FourColumn from "./FourColumn";
 import withContext from "../../hoc/ContextConsumer";
-import Loader from "../Loader";
 
 class JobsList extends Component {
-  componentDidMount() {
-    this.props.context.fetchJobs();
-  }
-
   changeViewType = e => {
     let liTag = document.querySelectorAll(".tabTitle");
     let dataDivTag = document.querySelectorAll(".tab-pane");
@@ -27,9 +22,7 @@ class JobsList extends Component {
   };
 
   render() {
-    return this.props.context.isLoading ? (
-      <Loader />
-    ) : (
+    return (
       <div className="jobs-listing section-padding">
         <div className="container">
           <div className="job-topbar">
