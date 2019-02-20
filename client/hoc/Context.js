@@ -31,7 +31,8 @@ class AppProviderBasic extends Component {
       getToken: this.getToken,
       removeToken: this.removeToken,
       getUserProfile: this.getUserProfile,
-      saveJob: this.saveJob
+      saveJob: this.saveJob,
+      saveUserSubscribe: this.saveUserSubscribe
     };
   }
 
@@ -226,6 +227,12 @@ class AppProviderBasic extends Component {
       e.checked = false;
     });
     form.terms.parentElement.classList.value = "";
+  };
+
+  saveUserSubscribe = (email, cb) => {
+    Axios.post("/api/subscribe", { email: email }).then(response => {
+      cb(response);
+    });
   };
 
   render() {

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import withContext from "../hoc/ContextConsumer";
 
 class Footer extends Component {
   state = {};
 
   handleSubscribeForm = () => {
-    axios.post("/api/subscribe", { email: this.email.value }).then(response => {
+    this.props.context.saveUserSubscribe(this.email.value, reponse => {
       this.email.value = "";
     });
   };
@@ -161,4 +161,4 @@ class Footer extends Component {
   }
 }
 
-export default Footer;
+export default withContext(Footer);
