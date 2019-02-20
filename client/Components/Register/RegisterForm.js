@@ -3,23 +3,6 @@ import JobSeeker from "./JobSeeker";
 import Employer from "./Employer";
 
 export default class RegisterForm extends Component {
-  openTab = e => {
-    let liTag = document.querySelectorAll(".tabTitle");
-    let dataDivTag = document.querySelectorAll(".tab-pane");
-    liTag.forEach(element => {
-      element.querySelector("a").classList.remove("active");
-    });
-    dataDivTag.forEach(element => {
-      element.classList.remove("active");
-    });
-    document
-      .querySelector(`[data-id=${e.currentTarget.dataset.id}] a`)
-      .classList.add("active");
-    document
-      .querySelector(`#${e.currentTarget.dataset.id}`)
-      .classList.add("active");
-  };
-
   render() {
     return (
       <div className="tr-account section-padding">
@@ -30,11 +13,15 @@ export default class RegisterForm extends Component {
               role="tablist"
               style={{ display: "none" }}
             >
-              <li onClick={this.openTab} data-id="seeker" className="tabTitle">
+              <li
+                onClick={e => openTab(e, "register")}
+                data-id="seeker"
+                className="tabTitle"
+              >
                 <a className="active">Job Seeker</a>
               </li>
               <li
-                onClick={this.openTab}
+                onClick={e => openTab(e, "register")}
                 data-id="employers"
                 className="tabTitle"
               >

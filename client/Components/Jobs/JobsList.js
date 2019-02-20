@@ -4,23 +4,6 @@ import FourColumn from "./FourColumn";
 import withContext from "../../hoc/ContextConsumer";
 
 class JobsList extends Component {
-  changeViewType = e => {
-    let liTag = document.querySelectorAll(".tabTitle");
-    let dataDivTag = document.querySelectorAll(".tab-pane");
-    liTag.forEach(element => {
-      element.classList.remove("active");
-    });
-    dataDivTag.forEach(element => {
-      element.classList.remove("active", "show");
-    });
-    document
-      .querySelector(`[data-id=${e.currentTarget.dataset.id}]`)
-      .classList.add("active");
-    document
-      .querySelector(`#${e.currentTarget.dataset.id}`)
-      .classList.add("active", "show");
-  };
-
   render() {
     return (
       <div className="jobs-listing section-padding">
@@ -31,7 +14,7 @@ class JobsList extends Component {
               <li>235 Total jobs</li>
               <li
                 role="presentation"
-                onClick={this.changeViewType}
+                onClick={e => openTab(e, "jobs")}
                 className="tabTitle active"
                 data-id="four-colum"
               >
@@ -41,7 +24,7 @@ class JobsList extends Component {
               </li>
               <li
                 role="presentation"
-                onClick={this.changeViewType}
+                onClick={e => openTab(e, "jobs")}
                 className="tabTitle "
                 data-id="two-column"
               >

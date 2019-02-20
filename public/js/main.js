@@ -145,3 +145,33 @@ jQuery(function($) {
 
   // script end
 });
+
+openTab = (e, page) => {
+  let liTag = document.querySelectorAll(".tabTitle");
+  let dataDivTag = document.querySelectorAll(".tab-pane");
+
+  dataDivTag.forEach(element => {
+    element.classList.remove("active", "show");
+  });
+  document
+    .querySelector(`#${e.currentTarget.dataset.id}`)
+    .classList.add("active", "show");
+
+  if (page === "jobs") {
+    liTag.forEach(element => {
+      element.classList.remove("active");
+    });
+    document
+      .querySelector(`[data-id=${e.currentTarget.dataset.id}]`)
+      .classList.add("active");
+  }
+
+  if (page === "register") {
+    liTag.forEach(element => {
+      element.querySelector("a").classList.remove("active");
+    });
+    document
+      .querySelector(`[data-id=${e.currentTarget.dataset.id}] a`)
+      .classList.add("active");
+  }
+};

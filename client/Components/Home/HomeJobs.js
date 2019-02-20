@@ -5,23 +5,6 @@ import HotJobs from "./HotJobs";
 import withContext from "../../hoc/ContextConsumer";
 
 class HomeJobs extends Component {
-  openTab = e => {
-    let liTag = document.querySelectorAll(".tabTitle");
-    let dataDivTag = document.querySelectorAll(".tab-pane");
-    liTag.forEach(element => {
-      element.classList.remove("active");
-    });
-    dataDivTag.forEach(element => {
-      element.classList.remove("active", "show");
-    });
-    document
-      .querySelector(`[data-id=${e.currentTarget.dataset.id}]`)
-      .classList.add("active");
-    document
-      .querySelector(`#${e.currentTarget.dataset.id}`)
-      .classList.add("active", "show");
-  };
-
   render() {
     return (
       <div className="tr-job-posted section-padding">
@@ -32,7 +15,7 @@ class HomeJobs extends Component {
           <div className="job-tab text-center">
             <ul className="nav nav-tabs justify-content-center">
               <li
-                onClick={this.openTab}
+                onClick={e => openTab(e, "jobs")}
                 data-id="hotJobs"
                 className="tabTitle active"
               >
@@ -40,14 +23,14 @@ class HomeJobs extends Component {
               </li>
               <li
                 data-id="recentJobs"
-                onClick={this.openTab}
+                onClick={e => openTab(e, "jobs")}
                 className="tabTitle"
               >
                 <a>Recent Jobs</a>
               </li>
               <li
                 data-id="popularJobs"
-                onClick={this.openTab}
+                onClick={e => openTab(e, "jobs")}
                 className="tabTitle"
               >
                 <a>Popular Jobs</a>
