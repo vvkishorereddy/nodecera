@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import withContext from "../../hoc/ContextConsumer";
+import Axios from "axios";
 
 class AccountInfo extends Component {
   state = {
@@ -38,6 +39,17 @@ class AccountInfo extends Component {
       ...state,
       isEditing: true
     }));
+  };
+
+  uploadImage = e => {
+    const formData = new FormData();
+    formData.append("file", this.files.files[0]);
+    formData.append("id", "5c6d867c935f13a622b41aeb");
+    Axios.post("/api/upload", formData, {
+      headers: {
+        "content-type": "multipart/form-data"
+      }
+    }).then(response => console.log(response));
   };
 
   render() {
@@ -139,7 +151,13 @@ class AccountInfo extends Component {
               </div>
               <div className="upload-photo">
                 <label className="btn btn-primary" htmlFor="upload-photo">
-                  <input type="file" id="upload-photo" />
+                  <input
+                    type="file"
+                    id="upload-photo"
+                    name="uplaod-photo"
+                    onChange={this.uploadImage}
+                    ref={ele => (this.files = ele)}
+                  />
                   Change Photo
                 </label>
                 <span className="max-size">Max 20 MB</span>
