@@ -22,30 +22,7 @@ export default class TopBanner extends Component {
                   className="form-control"
                   placeholder="Job Keyword"
                 />
-                <div className="dropdown tr-change-dropdown">
-                  <a
-                    data-toggle="dropdown"
-                    href="listing.html#"
-                    aria-expanded="false"
-                  >
-                    <span className="change-text">Location</span>
-                    <i className="fa fa-angle-down" />
-                  </a>
-                  <ul className="dropdown-menu tr-change">
-                    <li>
-                      <a href="listing.html#">Location</a>
-                    </li>
-                    <li>
-                      <a href="listing.html#">Location 1</a>
-                    </li>
-                    <li>
-                      <a href="listing.html#">Location 2</a>
-                    </li>
-                    <li>
-                      <a href="listing.html#">Location 3</a>
-                    </li>
-                  </ul>
-                </div>
+
                 {/* /.category-change */}
                 <button
                   type="submit"
