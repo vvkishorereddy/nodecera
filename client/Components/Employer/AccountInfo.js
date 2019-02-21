@@ -42,12 +42,14 @@ class AccountInfo extends Component {
   };
 
   uploadImage = e => {
+    const access_token = this.props.context.getToken();
     const formData = new FormData();
     formData.append("file", this.files.files[0]);
-    formData.append("id", "5c6d867c935f13a622b41aeb");
+
     Axios.post("/api/upload", formData, {
       headers: {
-        "content-type": "multipart/form-data"
+        "content-type": "multipart/form-data",
+        "x-access-token": access_token
       }
     }).then(response => console.log(response));
   };

@@ -4,5 +4,6 @@ module.exports = {
   mongoDBUrl: `mongodb://careersera:${encodeURIComponent(
     `VKr@1987`
   )}@ds135305.mlab.com:35305/careersera`,
-  JWT_SECRET: process.env.JWT_SECRET
+  JWT_SECRET: process.env.JWT_SECRET,
+  UPLOAD_PATH: process.env.UPLOAD_PATH
 };

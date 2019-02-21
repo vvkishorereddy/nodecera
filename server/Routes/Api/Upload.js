@@ -1,9 +1,14 @@
 const express = require("express");
 const router = express.Router();
-
-const uploadMiddleware = require("../../Middlewares/Upload");
 const uploadController = require("../../Controllers/UploadController");
+const uploadMiddleware = require("../../Middlewares/Upload");
+const jwtVerifyMiddleware = require("../../Middlewares/Jwt");
 
-router.post("/", uploadMiddleware.single("file"), uploadController.post);
+router.post(
+  "/",
+  jwtVerifyMiddleware,
+  uploadMiddleware.single("file"),
+  uploadController.post
+);
 
 module.exports = router;
