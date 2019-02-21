@@ -23,14 +23,9 @@ uploadController.post = (req, res) => {
     { $set: file },
     { new: true, upsert: true },
     (err, data) => {
-      const filteredData = { ...data, name: UPLOAD_PATH + data.name };
+      data.name = UPLOAD_PATH + data.name;
       res.json(
-        JsonResponse.format(
-          200,
-          true,
-          "Image uploaded sucessfully",
-          filteredData
-        )
+        JsonResponse.format(200, true, "Image uploaded sucessfully", data)
       );
     }
   );

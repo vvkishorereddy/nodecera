@@ -11,12 +11,13 @@ class AccountInfo extends Component {
       linkedin: "https://www.linkedin.com",
       instagram: "https://www.instagram.com"
     },
-    company_name: "Google Inc",
-    company_location: "San Francisco, CA, US",
-    company_phone: "+0123456789",
-    company_email: "admin@company.com",
-    company_type: "It Industry",
-    company_size: "1000"
+    company_name: "",
+    company_location: "",
+    company_phone: "",
+    company_email: "",
+    company_website: "",
+    company_size: "",
+    company_logo: ""
   };
 
   editCancel = e => {
@@ -28,6 +29,35 @@ class AccountInfo extends Component {
   };
   upDateProfile = e => {
     e.preventDefault();
+    const access_token = this.props.context.getToken();
+    // update data
+    const {
+      company_name,
+      company_location,
+      company_phone,
+      company_email,
+      company_website,
+      company_logo
+    } = this.state;
+
+    const data = {
+      name: company_name,
+      description: "Description",
+      address: company_location,
+      phone: company_phone,
+      email: company_email,
+      website: company_website,
+      logo: company_logo
+    };
+
+    Axios.post("/api/company", data, {
+      headers: {
+        "x-access-token": access_token
+      }
+    }).then(response => {
+      console.log(response);
+    });
+
     this.setState(state => ({
       ...state,
       isEditing: false
@@ -51,7 +81,19 @@ class AccountInfo extends Component {
         "content-type": "multipart/form-data",
         "x-access-token": access_token
       }
-    }).then(response => console.log(response));
+    }).then(response => {
+      this.setState({
+        ...this.state,
+        company_logo: response.data.data.name
+      });
+    });
+  };
+
+  handleChange = e => {
+    this.setState({
+      ...this.state,
+      [e.target.name]: e.target.value
+    });
   };
 
   render() {
@@ -61,8 +103,8 @@ class AccountInfo extends Component {
       company_location,
       company_phone,
       company_email,
-      company_type,
-      company_size,
+      company_website,
+      company_logo,
       socialLinks
     } = this.state;
     return (
@@ -145,11 +187,7 @@ class AccountInfo extends Component {
             </div>
             <div className="change-photo">
               <div className="user-image">
-                <img
-                  src="images/others/company-logo.png"
-                  alt="Image"
-                  className="img-fluid"
-                />
+                <img src={company_logo} alt="Image" className="img-fluid" />
               </div>
               <div className="upload-photo">
                 <label className="btn btn-primary" htmlFor="upload-photo">
@@ -174,6 +212,7 @@ class AccountInfo extends Component {
                     className="form-control"
                     name="company_name"
                     value={company_name}
+                    onChange={this.handleChange}
                     disabled={isEditing ? false : true}
                   />
                 </div>
@@ -186,6 +225,7 @@ class AccountInfo extends Component {
                     className="form-control"
                     name="company_location"
                     value={company_location}
+                    onChange={this.handleChange}
                     disabled={isEditing ? false : true}
                   />
                 </div>
@@ -196,8 +236,9 @@ class AccountInfo extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    name="company_location"
+                    name="company_phone"
                     value={company_phone}
+                    onChange={this.handleChange}
                     disabled={isEditing ? false : true}
                   />
                 </div>
@@ -210,6 +251,7 @@ class AccountInfo extends Component {
                     className="form-control"
                     name="company_email"
                     value={company_email}
+                    onChange={this.handleChange}
                     disabled={isEditing ? false : true}
                   />
                 </div>
@@ -220,20 +262,9 @@ class AccountInfo extends Component {
                   <input
                     type="text"
                     className="form-control"
-                    name="company_type"
-                    value={company_type}
-                    disabled={isEditing ? false : true}
-                  />
-                </div>
-              </li>
-              <li>
-                Compnay Size
-                <div className="form-group">
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="company_size"
-                    value={company_size}
+                    name="company_website"
+                    value={company_website}
+                    onChange={this.handleChange}
                     disabled={isEditing ? false : true}
                   />
                 </div>
