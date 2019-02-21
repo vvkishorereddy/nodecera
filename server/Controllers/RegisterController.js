@@ -9,11 +9,12 @@
 
 const userModel = require("../Models/User");
 const companyModel = require("../Models/Company");
+const uploadModel = require("../Models/Upload");
 const JsonResponse = require("../Helpers/JsonResponse");
 
 const register = {};
 
-register.post = (req, res, next) => {
+register.post = async (req, res, next) => {
   let user = {
     email: req.body.email,
     password: req.body.password,
@@ -21,14 +22,32 @@ register.post = (req, res, next) => {
     username: req.body.username,
     user_type: req.body.user_type
   };
-  userModel.create(user, (err, data) => {
-    //company data
-    companyModel.create({ user: data._id }, (err, data) => {
-      res.json(
-        JsonResponse.format(200, true, "Account created Sucessfully", data)
-      );
-    });
-  });
+  let userData, companyData, uploadData;
+  try {
+    userData = await userModel.create(user);
+  } catch (e) {
+    let message = e._message != "" ? e._message : "User not created";
+    return res.json(JsonResponse.format(401, false, message, null));
+  }
+
+  try {
+    companyData = await companyModel.create({ user: userData._id });
+  } catch (e) {
+    let message = e._message != "" ? e._message : "company not created";
+    return res.json(JsonResponse.format(401, false, message, null));
+  }
+  try {
+    uploadData = await uploadModel.create({ user: userData._id });
+  } catch (error) {
+    let message = e._message != "" ? e._message : "upload row not created";
+    return res.json(JsonResponse.format(401, false, message, null));
+  }
+
+  res.json(
+    JsonResponse.format(200, true, "Account created Sucessfully", userData)
+  );
+
+  return;
 };
 
 module.exports = register;
