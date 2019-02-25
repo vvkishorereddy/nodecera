@@ -1,100 +1,11 @@
 import React, { Component, Fragment } from "react";
 import withContext from "../../hoc/ContextConsumer";
-import Axios from "axios";
 
 class AccountInfo extends Component {
-  state = {
-    isEditing: false,
-    socialLinks: {
-      facebook: "https://www.facebook.com",
-      twitter: "https://www.twitter.com",
-      linkedin: "https://www.linkedin.com",
-      instagram: "https://www.instagram.com"
-    },
-    company_name: "",
-    company_location: "",
-    company_phone: "",
-    company_email: "",
-    company_website: "",
-    company_size: "",
-    company_logo: ""
-  };
-
-  editCancel = e => {
-    e.preventDefault();
-    this.setState(state => ({
-      ...state,
-      isEditing: false
-    }));
-  };
-  upDateProfile = e => {
-    e.preventDefault();
-    const access_token = this.props.context.getToken();
-    // update data
-    const {
-      company_name,
-      company_location,
-      company_phone,
-      company_email,
-      company_website,
-      company_logo
-    } = this.state;
-
-    const data = {
-      name: company_name,
-      description: "Description",
-      address: company_location,
-      phone: company_phone,
-      email: company_email,
-      website: company_website,
-      logo: company_logo
-    };
-
-    Axios.post("/api/company", data, {
-      headers: {
-        "x-access-token": access_token
-      }
-    }).then(response => {
-      console.log(response);
-    });
-
-    this.setState(state => ({
-      ...state,
-      isEditing: false
-    }));
-  };
-  editProfile = e => {
-    e.preventDefault();
-    this.setState(state => ({
-      ...state,
-      isEditing: true
-    }));
-  };
-
-  uploadImage = e => {
-    const access_token = this.props.context.getToken();
-    const formData = new FormData();
-    formData.append("file", this.files.files[0]);
-
-    Axios.post("/api/upload", formData, {
-      headers: {
-        "content-type": "multipart/form-data",
-        "x-access-token": access_token
-      }
-    }).then(response => {
-      this.setState({
-        ...this.state,
-        company_logo: response.data.data.name
-      });
-    });
-  };
-
-  handleChange = e => {
-    this.setState({
-      ...this.state,
-      [e.target.name]: e.target.value
-    });
-  };
+  componentDidMount() {
+    this.props.context.fetchCompanyLogo();
+    this.props.context.fetchCompanyData();
+  }
 
   render() {
     const {
@@ -106,7 +17,8 @@ class AccountInfo extends Component {
       company_website,
       company_logo,
       socialLinks
-    } = this.state;
+    } = this.props.context.companyInfo;
+
     return (
       <Fragment>
         <form ref={ele => (this.forms = ele)}>
@@ -195,7 +107,9 @@ class AccountInfo extends Component {
                     type="file"
                     id="upload-photo"
                     name="uplaod-photo"
-                    onChange={this.uploadImage}
+                    onChange={() => {
+                      this.props.context.uploadImage(this.files);
+                    }}
                     ref={ele => (this.files = ele)}
                   />
                   Change Photo
@@ -212,7 +126,12 @@ class AccountInfo extends Component {
                     className="form-control"
                     name="company_name"
                     value={company_name}
-                    onChange={this.handleChange}
+                    onChange={e => {
+                      this.props.context.handleChange(
+                        e.target.name,
+                        e.target.value
+                      );
+                    }}
                     disabled={isEditing ? false : true}
                   />
                 </div>
@@ -225,7 +144,12 @@ class AccountInfo extends Component {
                     className="form-control"
                     name="company_location"
                     value={company_location}
-                    onChange={this.handleChange}
+                    onChange={e => {
+                      this.props.context.handleChange(
+                        e.target.name,
+                        e.target.value
+                      );
+                    }}
                     disabled={isEditing ? false : true}
                   />
                 </div>
@@ -238,7 +162,12 @@ class AccountInfo extends Component {
                     className="form-control"
                     name="company_phone"
                     value={company_phone}
-                    onChange={this.handleChange}
+                    onChange={e => {
+                      this.props.context.handleChange(
+                        e.target.name,
+                        e.target.value
+                      );
+                    }}
                     disabled={isEditing ? false : true}
                   />
                 </div>
@@ -251,7 +180,12 @@ class AccountInfo extends Component {
                     className="form-control"
                     name="company_email"
                     value={company_email}
-                    onChange={this.handleChange}
+                    onChange={e => {
+                      this.props.context.handleChange(
+                        e.target.name,
+                        e.target.value
+                      );
+                    }}
                     disabled={isEditing ? false : true}
                   />
                 </div>
@@ -264,7 +198,12 @@ class AccountInfo extends Component {
                     className="form-control"
                     name="company_website"
                     value={company_website}
-                    onChange={this.handleChange}
+                    onChange={e => {
+                      this.props.context.handleChange(
+                        e.target.name,
+                        e.target.value
+                      );
+                    }}
                     disabled={isEditing ? false : true}
                   />
                 </div>
@@ -324,14 +263,14 @@ class AccountInfo extends Component {
               <button
                 type="button"
                 className="btn button-cancle"
-                onClick={this.editCancel}
+                onClick={this.props.context.editCancel}
               >
                 Cancel
               </button>
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={this.upDateProfile}
+                onClick={this.props.context.upDateProfile}
               >
                 Update Profile
               </button>
@@ -341,7 +280,7 @@ class AccountInfo extends Component {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={this.editProfile}
+                onClick={this.props.context.editProfile}
               >
                 Edit Profile
               </button>

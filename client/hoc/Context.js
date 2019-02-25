@@ -18,7 +18,23 @@ class AppProviderBasic extends Component {
       recentJobs: [],
       similarJobs: [],
       jobsDetails: {},
-      loggedUser: {}
+      loggedUser: {},
+      companyInfo: {
+        isEditing: false,
+        socialLinks: {
+          facebook: "https://www.facebook.com",
+          twitter: "https://www.twitter.com",
+          linkedin: "https://www.linkedin.com",
+          instagram: "https://www.instagram.com"
+        },
+        company_name: "",
+        company_location: "",
+        company_phone: "",
+        company_email: "",
+        company_website: "",
+        company_size: "",
+        company_logo: ""
+      }
     };
     this.methodsList = {
       setLoadingTrue: this.setLoadingTrue,
@@ -33,7 +49,14 @@ class AppProviderBasic extends Component {
       getUserProfile: this.getUserProfile,
       saveJob: this.saveJob,
       saveUserSubscribe: this.saveUserSubscribe,
-      getSingleJob: this.getSingleJob
+      getSingleJob: this.getSingleJob,
+      editProfile: this.editProfile,
+      editCancel: this.editCancel,
+      fetchCompanyLogo: this.fetchCompanyLogo,
+      uploadImage: this.uploadImage,
+      handleChange: this.handleChange,
+      upDateProfile: this.upDateProfile,
+      fetchCompanyData: this.fetchCompanyData
     };
   }
 
@@ -246,6 +269,136 @@ class AppProviderBasic extends Component {
   saveUserSubscribe = (email, cb) => {
     Axios.post("/api/subscribe", { email: email }).then(response => {
       cb(response);
+    });
+  };
+
+  editProfile = e => {
+    e.preventDefault();
+    this.setState(state => ({
+      ...state,
+      companyInfo: {
+        ...state.companyInfo,
+        isEditing: true
+      }
+    }));
+  };
+
+  editCancel = e => {
+    e.preventDefault();
+    this.setState(state => ({
+      ...state,
+      companyInfo: {
+        ...state.companyInfo,
+        isEditing: false
+      }
+    }));
+  };
+
+  fetchCompanyLogo = () => {
+    const access_token = this.getToken();
+    Axios.get("/api/company/logo", {
+      headers: {
+        "x-access-token": access_token
+      }
+    }).then(response => {
+      this.setState(state => ({
+        ...state,
+        companyInfo: {
+          ...state.companyInfo,
+          company_logo: response.data.data.name
+        }
+      }));
+    });
+  };
+
+  uploadImage = filesData => {
+    const access_token = this.getToken();
+    const formData = new FormData();
+    formData.append("file", filesData.files[0]);
+
+    Axios.post("/api/upload", formData, {
+      headers: {
+        "content-type": "multipart/form-data",
+        "x-access-token": access_token
+      }
+    }).then(response => {
+      this.setState(state => ({
+        ...state,
+        companyInfo: {
+          ...state.companyInfo,
+          company_logo: response.data.data.name
+        }
+      }));
+    });
+  };
+
+  handleChange = (name, value) => {
+    this.setState(state => ({
+      ...state,
+      companyInfo: {
+        ...state.companyInfo,
+        [name]: value
+      }
+    }));
+  };
+
+  upDateProfile = e => {
+    e.preventDefault();
+    const access_token = this.getToken();
+    // update data
+    const {
+      company_name,
+      company_location,
+      company_phone,
+      company_email,
+      company_website,
+      company_logo
+    } = this.state.companyInfo;
+
+    const data = {
+      name: company_name,
+      description: "Description",
+      address: company_location,
+      phone: company_phone,
+      email: company_email,
+      website: company_website,
+      logo: company_logo
+    };
+
+    Axios.post("/api/company", data, {
+      headers: {
+        "x-access-token": access_token
+      }
+    }).then(response => {
+      console.log(response);
+      this.setState(state => ({
+        ...state,
+        companyInfo: {
+          ...state.companyInfo,
+          isEditing: false
+        }
+      }));
+    });
+  };
+
+  fetchCompanyData = () => {
+    const access_token = this.getToken();
+    Axios.get("/api/company", {
+      headers: {
+        "x-access-token": access_token
+      }
+    }).then(response => {
+      this.setState(state => ({
+        ...state,
+        companyInfo: {
+          ...state.companyInfo,
+          company_name: response.data.data.name,
+          company_location: response.data.data.address,
+          company_phone: response.data.data.phone,
+          company_email: response.data.data.email,
+          company_website: response.data.data.website
+        }
+      }));
     });
   };
 
