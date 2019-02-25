@@ -58,8 +58,13 @@ export default class JobRow extends Component {
             </div>
           </div>
           <div className="job-info">
-            <div className="company-logo">
-              <img src={job.company_logo} alt="images" className="img-fluid" />
+            <div className="company-logo" style={{ textAlign: "center" }}>
+              <img
+                src={job.company_logo}
+                alt="images"
+                className="img-fluid"
+                style={{ width: "100px" }}
+              />
             </div>
             <span className="tr-title">
               <Link to={`/jobs/${job._id}`}>{job.title}</Link>

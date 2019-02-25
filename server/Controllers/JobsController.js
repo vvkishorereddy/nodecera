@@ -6,12 +6,19 @@ const { UPLOAD_PATH } = require("../Config");
 const jobs = {};
 
 jobs.get = (req, res) => {
-  jobsModel.find((err, jobs) => {
-    jobs.map(job => {
-      job.company_logo = UPLOAD_PATH + job.company_logo;
-    });
-    res.json(JsonResponse.format(200, true, "Fetched Sucessfully", jobs));
-  });
+  let regexValue = /.*/i;
+  if (req.query.key) {
+    regexValue = new RegExp(req.query.key, "i");
+  }
+
+  jobsModel
+    .find({ title: { $regex: regexValue } }, (err, jobs) => {
+      jobs.map(job => {
+        job.company_logo = UPLOAD_PATH + job.company_logo;
+      });
+      res.json(JsonResponse.format(200, true, "Fetched Sucessfully", jobs));
+    })
+    .sort({ _id: -1 });
 };
 
 jobs.post = (req, res) => {

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import withContext from "../../hoc/ContextConsumer";
 
-export default class TopBanner extends Component {
+class TopBanner extends Component {
   render() {
     return (
       <div className="tr-breadcrumb bg-image section-before">
@@ -24,25 +25,25 @@ export default class TopBanner extends Component {
                   placeholder="Job Keyword"
                   ref={ele => (this.search = ele)}
                   name="searchKeyWord"
-                  onKeyPress={e => {
-                    this.props.context.jobSearch(this.search.value);
-                  }}
                 />
 
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btn-primary"
                   value="Search"
+                  onClick={e => {
+                    this.props.context.jobSearch(this.search.value);
+                  }}
                 >
                   Search
                 </button>
               </form>
             </div>
-            {/* /.banner-form */}
           </div>
         </div>
-        {/* /.container */}
       </div>
     );
   }
 }
+
+export default withContext(TopBanner);

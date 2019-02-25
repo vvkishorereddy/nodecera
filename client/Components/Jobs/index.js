@@ -3,16 +3,13 @@ import JobsList from "./JobsList";
 import TopBanner from "./TopBanner";
 import AppBanner from "../AppBanner";
 import withContext from "../../hoc/ContextConsumer";
-import Loader from "../Loader";
 
 class Jobs extends Component {
   componentDidMount() {
     this.props.context.fetchJobs();
   }
   render() {
-    return this.props.context.isLoading ? (
-      <Loader />
-    ) : (
+    return (
       <Fragment>
         <TopBanner />
         <JobsList />

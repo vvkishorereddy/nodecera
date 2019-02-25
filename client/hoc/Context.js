@@ -56,7 +56,8 @@ class AppProviderBasic extends Component {
       handleChange: this.handleChange,
       upDateProfile: this.upDateProfile,
       fetchCompanyData: this.fetchCompanyData,
-      filterJobs: this.filterJobs
+      filterJobs: this.filterJobs,
+      jobSearch: this.jobSearch
     };
   }
 
@@ -181,7 +182,22 @@ class AppProviderBasic extends Component {
   };
 
   jobSearch = keyword => {
-    //this.setState()
+    this.setState({
+      ...this.state,
+      isLoading: true
+    });
+    Axios.get("/api/jobs", { params: { key: keyword } }).then(res => {
+      const { data } = res;
+      if (!!data.data) {
+        this.setState(state => {
+          return {
+            ...state,
+            jobs: data.data,
+            isLoading: false
+          };
+        });
+      }
+    });
   };
 
   filterJobs = (filterType, filterValue) => {

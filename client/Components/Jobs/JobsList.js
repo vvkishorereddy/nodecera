@@ -8,6 +8,7 @@ class JobsList extends Component {
     return (
       <div className="jobs-listing section-padding">
         <div className="container">
+          {/** 
           <div className="job-topbar">
             <span className="pull-left">Filter jobs by</span>
             <ul className="nav nav-tabs job-tabs" role="tablist">
@@ -35,7 +36,7 @@ class JobsList extends Component {
             </ul>
           </div>
 
-          {/** 
+          
 
           <div className="list-menu text-center clearfix">
             <ul className="tr-list">
@@ -164,7 +165,7 @@ class JobsList extends Component {
               className="tab-pane fade two-column "
               id="two-column"
             >
-              <TwoColumn />
+              {/**   <TwoColumn /> */}
             </div>
           </div>
         </div>
