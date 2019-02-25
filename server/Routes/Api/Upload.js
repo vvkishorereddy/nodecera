@@ -11,4 +11,11 @@ router.post(
   uploadController.post
 );
 
+router.post(
+  "/excel",
+  jwtVerifyMiddleware,
+  uploadMiddleware.single("file"),
+  uploadController.bulkPost
+);
+
 module.exports = router;

@@ -11,7 +11,7 @@ class TopBanner extends Component {
           <div className="breadcrumb-info text-center">
             <div className="breadcrumb-logo">
               <img
-                src="images/others/company-logo.png"
+                src={jobsDetails.company_logo}
                 alt="Logo"
                 className="img-fluid"
               />

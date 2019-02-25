@@ -57,7 +57,8 @@ class AppProviderBasic extends Component {
       upDateProfile: this.upDateProfile,
       fetchCompanyData: this.fetchCompanyData,
       filterJobs: this.filterJobs,
-      jobSearch: this.jobSearch
+      jobSearch: this.jobSearch,
+      uploadExcel: this.uploadExcel
     };
   }
 
@@ -337,6 +338,27 @@ class AppProviderBasic extends Component {
     formData.append("file", filesData.files[0]);
 
     Axios.post("/api/upload", formData, {
+      headers: {
+        "content-type": "multipart/form-data",
+        "x-access-token": access_token
+      }
+    }).then(response => {
+      this.setState(state => ({
+        ...state,
+        companyInfo: {
+          ...state.companyInfo,
+          company_logo: response.data.data.logo
+        }
+      }));
+    });
+  };
+
+  uploadExcel = filesData => {
+    const access_token = this.getToken();
+    const formData = new FormData();
+    formData.append("file", filesData.files[0]);
+
+    Axios.post("/api/upload/excel", formData, {
       headers: {
         "content-type": "multipart/form-data",
         "x-access-token": access_token

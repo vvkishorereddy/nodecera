@@ -5,6 +5,7 @@ import AccountInfo from "./AccountInfo";
 import Activejobs from "./Activejobs";
 import ArchivedJobs from "./ArchivedJobs";
 import withContext from "../../hoc/ContextConsumer";
+import BulkUpload from "./BulkUpload";
 
 class Profile extends Component {
   render() {
@@ -42,6 +43,20 @@ class Profile extends Component {
                         <i className="fa fa-user-o" aria-hidden="true" />
                       </span>
                       Company Profile
+                    </a>
+                  </li>
+                  <li
+                    role="presentation"
+                    onClick={e => openTab(e, "profile")}
+                    data-id="bulk-upload"
+                    className="tabTitle"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <a>
+                      <span>
+                        <i className="fa fa-clone" aria-hidden="true" />
+                      </span>
+                      Bulk upload
                     </a>
                   </li>
                   <li
@@ -101,7 +116,13 @@ class Profile extends Component {
                 >
                   <CompanyProfile />
                 </div>
-
+                <div
+                  role="tabpanel"
+                  className="tab-pane open-role"
+                  id="bulk-upload"
+                >
+                  <BulkUpload />
+                </div>
                 <div
                   role="tabpanel"
                   className="tab-pane open-role"

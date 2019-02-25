@@ -23,13 +23,13 @@ class Index extends Component {
         <Route path="/register" exact component={Register} />
         <Route path="/login" exact component={Login} />
         <PrivateRoutes path="/dashboard" exact component={Dashboard} />
-        <Route path="/post-job" exact component={PostJob} />
+        <PrivateRoutes path="/post-job" exact component={PostJob} />
         <Route path="/jobs" exact component={Jobs} />
         <Route path="/jobs/:id" exact component={JobDetails} />
         <Route path="/resume/:id" exact component={ResumeDetails} />
         <Route path="/company/:id" exact component={CompanyDetails} />
         <Route path="/employee-profile" exact component={Employee} />
-        <Route path="/employer-profile" exact component={Employer} />
+        <PrivateRoutes path="/employer-profile" exact component={Employer} />
         <Route path="/contact" exact component={Contact} />
         <Route component={PageNotFound} />
       </Switch>

@@ -45,6 +45,7 @@ jobs.post = (req, res) => {
 
 jobs.singleJob = (req, res) => {
   jobsModel.findOne({ _id: req.params.id }, (err, data) => {
+    data.company_logo = UPLOAD_PATH + data.company_logo;
     res.json(JsonResponse.format(200, true, "Fetched Sucessfully", data));
   });
 };
