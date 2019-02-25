@@ -18,7 +18,8 @@ jobs.get = (req, res) => {
       });
       res.json(JsonResponse.format(200, true, "Fetched Sucessfully", jobs));
     })
-    .sort({ _id: -1 });
+    .sort({ _id: -1 })
+    .limit(52);
 };
 
 jobs.post = (req, res) => {
