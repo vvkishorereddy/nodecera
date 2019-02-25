@@ -1,17 +1,38 @@
 const jobsModel = require("../Models/Jobs");
+const companyModel = require("../Models/Company");
 const JsonResponse = require("../Helpers/JsonResponse");
+const { UPLOAD_PATH } = require("../Config");
+
 const jobs = {};
 
 jobs.get = (req, res) => {
   jobsModel.find((err, jobs) => {
+    jobs.map(job => {
+      job.company_logo = UPLOAD_PATH + job.company_logo;
+    });
     res.json(JsonResponse.format(200, true, "Fetched Sucessfully", jobs));
   });
 };
 
 jobs.post = (req, res) => {
-  jobsModel.create(req.body, (err, jobs) => {
-    if (err) return next();
-    res.json(JsonResponse.format(200, true, "created Sucessfully", jobs));
+  const dataObject = req.body;
+
+  // fetch company data
+  companyModel.findOne({ user: res.locals.userId }, (err, data) => {
+    dataObject.company_name = data.name;
+    dataObject.company_logo = data.logo;
+    dataObject.company_description = data.description;
+    dataObject.company_address = data.address;
+    dataObject.company_phone = data.phone;
+    dataObject.company_email = data.email;
+    dataObject.company_website = data.website;
+    dataObject.user = data.user;
+    console.log(dataObject, "do");
+
+    jobsModel.create(dataObject, (err, jobs) => {
+      if (err) return next();
+      res.json(JsonResponse.format(200, true, "created Sucessfully", jobs));
+    });
   });
 };
 

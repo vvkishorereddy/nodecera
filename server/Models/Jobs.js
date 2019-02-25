@@ -21,6 +21,10 @@ let JobSchema = new Schema({
   company_phone: String,
   company_email: String,
   company_website: String,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  },
   last_date: Date,
   created_at: Date,
   updated_at: Date
