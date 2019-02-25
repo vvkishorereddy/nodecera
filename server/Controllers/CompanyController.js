@@ -4,14 +4,21 @@ const JsonResponse = require("../Helpers/JsonResponse");
 const { UPLOAD_PATH } = require("../Config");
 const CompanyController = {};
 
-CompanyController.post = async (req, res) => {
-  const data = req.body;
+CompanyController.post = (req, res) => {
+  const companyData = req.body;
+  let query = {};
   if (res.locals.userId) {
-    data.user = res.locals.userId;
+    query.user = res.locals.userId;
   }
-  console.log(data);
-  const result = await companyModel.create(data);
-  res.json(JsonResponse.format(200, true, "Updated Sucessfully", result));
+
+  companyModel.findOneAndUpdate(
+    query,
+    { $set: companyData },
+    { new: true, upsert: true },
+    (err, data) => {
+      res.json(JsonResponse.format(200, true, "Updated Sucessfully", data));
+    }
+  );
 };
 
 CompanyController.getLogo = async (req, res) => {
@@ -22,6 +29,7 @@ CompanyController.getLogo = async (req, res) => {
 
 CompanyController.get = async (req, res) => {
   const result = await companyModel.findOne({ user: res.locals.userId });
+  result["logo"] = UPLOAD_PATH + result.logo;
   res.json(
     JsonResponse.format(200, true, "Company Data Fetched Sucessfully", result)
   );

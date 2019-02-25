@@ -11,7 +11,6 @@ login.post = (req, res, next) => {
       email: req.body.email
     },
     function(err, user) {
-      console.log(err, user, 65);
       if (err || !user) {
         return res
           .status(200)

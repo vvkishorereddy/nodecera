@@ -3,7 +3,6 @@ import withContext from "../../hoc/ContextConsumer";
 
 class AccountInfo extends Component {
   componentDidMount() {
-    this.props.context.fetchCompanyLogo();
     this.props.context.fetchCompanyData();
   }
 
@@ -11,6 +10,7 @@ class AccountInfo extends Component {
     const {
       isEditing,
       company_name,
+      company_description,
       company_location,
       company_phone,
       company_email,
@@ -137,6 +137,24 @@ class AccountInfo extends Component {
                 </div>
               </li>
               <li>
+                Compnay Description
+                <div className="form-group">
+                  <textarea
+                    className="form-control"
+                    name="company_description"
+                    rows="10"
+                    onChange={e => {
+                      this.props.context.handleChange(
+                        e.target.name,
+                        e.target.value
+                      );
+                    }}
+                    disabled={isEditing ? false : true}
+                    value={company_description}
+                  />
+                </div>
+              </li>
+              <li>
                 Address
                 <div className="form-group">
                   <input
@@ -191,7 +209,7 @@ class AccountInfo extends Component {
                 </div>
               </li>
               <li>
-                Industry Expertise
+                Website
                 <div className="form-group">
                   <input
                     type="text"

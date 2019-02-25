@@ -7,7 +7,6 @@ const AppConsumer = AppContext.Consumer;
 
 class AppProviderBasic extends Component {
   constructor() {
-    console.log("AppProvider contructor");
     super();
     this.state = {
       isLoading: false,
@@ -28,6 +27,7 @@ class AppProviderBasic extends Component {
           instagram: "https://www.instagram.com"
         },
         company_name: "",
+        company_description: "",
         company_location: "",
         company_phone: "",
         company_email: "",
@@ -52,7 +52,6 @@ class AppProviderBasic extends Component {
       getSingleJob: this.getSingleJob,
       editProfile: this.editProfile,
       editCancel: this.editCancel,
-      fetchCompanyLogo: this.fetchCompanyLogo,
       uploadImage: this.uploadImage,
       handleChange: this.handleChange,
       upDateProfile: this.upDateProfile,
@@ -294,23 +293,6 @@ class AppProviderBasic extends Component {
     }));
   };
 
-  fetchCompanyLogo = () => {
-    const access_token = this.getToken();
-    Axios.get("/api/company/logo", {
-      headers: {
-        "x-access-token": access_token
-      }
-    }).then(response => {
-      this.setState(state => ({
-        ...state,
-        companyInfo: {
-          ...state.companyInfo,
-          company_logo: response.data.data.name
-        }
-      }));
-    });
-  };
-
   uploadImage = filesData => {
     const access_token = this.getToken();
     const formData = new FormData();
@@ -326,7 +308,7 @@ class AppProviderBasic extends Component {
         ...state,
         companyInfo: {
           ...state.companyInfo,
-          company_logo: response.data.data.name
+          company_logo: response.data.data.logo
         }
       }));
     });
@@ -348,21 +330,20 @@ class AppProviderBasic extends Component {
     // update data
     const {
       company_name,
+      company_description,
       company_location,
       company_phone,
       company_email,
-      company_website,
-      company_logo
+      company_website
     } = this.state.companyInfo;
 
     const data = {
       name: company_name,
-      description: "Description",
+      description: company_description,
       address: company_location,
       phone: company_phone,
       email: company_email,
-      website: company_website,
-      logo: company_logo
+      website: company_website
     };
 
     Axios.post("/api/company", data, {
@@ -370,7 +351,6 @@ class AppProviderBasic extends Component {
         "x-access-token": access_token
       }
     }).then(response => {
-      console.log(response);
       this.setState(state => ({
         ...state,
         companyInfo: {
@@ -388,15 +368,18 @@ class AppProviderBasic extends Component {
         "x-access-token": access_token
       }
     }).then(response => {
+      const { data } = response.data;
       this.setState(state => ({
         ...state,
         companyInfo: {
           ...state.companyInfo,
-          company_name: response.data.data.name,
-          company_location: response.data.data.address,
-          company_phone: response.data.data.phone,
-          company_email: response.data.data.email,
-          company_website: response.data.data.website
+          company_name: data.name,
+          company_description: data.description,
+          company_location: data.address,
+          company_phone: data.phone,
+          company_email: data.email,
+          company_website: data.website,
+          company_logo: data.logo
         }
       }));
     });

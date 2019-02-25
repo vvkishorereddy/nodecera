@@ -31,13 +31,28 @@ register.post = async (req, res, next) => {
   }
 
   try {
-    companyData = await companyModel.create({ user: userData._id });
+    let companyFieldsData = {
+      name: "",
+      logo: "default.png",
+      description: "",
+      address: "",
+      phone: "",
+      email: "",
+      website: "",
+      status: true,
+      user: userData._id
+    };
+    companyData = await companyModel.create(companyFieldsData);
   } catch (e) {
     let message = e._message != "" ? e._message : "company not created";
     return res.json(JsonResponse.format(401, false, message, null));
   }
   try {
-    uploadData = await uploadModel.create({ user: userData._id });
+    let uploadFieldsData = {
+      name: "default.png",
+      user: userData._id
+    };
+    uploadData = await uploadModel.create(uploadFieldsData);
   } catch (error) {
     let message = e._message != "" ? e._message : "upload row not created";
     return res.json(JsonResponse.format(401, false, message, null));
