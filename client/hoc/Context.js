@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import Axios from "axios";
+import * as TextTrim from "../Helpers/TextTrim";
 
 const AppContext = React.createContext();
 const AppConsumer = AppContext.Consumer;
@@ -167,6 +168,10 @@ class AppProviderBasic extends Component {
     Axios.get("/api/jobs").then(res => {
       const { data } = res;
       if (!!data.data) {
+        data.data.map(job => {
+          job.title = TextTrim(job.title);
+          return job;
+        });
         this.setState(state => {
           return {
             ...state,
