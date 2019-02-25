@@ -34,6 +34,9 @@ class JobsList extends Component {
               </li>
             </ul>
           </div>
+
+          {/** 
+
           <div className="list-menu text-center clearfix">
             <ul className="tr-list">
               <li className="dropdown tr-change-dropdown">
@@ -59,26 +62,25 @@ class JobsList extends Component {
                 </ul>
               </li>
               <li className="dropdown tr-change-dropdown">
-                Level:
-                <a
-                  data-toggle="dropdown"
-                  href="listing.html#"
-                  aria-expanded="false"
-                >
-                  <span className="change-text">Mid</span>
-                  <i className="fa fa-angle-down" />
-                </a>
-                <ul className="dropdown-menu tr-change">
-                  <li>
-                    <a href="listing.html#">Top Level</a>
-                  </li>
-                  <li>
-                    <a href="listing.html#">Mid Level</a>
-                  </li>
-                  <li>
-                    <a href="listing.html#">Entry Level</a>
-                  </li>
-                </ul>
+                <div className="form-group">
+                  <select
+                    name="experience"
+                    ref={ele => (this.experience = ele)}
+                    className="form-control"
+                    onChange={e =>
+                      this.props.context.filterJobs(
+                        "experienceFilter",
+                        this.experience.value
+                      )
+                    }
+                  >
+                    <option value="">Select Experience level</option>
+                    <option value="entry-level">Entry Level</option>
+                    <option value="mid-level">Mid Level</option>
+                    <option value="mid-senior">Mid-Senior Level</option>
+                    <option value="top-level">Top Level</option>
+                  </select>
+                </div>
               </li>
               <li className="dropdown tr-change-dropdown">
                 Org Type:
@@ -145,7 +147,9 @@ class JobsList extends Component {
               </li>
             </ul>
           </div>
-          {/* /.list-menu */}
+
+
+        */}
 
           <div className="tab-content tr-job-posted">
             <div

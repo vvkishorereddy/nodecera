@@ -55,7 +55,8 @@ class AppProviderBasic extends Component {
       uploadImage: this.uploadImage,
       handleChange: this.handleChange,
       upDateProfile: this.upDateProfile,
-      fetchCompanyData: this.fetchCompanyData
+      fetchCompanyData: this.fetchCompanyData,
+      filterJobs: this.filterJobs
     };
   }
 
@@ -179,6 +180,35 @@ class AppProviderBasic extends Component {
     });
   };
 
+  jobSearch = keyword => {
+    //this.setState()
+  };
+
+  filterJobs = (filterType, filterValue) => {
+    if (filterType === "experienceFilter") {
+      this.setState({
+        ...this.state,
+        isLoading: true
+      });
+      Axios.get("/api/jobs").then(res => {
+        const { data } = res;
+        if (!!data.data) {
+          data.data.filter(job => {
+            return job["experience"] == filterValue;
+          });
+
+          this.setState(state => {
+            return {
+              ...state,
+              jobs: data.data,
+              isLoading: false
+            };
+          });
+        }
+      });
+    }
+  };
+
   getSingleJob = id => {
     this.setLoadingTrue();
     Axios.get(`/api/jobs/${id}`).then(response => {
@@ -222,15 +252,7 @@ class AppProviderBasic extends Component {
       experience: form.exprienceLevel.value,
       summary: form.summary.value,
       responsibilities: form.responsibilites.value,
-      requirements: form.minRequirements.value,
-      company_name: "Kishore Dig File",
-      company_logo: "images/job/1.png",
-      company_description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore",
-      company_address: "London, UK",
-      company_phone: "+1234 567 8910",
-      company_email: "admin@company.com",
-      company_website: "www.company.com"
+      requirements: form.minRequirements.value
     };
 
     const access_token = this.getToken();

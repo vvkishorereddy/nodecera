@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class TopBanner extends Component {
   render() {
@@ -7,13 +8,13 @@ export default class TopBanner extends Component {
         <div className="container">
           <div className="breadcrumb-info text-center">
             <div className="page-title">
-              <h1>Graphics Designer</h1>
+              <h1>Latest Jobs</h1>
             </div>
             <ol className="breadcrumb">
               <li>
-                <a href="index.html">Home</a>
+                <Link to="/">Home</Link>
               </li>
-              <li className="active">Graphics Design</li>
+              <li className="active">Jobs</li>
             </ol>
             <div className="banner-form">
               <form action="listing.html#">
@@ -21,9 +22,13 @@ export default class TopBanner extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Job Keyword"
+                  ref={ele => (this.search = ele)}
+                  name="searchKeyWord"
+                  onKeyPress={e => {
+                    this.props.context.jobSearch(this.search.value);
+                  }}
                 />
 
-                {/* /.category-change */}
                 <button
                   type="submit"
                   className="btn btn-primary"
