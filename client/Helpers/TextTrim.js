@@ -1,4 +1,4 @@
-module.exports = text => {
-  if (text.length < 36) return text;
-  return text.substring(0, 32) + "...";
+module.exports = (text, count) => {
+  if (text.length < count) return text;
+  return text.substring(0, count - 2) + "...";
 };

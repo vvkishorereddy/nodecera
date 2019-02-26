@@ -169,7 +169,8 @@ class AppProviderBasic extends Component {
       const { data } = res;
       if (!!data.data) {
         data.data.map(job => {
-          job.title = TextTrim(job.title);
+          job.title = TextTrim(job.title, 36);
+          job.location = TextTrim(job.location, 30);
           return job;
         });
         this.setState(state => {
