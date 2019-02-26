@@ -12,6 +12,7 @@ class AppProviderBasic extends Component {
     this.state = {
       isLoading: false,
       isLogged: false,
+      jobsPageNumber: 0,
       jobs: [],
       hotJobs: [],
       popularJobs: [],
@@ -65,6 +66,37 @@ class AppProviderBasic extends Component {
   componentDidMount() {
     //this.isLoggedIn() && this.props.history.replace("/");
   }
+
+  updateJobsPageNumber = () => {
+    this.setState(state => {
+      return {
+        ...state,
+        jobsPageNumber: state.jobsPageNumber * 10 + state.jobsPageNumber
+      };
+    });
+  };
+
+  fetchJobs = () => {
+    this.setLoadingTrue();
+    const skip = this.state.jobsPageNumber;
+    Axios.get("/api/jobs", { params: { limit: 10, skip: skip } }).then(res => {
+      const { data } = res;
+      if (!!data.data) {
+        data.data.map(job => {
+          job.title = TextTrim(job.title, 36);
+          job.location = TextTrim(job.location, 30);
+          return job;
+        });
+
+        this.setState(state => {
+          return {
+            ...state,
+            jobs: [...state.jobs, ...data.data]
+          };
+        }, this.setLoadingFalse());
+      }
+    });
+  };
 
   setLoadingTrue = () => {
     this.setState(state => {
@@ -158,34 +190,6 @@ class AppProviderBasic extends Component {
   removeToken = () => localStorage.removeItem("access_token");
 
   // fetch jobs list
-
-  fetchJobs = () => {
-    this.setState({
-      ...this.state,
-      isLoading: true
-    });
-    Axios.get("/api/jobs").then(res => {
-      const { data } = res;
-      if (!!data.data) {
-        data.data.map(job => {
-          job.title = TextTrim(job.title, 36);
-          job.location = TextTrim(job.location, 30);
-          return job;
-        });
-        this.setState(state => {
-          return {
-            ...state,
-            jobs: data.data,
-            hotJobs: data.data.slice(0, 8),
-            popularJobs: data.data.slice(9, 18),
-            recentJobs: data.data.slice(15, 22),
-            similarJobs: data.data.slice(1, 5),
-            isLoading: false
-          };
-        });
-      }
-    });
-  };
 
   jobSearch = keyword => {
     this.setState({
