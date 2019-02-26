@@ -57,7 +57,6 @@ class AppProviderBasic extends Component {
       handleChange: this.handleChange,
       upDateProfile: this.upDateProfile,
       fetchCompanyData: this.fetchCompanyData,
-      filterJobs: this.filterJobs,
       jobSearch: this.jobSearch,
       uploadExcel: this.uploadExcel
     };
@@ -205,31 +204,6 @@ class AppProviderBasic extends Component {
         });
       }
     });
-  };
-
-  filterJobs = (filterType, filterValue) => {
-    if (filterType === "experienceFilter") {
-      this.setState({
-        ...this.state,
-        isLoading: true
-      });
-      Axios.get("/api/jobs").then(res => {
-        const { data } = res;
-        if (!!data.data) {
-          data.data.filter(job => {
-            return job["experience"] == filterValue;
-          });
-
-          this.setState(state => {
-            return {
-              ...state,
-              jobs: data.data,
-              isLoading: false
-            };
-          });
-        }
-      });
-    }
   };
 
   getSingleJob = id => {
