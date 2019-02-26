@@ -8,14 +8,16 @@ import withContext from "./hoc/ContextConsumer";
 class App extends Component {
   componentDidMount() {
     const loginValue = this.props.context.isLoggedIn();
-    if (
-      (this.props.location.pathname === "/login" ||
-        this.props.location.pathname === "/register") &&
-      loginValue
-    ) {
-      this.props.history.replace("/");
+    if (loginValue) {
+      if (
+        this.props.location.pathname === "/login" ||
+        this.props.location.pathname === "/register"
+      ) {
+        this.props.history.replace("/");
+      } else {
+        this.props.history.replace(this.props.location.pathname);
+      }
     }
-    //!this.props.context.isLoggedIn() && this.props.history.replace("/login");
   }
   render() {
     return (
