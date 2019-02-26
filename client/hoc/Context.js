@@ -63,7 +63,7 @@ class AppProviderBasic extends Component {
   }
 
   componentDidMount() {
-    this.isLoggedIn() && this.props.history.replace("/");
+    //this.isLoggedIn() && this.props.history.replace("/");
   }
 
   setLoadingTrue = () => {
