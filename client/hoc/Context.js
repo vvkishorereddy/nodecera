@@ -39,7 +39,8 @@ class AppProviderBasic extends Component {
       },
       userActiveJobs: {
         data: [],
-        skip: 0
+        skip: 0,
+        isLoading: false
       }
     };
     this.methodsList = {
@@ -65,9 +66,24 @@ class AppProviderBasic extends Component {
       jobSearch: this.jobSearch,
       uploadExcel: this.uploadExcel,
       fetchUserActiveJobs: this.fetchUserActiveJobs,
-      loadMoreUserActiveJobs: this.loadMoreUserActiveJobs
+      loadMoreUserActiveJobs: this.loadMoreUserActiveJobs,
+      deleteUserPost: this.deleteUserPost
     };
   }
+
+  deleteUserPost = postId => {
+    const access_token = this.getToken();
+    let headers = {};
+    if (!!access_token) {
+      headers["x-access-token"] = access_token;
+    }
+    Axios.delete("/api/jobs", {
+      headers: headers,
+      params: {
+        postId: postId
+      }
+    }).then(response => console.log(response));
+  };
 
   loadMoreUserActiveJobs = () => {
     this.setState(
@@ -76,7 +92,8 @@ class AppProviderBasic extends Component {
           ...state,
           userActiveJobs: {
             ...state.userActiveJobs,
-            skip: state.userActiveJobs.skip + 5
+            skip: state.userActiveJobs.skip + 5,
+            isLoading: true
           }
         };
       },
@@ -98,7 +115,8 @@ class AppProviderBasic extends Component {
           ...state,
           userActiveJobs: {
             ...state.userActiveJobs,
-            data: [...state.userActiveJobs.data, ...response.data.data]
+            data: [...state.userActiveJobs.data, ...response.data.data],
+            isLoading: false
           }
         };
       });

@@ -52,4 +52,14 @@ jobs.singleJob = (req, res) => {
   });
 };
 
+jobs.delete = (req, res) => {
+  jobsModel.deleteOne(
+    { _id: req.params.postId, user: res.locals.userId },
+    (err, data) => {
+      console.log(err);
+      res.json(JsonResponse.format(200, true, "deleted sucessfully", data));
+    }
+  );
+};
+
 module.exports = jobs;

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import withContext from "../../hoc/ContextConsumer";
 import Axios from "axios";
+import Loader from "../Loader";
 
 class Activejobs extends Component {
   componentDidMount() {
@@ -8,7 +9,13 @@ class Activejobs extends Component {
   }
 
   render() {
-    const { data } = this.props.context.userActiveJobs;
+    const {
+      userActiveJobs,
+      loadMoreUserActiveJobs,
+      deleteUserPost
+    } = this.props.context;
+    const { data, isLoading } = userActiveJobs;
+
     return (
       <Fragment>
         {data.map(job => {
@@ -18,14 +25,14 @@ class Activejobs extends Component {
                 <div className="left-content">
                   <div className="clearfix">
                     <span className="tr-title">
-                      <a href="employer-profile.html#">Design Associate</a>
+                      <a href="employer-profile.html#">{job.title}</a>
                     </span>
                     <span>
                       <a
                         href="employer-profile.html#"
                         className="btn btn-primary"
                       >
-                        Part Time
+                        {job.workType}
                       </a>
                     </span>
                   </div>
@@ -37,29 +44,34 @@ class Activejobs extends Component {
                       <span>
                         <i className="fa fa-map-signs" aria-hidden="true" />
                       </span>
-                      San Francisco, CA, US
+                      {job.location}
                     </li>
                     <li>
                       <span>
                         <i className="fa fa-briefcase" aria-hidden="true" />
                       </span>
-                      Mid Level
+                      {job.experience}
                     </li>
                     <li>
                       <span>
                         <i className="fa fa-money" aria-hidden="true" />
                       </span>
-                      $5,000 - $6,000
+                      {job.salary}
                     </li>
                   </ul>
                 </div>
                 <div className="right-content">
                   <span>
-                    <a href="employer-profile.html#">
+                    <a>
                       <i className="fa fa-pencil" />
                     </a>
                   </span>
-                  <span className="remove-icon">
+                  <span
+                    className="remove-icon"
+                    onClick={() => {
+                      deleteUserPost(job._id);
+                    }}
+                  >
                     <i className="fa fa-trash-o" />
                   </span>
                 </div>
@@ -67,12 +79,19 @@ class Activejobs extends Component {
             </Fragment>
           );
         })}
-        <button
-          type="button"
-          onClick={this.props.context.loadMoreUserActiveJobs}
-        >
-          Load More
-        </button>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div style={{ textAlign: "center" }}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={loadMoreUserActiveJobs}
+            >
+              Load More
+            </button>
+          </div>
+        )}
       </Fragment>
     );
   }
