@@ -36,6 +36,10 @@ class AppProviderBasic extends Component {
         company_website: "",
         company_size: "",
         company_logo: ""
+      },
+      userActiveJobs: {
+        data: [],
+        skip: 0
       }
     };
     this.methodsList = {
@@ -59,13 +63,47 @@ class AppProviderBasic extends Component {
       upDateProfile: this.upDateProfile,
       fetchCompanyData: this.fetchCompanyData,
       jobSearch: this.jobSearch,
-      uploadExcel: this.uploadExcel
+      uploadExcel: this.uploadExcel,
+      fetchUserActiveJobs: this.fetchUserActiveJobs,
+      loadMoreUserActiveJobs: this.loadMoreUserActiveJobs
     };
   }
 
-  componentDidMount() {
-    //this.isLoggedIn() && this.props.history.replace("/");
-  }
+  loadMoreUserActiveJobs = () => {
+    this.setState(
+      state => {
+        return {
+          ...state,
+          userActiveJobs: {
+            ...state.userActiveJobs,
+            skip: state.userActiveJobs.skip + 5
+          }
+        };
+      },
+      () => {
+        this.fetchUserActiveJobs();
+      }
+    );
+  };
+
+  fetchUserActiveJobs = () => {
+    Axios.get("/api/jobs", {
+      params: {
+        limit: 5,
+        skip: this.state.userActiveJobs.skip
+      }
+    }).then(response => {
+      this.setState(state => {
+        return {
+          ...state,
+          userActiveJobs: {
+            ...state.userActiveJobs,
+            data: [...state.userActiveJobs.data, ...response.data.data]
+          }
+        };
+      });
+    });
+  };
 
   updateJobsPageNumber = () => {
     this.setState(state => {

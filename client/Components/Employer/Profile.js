@@ -70,7 +70,7 @@ class Profile extends Component {
                       <span>
                         <i className="fa fa-bell-o" aria-hidden="true" />
                       </span>
-                      Open Role
+                      Open Jobs
                     </a>
                   </li>
                   <li
