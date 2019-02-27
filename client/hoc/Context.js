@@ -77,12 +77,26 @@ class AppProviderBasic extends Component {
     if (!!access_token) {
       headers["x-access-token"] = access_token;
     }
-    Axios.delete("/api/jobs", {
-      headers: headers,
-      params: {
-        postId: postId
+    Axios.delete(`/api/jobs/${postId}`, {
+      headers: headers
+    }).then(response => {
+      console.log(response.data);
+      // filter deleted
+      if (response.data.data.ok) {
+        const filterData = this.state.userActiveJobs.data.filter(
+          post => post._id !== postId
+        );
+        this.setState(state => {
+          return {
+            ...state,
+            userActiveJobs: {
+              ...state.userActiveJobs,
+              data: filterData
+            }
+          };
+        });
       }
-    }).then(response => console.log(response));
+    });
   };
 
   loadMoreUserActiveJobs = () => {
