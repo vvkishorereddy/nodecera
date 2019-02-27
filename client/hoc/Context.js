@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import Axios from "axios";
 import * as TextTrim from "../Helpers/TextTrim";
+import * as JwtToken from "../Helpers/JwtToken";
+import AxiosFunctions from "../Helpers/AxiosFunctions";
 
 const AppContext = React.createContext();
 const AppConsumer = AppContext.Consumer;
@@ -71,32 +73,25 @@ class AppProviderBasic extends Component {
     };
   }
 
-  deleteUserPost = postId => {
-    const access_token = this.getToken();
-    let headers = {};
-    if (!!access_token) {
-      headers["x-access-token"] = access_token;
+  deleteUserPost = async postId => {
+    let url = `/api/jobs/${postId}`;
+    const response = await AxiosFunctions.deleteFunction(url);
+
+    // filter deleted
+    if (response.data.data.ok) {
+      const filterData = this.state.userActiveJobs.data.filter(
+        post => post._id !== postId
+      );
+      this.setState(state => {
+        return {
+          ...state,
+          userActiveJobs: {
+            ...state.userActiveJobs,
+            data: filterData
+          }
+        };
+      });
     }
-    Axios.delete(`/api/jobs/${postId}`, {
-      headers: headers
-    }).then(response => {
-      console.log(response.data);
-      // filter deleted
-      if (response.data.data.ok) {
-        const filterData = this.state.userActiveJobs.data.filter(
-          post => post._id !== postId
-        );
-        this.setState(state => {
-          return {
-            ...state,
-            userActiveJobs: {
-              ...state.userActiveJobs,
-              data: filterData
-            }
-          };
-        });
-      }
-    });
   };
 
   loadMoreUserActiveJobs = () => {
@@ -117,23 +112,22 @@ class AppProviderBasic extends Component {
     );
   };
 
-  fetchUserActiveJobs = () => {
-    Axios.get("/api/jobs", {
-      params: {
-        limit: 5,
-        skip: this.state.userActiveJobs.skip
-      }
-    }).then(response => {
-      this.setState(state => {
-        return {
-          ...state,
-          userActiveJobs: {
-            ...state.userActiveJobs,
-            data: [...state.userActiveJobs.data, ...response.data.data],
-            isLoading: false
-          }
-        };
-      });
+  fetchUserActiveJobs = async () => {
+    let url = `/api/jobs`;
+    let params = {
+      limit: 5,
+      skip: this.state.userActiveJobs.skip
+    };
+    const response = await AxiosFunctions.getFunction(url, params);
+    this.setState(state => {
+      return {
+        ...state,
+        userActiveJobs: {
+          ...state.userActiveJobs,
+          data: [...state.userActiveJobs.data, ...response.data.data],
+          isLoading: false
+        }
+      };
     });
   };
 
