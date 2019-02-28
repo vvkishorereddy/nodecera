@@ -3,10 +3,6 @@ import { Link, NavLink } from "react-router-dom";
 import withContext from "../hoc/ContextConsumer";
 
 class Header extends Component {
-  handleLogOut = () => {
-    this.props.context.userLogOut();
-  };
-
   render() {
     const { isLogged, loggedUser } = this.props.context;
 
@@ -18,7 +14,7 @@ class Header extends Component {
           <Link to="/dashboard">Dashboard </Link>
         </li>
         <li>
-          <Link to="/logout" onClick={this.handleLogOut}>
+          <Link to="/logout" onClick={this.props.context.userLogOut}>
             Log Out
           </Link>
         </li>
