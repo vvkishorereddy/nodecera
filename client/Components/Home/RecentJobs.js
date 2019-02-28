@@ -3,9 +3,6 @@ import JobRow from "../JobRow";
 import withContext from "../../hoc/ContextConsumer";
 
 class RecentJobs extends Component {
-  componentDidMount() {
-    this.props.context.fetchRecentJobs();
-  }
   render() {
     const { recentJobs } = this.props.context;
     return (

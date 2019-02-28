@@ -4,10 +4,17 @@ import withContext from "../hoc/ContextConsumer";
 
 class Header extends Component {
   render() {
-    const { isLogged, loggedUser } = this.props.context;
+    const { isLogged } = this.props.context;
 
     let rightNavContent = "",
       leftNavContent = "";
+    leftNavContent = isLogged && (
+      <Fragment>
+        <li>
+          <NavLink to="/employer-profile">employer profile</NavLink>
+        </li>
+      </Fragment>
+    );
     rightNavContent = isLogged ? (
       <Fragment>
         <li>
@@ -63,9 +70,7 @@ class Header extends Component {
                 <li>
                   <NavLink to="/jobs">Job List</NavLink>
                 </li>
-                <li>
-                  <NavLink to="/employer-profile">employer profile</NavLink>
-                </li>
+
                 {leftNavContent}
               </ul>
             </div>

@@ -15,7 +15,10 @@ class HomeJobs extends Component {
           <div className="job-tab text-center">
             <ul className="nav nav-tabs justify-content-center">
               <li
-                onClick={e => openTab(e, "jobs")}
+                onClick={e => {
+                  openTab(e, "jobs");
+                  this.props.context.fetchHotJobs();
+                }}
                 data-id="hotJobs"
                 className="tabTitle active"
               >
@@ -23,14 +26,20 @@ class HomeJobs extends Component {
               </li>
               <li
                 data-id="recentJobs"
-                onClick={e => openTab(e, "jobs")}
+                onClick={e => {
+                  openTab(e, "jobs");
+                  this.props.context.fetchRecentJobs();
+                }}
                 className="tabTitle"
               >
                 <a>Recent Jobs</a>
               </li>
               <li
                 data-id="popularJobs"
-                onClick={e => openTab(e, "jobs")}
+                onClick={e => {
+                  openTab(e, "jobs");
+                  this.props.context.fetchPopularJobs();
+                }}
                 className="tabTitle"
               >
                 <a>Popular Jobs</a>
