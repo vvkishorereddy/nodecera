@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import Axios from "axios";
-import * as TextTrim from "../Helpers/TextTrim";
 import * as JwtToken from "../Helpers/JwtToken";
 import AxiosFunctions from "../Helpers/AxiosFunctions";
+import HelperFunctions from "../Helpers/HelperFunctions";
 
 const AppContext = React.createContext();
 const AppConsumer = AppContext.Consumer;
@@ -336,18 +335,14 @@ class AppProviderBasic extends Component {
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
     if (!!data) {
-      data.map(job => {
-        job.title = TextTrim(job.title, 36);
-        job.location = TextTrim(job.location, 30);
-        return job;
-      });
+      const modifiedData = HelperFunctions.modifyJobData(data);
 
       this.setState(state => {
         return {
           ...state,
           totalJobs: {
             ...state.totalJobs,
-            data: [...state.totalJobs.data, ...data],
+            data: [...state.totalJobs.data, ...modifiedData],
             isLoading: false
           }
         };
@@ -381,16 +376,11 @@ class AppProviderBasic extends Component {
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
     if (!!data) {
-      data.map(job => {
-        job.title = TextTrim(job.title, 36);
-        job.location = TextTrim(job.location, 30);
-        return job;
-      });
-
+      const modifiedData = HelperFunctions.modifyJobData(data);
       this.setState(state => {
         return {
           ...state,
-          similarJobs: data
+          similarJobs: modifiedData
         };
       });
     }
@@ -406,16 +396,12 @@ class AppProviderBasic extends Component {
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
     if (!!data) {
-      data.map(job => {
-        job.title = TextTrim(job.title, 36);
-        job.location = TextTrim(job.location, 30);
-        return job;
-      });
+      const modifiedData = HelperFunctions.modifyJobData(data);
 
       this.setState(state => {
         return {
           ...state,
-          hotJobs: data
+          hotJobs: modifiedData
         };
       });
     }
@@ -431,16 +417,12 @@ class AppProviderBasic extends Component {
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
     if (!!data) {
-      data.map(job => {
-        job.title = TextTrim(job.title, 36);
-        job.location = TextTrim(job.location, 30);
-        return job;
-      });
+      const modifiedData = HelperFunctions.modifyJobData(data);
 
       this.setState(state => {
         return {
           ...state,
-          recentJobs: data
+          recentJobs: modifiedData
         };
       });
     }
@@ -456,35 +438,35 @@ class AppProviderBasic extends Component {
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
     if (!!data) {
-      data.map(job => {
-        job.title = TextTrim(job.title, 36);
-        job.location = TextTrim(job.location, 30);
-        return job;
-      });
+      const modifiedData = HelperFunctions.modifyJobData(data);
 
       this.setState(state => {
         return {
           ...state,
-          popularJobs: data
+          popularJobs: modifiedData
         };
       });
     }
   };
 
   jobSearch = async keyword => {
-    this.setLoadingTrue();
     let url = `/api/jobs`;
     let params = { key: keyword, limit: 10, skip: 0 };
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
     if (!!data) {
+      const modifiedData = HelperFunctions.modifyJobData(data);
+
       this.setState(state => {
         return {
           ...state,
-          jobs: data
+          totalJobs: {
+            ...state.totalJobs,
+            data: [...modifiedData],
+            isLoading: false
+          }
         };
       });
-      this.setLoadingFalse();
     }
   };
 

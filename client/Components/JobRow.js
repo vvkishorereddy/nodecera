@@ -24,7 +24,7 @@ export default class JobRow extends Component {
                   <i className="fa fa-map-signs" aria-hidden="true" />
                   {job.location}
                 </li>
-                <li>
+                <li className="text-capitalize">
                   <i className="fa fa-briefcase" aria-hidden="true" />
                   {job.experience}
                 </li>
@@ -79,7 +79,7 @@ export default class JobRow extends Component {
                 </span>
                 {job.location}
               </li>
-              <li>
+              <li className="text-capitalize">
                 <span>
                   <i className="fa fa-briefcase" aria-hidden="true" />
                 </span>
@@ -94,7 +94,7 @@ export default class JobRow extends Component {
             </ul>
             <div className="time">
               <Link to={`/jobs/${job._id}`}>
-                <span>{job.workType}</span>
+                <span className={job.workTypeClass}>{job.workType}</span>
               </Link>
               <span className="pull-right">{job.created_at}</span>
             </div>

@@ -9,10 +9,7 @@ import Loader from "../Loader";
 
 class Home extends Component {
   render() {
-    const { isLoading } = this.props.context;
-    return isLoading ? (
-      <Loader />
-    ) : (
+    return (
       <Fragment>
         <TopBanner />
         <HomeJobs />
