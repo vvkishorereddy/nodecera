@@ -25,10 +25,10 @@ class Footer extends Component {
                   <h3>About Us</h3>
                   <ul className="tr-list">
                     <li>
-                      <a href="index1.html#">About Seeker</a>
+                      <Link to="/about-us">About CareersEra</Link>
                     </li>
                     <li>
-                      <a href="index1.html#">Terms &amp; Conditions</a>
+                      <Link to="/terms-conditions">Terms &amp; Conditions</Link>
                     </li>
                     <li>
                       <a href="index1.html#">International Partners</a>
