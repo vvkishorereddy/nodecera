@@ -51,15 +51,14 @@ class AppProviderBasic extends Component {
       userLogOut: this.userLogOut,
       isLoggedIn: this.isLoggedIn,
       fetchJobs: this.fetchJobs,
-      getToken: this.getToken,
       getUserProfile: this.getUserProfile,
       saveJob: this.saveJob,
       saveUserSubscribe: this.saveUserSubscribe,
       getSingleJob: this.getSingleJob,
-      editProfile: this.editProfile,
-      editCancel: this.editCancel,
+      editCompanyProfile: this.editCompanyProfile,
+      editCompanyCancel: this.editCompanyCancel,
       uploadCompanyLogo: this.uploadCompanyLogo,
-      handleChange: this.handleChange,
+      handleCompanyFormChange: this.handleCompanyFormChange,
       upDateCompanyProfile: this.upDateCompanyProfile,
       fetchCompanyData: this.fetchCompanyData,
       jobSearch: this.jobSearch,
@@ -69,8 +68,6 @@ class AppProviderBasic extends Component {
       deleteUserPost: this.deleteUserPost
     };
   }
-
-  getToken = () => localStorage.getItem("access_token");
 
   setLoadingTrue = () => {
     this.setState(state => {
@@ -239,7 +236,6 @@ class AppProviderBasic extends Component {
 
   fetchJobs = async () => {
     this.setLoadingTrue();
-
     let url = `/api/jobs`;
     let params = {
       limit: 10,
@@ -247,7 +243,6 @@ class AppProviderBasic extends Component {
     };
 
     const response = await AxiosFunctions.getFunction(url, params);
-
     const { data } = response.data;
     if (!!data) {
       data.map(job => {
@@ -268,10 +263,8 @@ class AppProviderBasic extends Component {
   jobSearch = async keyword => {
     this.setLoadingTrue();
     let url = `/api/jobs`;
-    let params = { key: keyword };
-
+    let params = { key: keyword, limit: 10, skip: 0 };
     const response = await AxiosFunctions.getFunction(url, params);
-
     const { data } = response.data;
     if (!!data) {
       this.setState(state => {
@@ -299,7 +292,7 @@ class AppProviderBasic extends Component {
     this.setLoadingFalse();
   };
 
-  saveJob = form => {
+  saveJob = async form => {
     const data = {
       title: form.title.value,
       category: form.category.value,
@@ -315,15 +308,12 @@ class AppProviderBasic extends Component {
       requirements: form.minRequirements.value
     };
 
-    const access_token = this.getToken();
-    let headers = {};
-    if (!!access_token) {
-      headers["x-access-token"] = access_token;
-    }
+    const url = `/api/jobs`;
+    let params = {};
 
-    Axios.post("/api/jobs", data, {
-      headers: headers
-    }).then(response => console.log(response));
+    const response = await AxiosFunctions.postFunction(url, data, params);
+
+    console.log(response);
 
     form.title.value = "";
     form.category.value = "";
@@ -347,57 +337,14 @@ class AppProviderBasic extends Component {
     form.terms.parentElement.classList.value = "";
   };
 
-  editProfile = e => {
-    e.preventDefault();
-    this.setState(state => ({
-      ...state,
-      companyInfo: {
-        ...state.companyInfo,
-        isEditing: true
-      }
-    }));
-  };
+  // upload bulk posts related functions
 
-  editCancel = e => {
-    e.preventDefault();
-    this.setState(state => ({
-      ...state,
-      companyInfo: {
-        ...state.companyInfo,
-        isEditing: false
-      }
-    }));
-  };
-
-  uploadExcel = filesData => {
-    const access_token = this.getToken();
+  uploadExcel = async filesData => {
     const formData = new FormData();
     formData.append("file", filesData.files[0]);
-
-    Axios.post("/api/upload/excel", formData, {
-      headers: {
-        "content-type": "multipart/form-data",
-        "x-access-token": access_token
-      }
-    }).then(response => {
-      this.setState(state => ({
-        ...state,
-        companyInfo: {
-          ...state.companyInfo,
-          company_logo: response.data.data.logo
-        }
-      }));
-    });
-  };
-
-  handleChange = (name, value) => {
-    this.setState(state => ({
-      ...state,
-      companyInfo: {
-        ...state.companyInfo,
-        [name]: value
-      }
-    }));
+    const url = `/api/upload/excel`;
+    const response = await AxiosFunctions.uploadFunction(url, formData);
+    console.log(response);
   };
 
   // employer company related functions
@@ -439,9 +386,40 @@ class AppProviderBasic extends Component {
     }));
   };
 
+  editCompanyProfile = e => {
+    e.preventDefault();
+    this.setState(state => ({
+      ...state,
+      companyInfo: {
+        ...state.companyInfo,
+        isEditing: true
+      }
+    }));
+  };
+
+  editCompanyCancel = e => {
+    e.preventDefault();
+    this.setState(state => ({
+      ...state,
+      companyInfo: {
+        ...state.companyInfo,
+        isEditing: false
+      }
+    }));
+  };
+
+  handleCompanyFormChange = (name, value) => {
+    this.setState(state => ({
+      ...state,
+      companyInfo: {
+        ...state.companyInfo,
+        [name]: value
+      }
+    }));
+  };
+
   upDateCompanyProfile = async e => {
     e.preventDefault();
-    const access_token = this.getToken();
     // update data
     const {
       company_name,

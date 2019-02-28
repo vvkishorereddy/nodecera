@@ -127,7 +127,7 @@ class AccountInfo extends Component {
                     name="company_name"
                     value={company_name}
                     onChange={e => {
-                      this.props.context.handleChange(
+                      this.props.context.handleCompanyFormChange(
                         e.target.name,
                         e.target.value
                       );
@@ -144,7 +144,7 @@ class AccountInfo extends Component {
                     name="company_description"
                     rows="10"
                     onChange={e => {
-                      this.props.context.handleChange(
+                      this.props.context.handleCompanyFormChange(
                         e.target.name,
                         e.target.value
                       );
@@ -163,7 +163,7 @@ class AccountInfo extends Component {
                     name="company_location"
                     value={company_location}
                     onChange={e => {
-                      this.props.context.handleChange(
+                      this.props.context.handleCompanyFormChange(
                         e.target.name,
                         e.target.value
                       );
@@ -181,7 +181,7 @@ class AccountInfo extends Component {
                     name="company_phone"
                     value={company_phone}
                     onChange={e => {
-                      this.props.context.handleChange(
+                      this.props.context.handleCompanyFormChange(
                         e.target.name,
                         e.target.value
                       );
@@ -199,7 +199,7 @@ class AccountInfo extends Component {
                     name="company_email"
                     value={company_email}
                     onChange={e => {
-                      this.props.context.handleChange(
+                      this.props.context.handleCompanyFormChange(
                         e.target.name,
                         e.target.value
                       );
@@ -217,7 +217,7 @@ class AccountInfo extends Component {
                     name="company_website"
                     value={company_website}
                     onChange={e => {
-                      this.props.context.handleChange(
+                      this.props.context.handleCompanyFormChange(
                         e.target.name,
                         e.target.value
                       );
@@ -281,7 +281,7 @@ class AccountInfo extends Component {
               <button
                 type="button"
                 className="btn button-cancle"
-                onClick={this.props.context.editCancel}
+                onClick={this.props.context.editCompanyCancel}
               >
                 Cancel
               </button>
@@ -298,7 +298,7 @@ class AccountInfo extends Component {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={this.props.context.editProfile}
+                onClick={this.props.context.editCompanyProfile}
               >
                 Edit Profile
               </button>
