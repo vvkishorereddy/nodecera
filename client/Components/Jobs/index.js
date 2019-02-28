@@ -13,7 +13,7 @@ class Jobs extends Component {
       <Fragment>
         <TopBanner />
         <JobsList />
-        <AppBanner />
+        {/*<AppBanner />*/}
       </Fragment>
     );
   }

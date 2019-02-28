@@ -10,7 +10,7 @@ class Employer extends Component {
       <Fragment>
         <TopBanner />
         <Profile />
-        <AppBanner />
+        {/*<AppBanner />*/}
       </Fragment>
     );
   }
