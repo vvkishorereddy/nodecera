@@ -1,10 +1,7 @@
 const express = require("express");
 const router = express.Router();
-router.post("/", (req, res) => {
-  res.json({
-    status: 1,
-    message: "Thanks for subscribing",
-    data: req.body.email
-  });
-});
+
+const SubscribeController = require("../../Controllers/SubscribeController");
+
+router.post("/", SubscribeController.post);
 module.exports = router;
