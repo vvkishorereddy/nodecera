@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import JobRow from "../JobRow";
 import withContext from "../../hoc/ContextConsumer";
+import Loader from "../Loader";
 
 class HotJobs extends Component {
   componentDidMount() {
@@ -8,11 +9,12 @@ class HotJobs extends Component {
   }
 
   render() {
-    const { hotJobs } = this.props.context;
-
-    return (
+    const { data, isLoading } = this.props.context.hotJobs;
+    return isLoading ? (
+      <Loader />
+    ) : (
       <div className="row">
-        {hotJobs.map(data => {
+        {data.map(data => {
           return <JobRow job={data} key={data._id} />;
         })}
       </div>

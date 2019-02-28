@@ -14,9 +14,18 @@ class AppProviderBasic extends Component {
       isLoading: false,
       isLogged: false,
       jobs: [],
-      hotJobs: [],
-      popularJobs: [],
-      recentJobs: [],
+      hotJobs: {
+        data: [],
+        isLoading: false
+      },
+      popularJobs: {
+        data: [],
+        isLoading: false
+      },
+      recentJobs: {
+        data: [],
+        isLoading: false
+      },
       similarJobs: [],
       jobsDetails: {},
       loggedUser: {},
@@ -393,6 +402,16 @@ class AppProviderBasic extends Component {
       skip: 0
     };
 
+    this.setState(state => {
+      return {
+        ...state,
+        hotJobs: {
+          ...state.hotJobs,
+          isLoading: true
+        }
+      };
+    });
+
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
     if (!!data) {
@@ -401,7 +420,11 @@ class AppProviderBasic extends Component {
       this.setState(state => {
         return {
           ...state,
-          hotJobs: modifiedData
+          hotJobs: {
+            ...state.hotJobs,
+            data: modifiedData,
+            isLoading: false
+          }
         };
       });
     }
@@ -414,6 +437,16 @@ class AppProviderBasic extends Component {
       skip: 7
     };
 
+    this.setState(state => {
+      return {
+        ...state,
+        recentJobs: {
+          ...state.recentJobs,
+          isLoading: true
+        }
+      };
+    });
+
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
     if (!!data) {
@@ -422,7 +455,11 @@ class AppProviderBasic extends Component {
       this.setState(state => {
         return {
           ...state,
-          recentJobs: modifiedData
+          recentJobs: {
+            ...state.recentJobs,
+            data: modifiedData,
+            isLoading: false
+          }
         };
       });
     }
@@ -435,6 +472,16 @@ class AppProviderBasic extends Component {
       skip: 14
     };
 
+    this.setState(state => {
+      return {
+        ...state,
+        popularJobs: {
+          ...state.popularJobs,
+          isLoading: true
+        }
+      };
+    });
+
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
     if (!!data) {
@@ -443,7 +490,11 @@ class AppProviderBasic extends Component {
       this.setState(state => {
         return {
           ...state,
-          popularJobs: modifiedData
+          popularJobs: {
+            ...state.popularJobs,
+            data: modifiedData,
+            isLoading: false
+          }
         };
       });
     }
