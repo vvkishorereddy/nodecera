@@ -220,6 +220,15 @@ class AppProviderBasic extends Component {
       limit: 5,
       skip: this.state.userActiveJobs.skip
     };
+    this.setState(state => {
+      return {
+        ...state,
+        userActiveJobs: {
+          ...state.userActiveJobs,
+          isLoading: true
+        }
+      };
+    });
     const response = await AxiosFunctions.getFunction(url, params);
     this.setState(state => {
       return {
@@ -276,6 +285,15 @@ class AppProviderBasic extends Component {
       limit: 5,
       skip: this.state.userArchivedJobs.skip
     };
+    this.setState(state => {
+      return {
+        ...state,
+        userArchivedJobs: {
+          ...state.userArchivedJobs,
+          isLoading: true
+        }
+      };
+    });
     const response = await AxiosFunctions.getFunction(url, params);
     this.setState(state => {
       return {
@@ -340,6 +358,16 @@ class AppProviderBasic extends Component {
       limit: this.state.totalJobs.limit,
       skip: this.state.totalJobs.skip
     };
+
+    this.setState(state => {
+      return {
+        ...state,
+        totalJobs: {
+          ...state.totalJobs,
+          isLoading: true
+        }
+      };
+    });
 
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
