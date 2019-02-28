@@ -1,22 +1,18 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
+import withContext from "../../hoc/ContextConsumer";
 
 class Employer extends Component {
   handleRegisterForm = () => {
-    axios
-      .post("/api/register", {
-        fullname: this.fullName.value,
-        username: this.userName.value,
-        email: this.email.value,
-        password: this.password.value,
-        confirm_password: this.confirm_password.value,
-        user_type: "employer"
-      })
-      .then(response => {
-        console.log(response);
-        this.props.history.push("/login");
-      });
+    const data = {
+      fullname: this.fullName.value,
+      username: this.userName.value,
+      email: this.email.value,
+      password: this.password.value,
+      confirm_password: this.confirm_password.value,
+      user_type: "employer"
+    };
+    this.props.context.handleRegisterForm(data);
   };
 
   render() {
@@ -82,4 +78,4 @@ class Employer extends Component {
   }
 }
 
-export default withRouter(Employer);
+export default withContext(Employer);

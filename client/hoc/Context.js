@@ -65,7 +65,8 @@ class AppProviderBasic extends Component {
       uploadExcel: this.uploadExcel,
       fetchUserActiveJobs: this.fetchUserActiveJobs,
       loadMoreUserActiveJobs: this.loadMoreUserActiveJobs,
-      deleteUserPost: this.deleteUserPost
+      deleteUserPost: this.deleteUserPost,
+      handleRegisterForm: this.handleRegisterForm
     };
   }
 
@@ -96,6 +97,14 @@ class AppProviderBasic extends Component {
   };
 
   //Auth related Functions
+
+  handleRegisterForm = async data => {
+    const url = `/api/register`;
+    let params = {};
+    const response = await AxiosFunctions.postFunction(url, data, params);
+    console.log(response);
+    this.props.history.replace("/login");
+  };
 
   LoginUser = async (email, password) => {
     this.setLoadingTrue();
