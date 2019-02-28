@@ -12,7 +12,7 @@ class Activejobs extends Component {
     const {
       userActiveJobs,
       loadMoreUserActiveJobs,
-      deleteUserPost
+      deleteUserActivePost
     } = this.props.context;
     const { data, isLoading } = userActiveJobs;
 
@@ -69,7 +69,7 @@ class Activejobs extends Component {
                   <span
                     className="remove-icon"
                     onClick={() => {
-                      deleteUserPost(job._id);
+                      deleteUserActivePost(job._id);
                     }}
                   >
                     <i className="fa fa-trash-o" />

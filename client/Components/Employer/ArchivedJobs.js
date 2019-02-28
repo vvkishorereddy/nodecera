@@ -1,235 +1,76 @@
 import React, { Component, Fragment } from "react";
+import withContext from "../../hoc/ContextConsumer";
+import Loader from "../Loader";
 
-export default class ArchivedJobs extends Component {
+class ArchivedJobs extends Component {
+  componentDidMount() {
+    this.props.context.fetchUserArchivedJobs();
+  }
+
   render() {
+    const {
+      userArchivedJobs,
+      loadMoreUserArchivedJobs,
+      deleteUserArchivedPost
+    } = this.props.context;
+    const { data, isLoading } = userArchivedJobs;
+
     return (
       <Fragment>
-        <div className="job-item remove-item">
-          <div className="job-info">
-            <div className="left-content">
-              <div className="clearfix">
-                <span className="tr-title">
-                  <a href="job-post.html">Design Associate</a>
-                </span>
-                <span>
-                  <a href="employer-profile.html#" className="btn btn-primary">
-                    Part Time
-                  </a>
-                </span>
+        {data.map(job => {
+          return (
+            <Fragment>
+              <div className="job-item remove-item">
+                <div className="job-info">
+                  <div className="left-content">
+                    <div className="clearfix">
+                      <span className="tr-title">
+                        <a href="job-post.html">{job.title}</a>
+                      </span>
+                      <span>
+                        <a
+                          href="employer-profile.html#"
+                          className="btn btn-primary"
+                        >
+                          {job.workType}
+                        </a>
+                      </span>
+                    </div>
+                    <span className="deadline">
+                      Application Deadline : Jun 27, 2017
+                    </span>
+                  </div>
+                  <div className="right-content">
+                    <span
+                      className="remove-icon"
+                      onClick={() => {
+                        deleteUserArchivedPost(job._id);
+                      }}
+                    >
+                      <i className="fa fa-trash-o" />
+                    </span>
+                  </div>
+                </div>
               </div>
-              <span className="deadline">
-                Application Deadline : Jun 27, 2017
-              </span>
-            </div>
-            <div className="right-content">
-              <span className="remove-icon">
-                <i className="fa fa-trash-o" />
-              </span>
-            </div>
+            </Fragment>
+          );
+        })}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div style={{ textAlign: "center" }}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={loadMoreUserArchivedJobs}
+            >
+              Load More
+            </button>
           </div>
-        </div>
-        {/* /.job-item */}
-        <div className="job-item remove-item">
-          <div className="job-info">
-            <div className="left-content">
-              <div className="clearfix">
-                <span className="tr-title">
-                  <a href="job-post.html">Design Associate</a>
-                </span>
-                <span>
-                  <a href="employer-profile.html#" className="btn btn-primary">
-                    Part Time
-                  </a>
-                </span>
-              </div>
-              <span className="deadline">
-                Application Deadline : Jun 27, 2017
-              </span>
-            </div>
-            <div className="right-content">
-              <span className="remove-icon">
-                <i className="fa fa-trash-o" />
-              </span>
-            </div>
-          </div>
-        </div>
-        {/* /.job-item */}
-        <div className="job-item remove-item">
-          <div className="job-info">
-            <div className="left-content">
-              <div className="clearfix">
-                <span className="tr-title">
-                  <a href="job-post.html">Design Associate</a>
-                </span>
-                <span>
-                  <a href="employer-profile.html#" className="btn btn-primary">
-                    Part Time
-                  </a>
-                </span>
-              </div>
-              <span className="deadline">
-                Application Deadline : Jun 27, 2017
-              </span>
-            </div>
-            <div className="right-content">
-              <span className="remove-icon">
-                <i className="fa fa-trash-o" />
-              </span>
-            </div>
-          </div>
-        </div>
-        {/* /.job-item */}
-        <div className="job-item remove-item">
-          <div className="job-info">
-            <div className="left-content">
-              <div className="clearfix">
-                <span className="tr-title">
-                  <a href="job-post.html">Design Associate</a>
-                </span>
-                <span>
-                  <a href="employer-profile.html#" className="btn btn-primary">
-                    Part Time
-                  </a>
-                </span>
-              </div>
-              <span className="deadline">
-                Application Deadline : Jun 27, 2017
-              </span>
-            </div>
-            <div className="right-content">
-              <span className="remove-icon">
-                <i className="fa fa-trash-o" />
-              </span>
-            </div>
-          </div>
-        </div>
-        {/* /.job-item */}
-        <div className="job-item remove-item">
-          <div className="job-info">
-            <div className="left-content">
-              <div className="clearfix">
-                <span className="tr-title">
-                  <a href="job-post.html">Design Associate</a>
-                </span>
-                <span>
-                  <a href="employer-profile.html#" className="btn btn-primary">
-                    Part Time
-                  </a>
-                </span>
-              </div>
-              <span className="deadline">
-                Application Deadline : Jun 27, 2017
-              </span>
-            </div>
-            <div className="right-content">
-              <span className="remove-icon">
-                <i className="fa fa-trash-o" />
-              </span>
-            </div>
-          </div>
-        </div>
-        {/* /.job-item */}
-        <div className="job-item remove-item">
-          <div className="job-info">
-            <div className="left-content">
-              <div className="clearfix">
-                <span className="tr-title">
-                  <a href="job-post.html">Design Associate</a>
-                </span>
-                <span>
-                  <a href="employer-profile.html#" className="btn btn-primary">
-                    Part Time
-                  </a>
-                </span>
-              </div>
-              <span className="deadline">
-                Application Deadline : Jun 27, 2017
-              </span>
-            </div>
-            <div className="right-content">
-              <span className="remove-icon">
-                <i className="fa fa-trash-o" />
-              </span>
-            </div>
-          </div>
-        </div>
-        {/* /.job-item */}
-        <div className="job-item remove-item">
-          <div className="job-info">
-            <div className="left-content">
-              <div className="clearfix">
-                <span className="tr-title">
-                  <a href="job-post.html">Design Associate</a>
-                </span>
-                <span>
-                  <a href="employer-profile.html#" className="btn btn-primary">
-                    Part Time
-                  </a>
-                </span>
-              </div>
-              <span className="deadline">
-                Application Deadline : Jun 27, 2017
-              </span>
-            </div>
-            <div className="right-content">
-              <span className="remove-icon">
-                <i className="fa fa-trash-o" />
-              </span>
-            </div>
-          </div>
-        </div>
-        {/* /.job-item */}
-        <div className="job-item remove-item">
-          <div className="job-info">
-            <div className="left-content">
-              <div className="clearfix">
-                <span className="tr-title">
-                  <a href="job-post.html">Design Associate</a>
-                </span>
-                <span>
-                  <a href="employer-profile.html#" className="btn btn-primary">
-                    Part Time
-                  </a>
-                </span>
-              </div>
-              <span className="deadline">
-                Application Deadline : Jun 27, 2017
-              </span>
-            </div>
-            <div className="right-content">
-              <span className="remove-icon">
-                <i className="fa fa-trash-o" />
-              </span>
-            </div>
-          </div>
-        </div>
-        {/* /.job-item */}
-        <div className="job-item remove-item">
-          <div className="job-info">
-            <div className="left-content">
-              <div className="clearfix">
-                <span className="tr-title">
-                  <a href="job-post.html">Design Associate</a>
-                </span>
-                <span>
-                  <a href="employer-profile.html#" className="btn btn-primary">
-                    Part Time
-                  </a>
-                </span>
-              </div>
-              <span className="deadline">
-                Application Deadline : Jun 27, 2017
-              </span>
-            </div>
-            <div className="right-content">
-              <span className="remove-icon">
-                <i className="fa fa-trash-o" />
-              </span>
-            </div>
-          </div>
-        </div>
-        {/* /.job-item */}
+        )}
       </Fragment>
     );
   }
 }
+
+export default withContext(ArchivedJobs);

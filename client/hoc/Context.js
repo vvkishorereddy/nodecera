@@ -44,6 +44,12 @@ class AppProviderBasic extends Component {
         limit: 5,
         isLoading: false
       },
+      userArchivedJobs: {
+        data: [],
+        skip: 0,
+        limit: 5,
+        isLoading: false
+      },
       totalJobs: {
         data: [],
         skip: 0,
@@ -71,7 +77,10 @@ class AppProviderBasic extends Component {
       uploadExcel: this.uploadExcel,
       fetchUserActiveJobs: this.fetchUserActiveJobs,
       loadMoreUserActiveJobs: this.loadMoreUserActiveJobs,
-      deleteUserPost: this.deleteUserPost,
+      deleteUserActivePost: this.deleteUserActivePost,
+      fetchUserArchivedJobs: this.fetchUserArchivedJobs,
+      loadMoreUserArchivedJobs: this.loadMoreUserArchivedJobs,
+      deleteUserArchivedPost: this.deleteUserArchivedPost,
       handleRegisterForm: this.handleRegisterForm,
       fetchTotalJobs: this.fetchTotalJobs,
       loadMoreFetchTotalJobs: this.loadMoreFetchTotalJobs,
@@ -234,7 +243,7 @@ class AppProviderBasic extends Component {
     );
   };
 
-  deleteUserPost = async postId => {
+  deleteUserActivePost = async postId => {
     let url = `/api/jobs/${postId}`;
     const response = await AxiosFunctions.deleteFunction(url);
     if (response.data.data.ok) {
@@ -246,6 +255,62 @@ class AppProviderBasic extends Component {
           ...state,
           userActiveJobs: {
             ...state.userActiveJobs,
+            data: filterData
+          }
+        };
+      });
+    }
+  };
+
+  fetchUserArchivedJobs = async () => {
+    let url = `/api/jobs`;
+    let params = {
+      limit: 5,
+      skip: this.state.userArchivedJobs.skip
+    };
+    const response = await AxiosFunctions.getFunction(url, params);
+    this.setState(state => {
+      return {
+        ...state,
+        userArchivedJobs: {
+          ...state.userArchivedJobs,
+          data: [...state.userArchivedJobs.data, ...response.data.data],
+          isLoading: false
+        }
+      };
+    });
+  };
+
+  loadMoreUserArchivedJobs = () => {
+    this.setState(
+      state => {
+        return {
+          ...state,
+          userArchivedJobs: {
+            ...state.userArchivedJobs,
+            skip: state.userArchivedJobs.skip + 5,
+            isLoading: true
+          }
+        };
+      },
+      () => {
+        this.fetchUserArchivedJobs();
+      }
+    );
+  };
+
+  deleteUserArchivedPost = async postId => {
+    let url = `/api/jobs/${postId}`;
+    const response = await AxiosFunctions.deleteFunction(url);
+    if (response.data.data.ok) {
+      const filterData = this.state.userArchivedJobs.data.filter(
+        post => post._id !== postId
+      );
+      this.setState(state => {
+        return {
+          ...state,
+          userArchivedJobs: {
+            ...state.userArchivedJobs,
             data: filterData
           }
         };
