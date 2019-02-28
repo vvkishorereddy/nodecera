@@ -5,8 +5,6 @@ import Home from "../Components/Home";
 import Jobs from "../Components/Jobs";
 import Register from "../Components/Register";
 import Login from "../Components/Login";
-import Contact from "../Components/Contact";
-import PageNotFound from "../Components/ErrorPages/404";
 import PostJob from "../Components/PostJob";
 import JobDetails from "../Components/JobDetails";
 import ResumeDetails from "../Components/ResumeDetails";
@@ -14,6 +12,12 @@ import CompanyDetails from "../Components/CompanyDetails";
 import Employee from "../Components/Employee";
 import Employer from "../Components/Employer";
 import Dashboard from "../Components/Dashboard";
+import Contact from "../Components/StaticPages/Contact";
+import AboutUs from "../Components/StaticPages/AboutUs";
+import Faq from "../Components/StaticPages/Faq";
+import PrivacyPolicy from "../Components/StaticPages/PrivacyPolicy";
+import TermsConditions from "../Components/StaticPages/TermsConditions";
+import PageNotFound from "../Components/ErrorPages/404";
 
 class Index extends Component {
   render() {
@@ -31,6 +35,10 @@ class Index extends Component {
         <Route path="/employee-profile" exact component={Employee} />
         <PrivateRoutes path="/employer-profile" exact component={Employer} />
         <Route path="/contact" exact component={Contact} />
+        <Route path="/about-us" exact component={AboutUs} />
+        <Route path="/terms-conditions" exact component={TermsConditions} />
+        <Route path="/privacy-policy" exact component={PrivacyPolicy} />
+        <Route path="/faq" exact component={Faq} />
         <Route component={PageNotFound} />
       </Switch>
     );

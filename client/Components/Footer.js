@@ -20,24 +20,18 @@ class Footer extends Component {
         <div className="footer-top section-padding">
           <div className="container">
             <div className="row">
-              <div className="col-sm-3">
+              <div className="col-sm-4">
                 <div className="footer-widget">
                   <h3>About Us</h3>
                   <ul className="tr-list">
-                    <li>
+                    {/* <li>
                       <Link to="/about-us">About CareersEra</Link>
-                    </li>
+                    </li> */}
                     <li>
                       <Link to="/terms-conditions">Terms &amp; Conditions</Link>
                     </li>
                     <li>
-                      <a href="index1.html#">International Partners</a>
-                    </li>
-                    <li>
-                      <a href="index1.html#">Privacy Policy</a>
-                    </li>
-                    <li>
-                      <a href="index1.html#">Feedback</a>
+                      <Link to="/privacy-policy">Privacy Policy</Link>
                     </li>
                     <li>
                       <Link to="/contact">Contact Us</Link>
@@ -45,6 +39,7 @@ class Footer extends Component {
                   </ul>
                 </div>
               </div>
+              {/*
               <div className="col-sm-3">
                 <div className="footer-widget">
                   <h3>Job Seekers</h3>
@@ -52,22 +47,14 @@ class Footer extends Component {
                     <li>
                       <Link to="/register">Create Account</Link>
                     </li>
-                    <li>
-                      <a href="index1.html#">Career Counseling</a>
-                    </li>
-                    <li>
-                      <a href="index1.html#">My Bdjobs</a>
-                    </li>
-                    <li>
-                      <a href="index1.html#">FAQ</a>
-                    </li>
-                    <li>
-                      <a href="index1.html#">Video Guides</a>
-                    </li>
+                      <li>
+                      <Link to="/faq">FAQ</Link>
+                  </li> 
                   </ul>
                 </div>
               </div>
-              <div className="col-sm-3">
+              */}
+              <div className="col-sm-4">
                 <div className="footer-widget">
                   <h3>Employers</h3>
                   <ul className="tr-list">
@@ -75,21 +62,22 @@ class Footer extends Component {
                       <Link to="/register">Create Account</Link>
                     </li>
                     <li>
-                      <a href="index1.html#">Products/Service</a>
-                    </li>
-                    <li>
                       <Link to="/post-job">Post a Job</Link>
                     </li>
+                    {/*
                     <li>
-                      <a href="index1.html#">FAQ</a>
-                    </li>
+                      <Link to="/faq">FAQ</Link>
+                    </li> */}
                   </ul>
                 </div>
               </div>
-              <div className="col-sm-3">
+              <div className="col-sm-4">
                 <div className="footer-widget">
                   <h3>Newsletter</h3>
-                  <p>Earum cumque doloribus, incidunt! Tempora voluptatibus</p>
+                  <p>
+                    Enter your email address to subscribe and get notifications
+                    of new jobs by email.
+                  </p>
                   <form className="contact-form">
                     <div className="form-group">
                       <input
@@ -125,7 +113,9 @@ class Footer extends Component {
             <div className="copyright">
               <p>
                 Copyright © {currentYear}
-                <Link to="/"> CareersEra.com.</Link>
+                <Link to="/">
+                  <b> Careers Era </b>
+                </Link>
                 All rights reserved.
               </p>
             </div>

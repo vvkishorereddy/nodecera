@@ -17,8 +17,8 @@ class Home extends Component {
         <TopBanner />
         <HomeJobs />
         <AddResume />
-        {/*<Testimonials />*/}
-        <AppBanner />
+        {/*<Testimonials />
+        <AppBanner />*/}
       </Fragment>
     );
   }

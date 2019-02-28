@@ -1,12 +1,3 @@
-/*
-	Template Name: Seeker
-    Template URL: http://demo.themeregion.com/seeker
-	Author: Theme Region
-	Author URI : http://www.themeregion.com/
-    Version: 1.0
-    Description: HTML5 Responsive Job Portal Template.
-	Tag: HTML5, CSS3, jQuery, Responsive Template.
-*/
 
 
 /* Table of Contents
@@ -1123,7 +1114,7 @@ input:focus, textarea:focus, select:focus,
 	background-image: url(../images/bg/cta-bg.jpg);
 	background-repeat: no-repeat;
 	background-size: contain;
-	margin-bottom: 0;
+	/* margin-bottom: 0; */
 }
 
 .cta-info h1 {
