@@ -847,10 +847,10 @@ input:focus, textarea:focus, select:focus,
 /* Homepage 2 Css */
 
 .homepage-2 .navbar-nav li a:hover, 
-.homepage-2 .navbar-nav li.active>a, 
+.homepage-2 .navbar-nav li>a.active, 
 .homepage-2 .navbar-nav>li>a:hover, 
 .homepage-2 .navbar-nav>li>a:focus, 
-.homepage-2 .navbar-nav>li.active>a, 
+.homepage-2 .navbar-nav>li>a.active, 
 .homepage-2 .navbar-nav>.active>a:hover, 
 .homepage-2 .navbar-nav>.active>a, 
 .homepage-2 .navbar-nav>.active>a:focus, 

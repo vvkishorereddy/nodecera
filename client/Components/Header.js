@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, withRouter } from "react-router-dom";
 import withContext from "../hoc/ContextConsumer";
 
 class Header extends Component {
@@ -11,12 +11,12 @@ class Header extends Component {
     rightNavContent = isLogged ? (
       <Fragment>
         <li>
-          <Link to="/dashboard">Dashboard </Link>
+          <NavLink to="/dashboard">Dashboard </NavLink>
         </li>
         <li>
-          <Link to="/logout" onClick={this.props.context.userLogOut}>
+          <NavLink to="/logout" onClick={this.props.context.userLogOut}>
             Log Out
-          </Link>
+          </NavLink>
         </li>
       </Fragment>
     ) : (
@@ -25,10 +25,10 @@ class Header extends Component {
           <i className="fa fa-user" />
         </li>
         <li>
-          <Link to="/login">Sign In </Link>
+          <NavLink to="/login">Sign In </NavLink>
         </li>
         <li>
-          <Link to="/register">Register </Link>
+          <NavLink to="/register">Register </NavLink>
         </li>
       </Fragment>
     );
@@ -51,29 +51,29 @@ class Header extends Component {
                   <i className="fa fa-align-justify" />
                 </span>
               </button>
-              <Link className="navbar-brand" to="/">
+              <NavLink className="navbar-brand" to="/">
                 <img className="img-fluid" src="images/logo.png" alt="Logo" />
-              </Link>
+              </NavLink>
             </div>
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="nav navbar-nav">
-                <li className="tr-dropdown active">
-                  <Link to="/">Home</Link>
+                <li className="tr-dropdown ">
+                  <NavLink to="/">Home</NavLink>
                 </li>
                 <li>
-                  <Link to="/jobs">Job List</Link>
+                  <NavLink to="/jobs">Job List</NavLink>
                 </li>
                 <li>
-                  <Link to="/employer-profile">employer profile</Link>
+                  <NavLink to="/employer-profile">employer profile</NavLink>
                 </li>
                 {leftNavContent}
               </ul>
             </div>
             <div className="navbar-right">
               <ul className="sign-in tr-list">{rightNavContent}</ul>
-              <Link to="/post-job" className="btn btn-primary">
+              <NavLink to="/post-job" className="btn btn-primary">
                 Post Job
-              </Link>
+              </NavLink>
             </div>
             {/* /.nav-right */}
           </div>
@@ -85,4 +85,4 @@ class Header extends Component {
   }
 }
 
-export default withContext(Header);
+export default withContext(withRouter(Header));
