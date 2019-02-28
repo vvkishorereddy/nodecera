@@ -41,6 +41,13 @@ class AppProviderBasic extends Component {
       userActiveJobs: {
         data: [],
         skip: 0,
+        limit: 5,
+        isLoading: false
+      },
+      totalJobs: {
+        data: [],
+        skip: 0,
+        limit: 12,
         isLoading: false
       }
     };
@@ -66,7 +73,9 @@ class AppProviderBasic extends Component {
       fetchUserActiveJobs: this.fetchUserActiveJobs,
       loadMoreUserActiveJobs: this.loadMoreUserActiveJobs,
       deleteUserPost: this.deleteUserPost,
-      handleRegisterForm: this.handleRegisterForm
+      handleRegisterForm: this.handleRegisterForm,
+      fetchTotalJobs: this.fetchTotalJobs,
+      loadMoreFetchTotalJobs: this.loadMoreFetchTotalJobs
     };
   }
 
@@ -242,6 +251,57 @@ class AppProviderBasic extends Component {
   };
 
   //jobs list functions
+
+  /**
+   * totalJobs
+   *
+   */
+
+  fetchTotalJobs = async () => {
+    this.setLoadingTrue();
+    let url = `/api/jobs`;
+    let params = {
+      limit: this.state.totalJobs.limit,
+      skip: this.state.totalJobs.skip
+    };
+
+    const response = await AxiosFunctions.getFunction(url, params);
+    const { data } = response.data;
+    if (!!data) {
+      data.map(job => {
+        job.title = TextTrim(job.title, 36);
+        job.location = TextTrim(job.location, 30);
+        return job;
+      });
+
+      this.setState(state => {
+        return {
+          ...state,
+          totalJobs: {
+            ...state.totalJobs,
+            data: [...state.totalJobs.data, ...data],
+            isLoading: false
+          }
+        };
+      });
+    }
+  };
+
+  loadMoreFetchTotalJobs = () => {
+    this.setState(
+      state => {
+        return {
+          ...state,
+          totalJobs: {
+            ...state.totalJobs,
+            skip: state.totalJobs.skip + this.state.totalJobs.limit,
+            isLoading: true
+          }
+        };
+      },
+      () => this.fetchTotalJobs()
+    );
+  };
 
   fetchJobs = async () => {
     this.setLoadingTrue();

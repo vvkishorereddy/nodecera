@@ -6,7 +6,7 @@ import withContext from "../../hoc/ContextConsumer";
 
 class Jobs extends Component {
   componentDidMount() {
-    this.props.context.fetchJobs();
+    this.props.context.fetchTotalJobs();
   }
   render() {
     return (

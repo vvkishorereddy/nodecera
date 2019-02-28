@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TwoColumn from "./TwoColumn";
 import FourColumn from "./FourColumn";
 import withContext from "../../hoc/ContextConsumer";
+import Loader from "../Loader";
 
 class JobsList extends Component {
   render() {
@@ -168,6 +169,18 @@ class JobsList extends Component {
               {/**   <TwoColumn /> */}
             </div>
           </div>
+          {this.props.context.totalJobs.isLoading ? (
+            <Loader />
+          ) : (
+            <div className="text-center">
+              <button
+                className="btn btn-primary"
+                onClick={this.props.context.loadMoreFetchTotalJobs}
+              >
+                Load More
+              </button>
+            </div>
+          )}
         </div>
       </div>
     );

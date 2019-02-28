@@ -6,13 +6,11 @@ import Loader from "../Loader";
 
 class FourColumn extends Component {
   render() {
-    const { jobs } = this.props.context;
-    return this.props.context.isLoading ? (
-      <Loader />
-    ) : (
+    const { data } = this.props.context.totalJobs;
+    return (
       <Fragment>
         <div className="row">
-          {jobs.map((data, index) => (
+          {data.map((data, index) => (
             <Fragment key={data._id}>
               <JobRow job={data} />
               {!((index + 1) % 12) && <AddResume />}
