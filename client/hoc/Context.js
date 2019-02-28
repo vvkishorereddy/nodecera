@@ -162,72 +162,79 @@ class AppProviderBasic extends Component {
     });
   };
 
-  fetchJobs = () => {
+  fetchJobs = async () => {
     this.setLoadingTrue();
-    const skip = this.state.jobsPageNumber;
-    Axios.get("/api/jobs", { params: { limit: 10, skip: skip } }).then(res => {
-      const { data } = res;
-      if (!!data.data) {
-        data.data.map(job => {
-          job.title = TextTrim(job.title, 36);
-          job.location = TextTrim(job.location, 30);
-          return job;
-        });
 
-        this.setState(state => {
-          return {
-            ...state,
-            jobs: [...state.jobs, ...data.data]
-          };
-        }, this.setLoadingFalse());
-      }
-    });
+    let url = `/api/jobs`;
+    let params = {
+      limit: 10,
+      skip: 0
+    };
+
+    const response = await AxiosFunctions.getFunction(url, params);
+
+    const { data } = response.data;
+    if (!!data) {
+      data.map(job => {
+        job.title = TextTrim(job.title, 36);
+        job.location = TextTrim(job.location, 30);
+        return job;
+      });
+
+      this.setState(state => {
+        return {
+          ...state,
+          jobs: [...state.jobs, ...data]
+        };
+      }, this.setLoadingFalse());
+    }
   };
 
   //Auth Functions
 
-  LoginUser = (email, password) => {
-    this.setState({ ...this.state, isLoading: true });
-    Axios.post("/api/login", {
+  LoginUser = async (email, password) => {
+    this.setLoadingTrue();
+    let url = `/api/login`;
+    let postData = {
       email,
       password
-    }).then(response => {
-      const { data } = response;
+    };
+    let params = {};
+    let isLogged = false;
+    let loggedUser = {};
+    let redirectUrl = `/login`;
+    const response = await AxiosFunctions.postFunction(url, postData, params);
+    const { data } = response;
 
-      if (!data.data || !data.status) {
-        this.removeToken();
-        this.setState(
-          {
-            ...this.state,
-            isLogged: false,
-            isLoading: false,
-            loggedUser: {}
-          },
-          () => {
-            this.props.history.replace("/login");
-          }
-        );
-      } else {
-        this.setToken(data.data.access_token);
-        this.setState(
-          {
-            ...this.state,
-            isLogged: true,
-            isLoading: false,
-            loggedUser: {
-              access_token: data.data.access_token
-            }
-          },
-          () => {
-            this.props.history.replace("/");
-          }
-        );
+    if (!data.data || !data.status) {
+      JwtToken.removeToken();
+      isLogged = false;
+      loggedUser = {};
+      redirectUrl = `/login`;
+    } else {
+      JwtToken.setToken(data.data.access_token);
+      isLogged = true;
+      loggedUser = {
+        access_token: data.data.access_token
+      };
+      redirectUrl = `/dashboard`;
+    }
+
+    this.setState(
+      {
+        ...this.state,
+        isLogged: isLogged,
+        loggedUser: loggedUser
+      },
+      () => {
+        this.props.history.replace(redirectUrl);
       }
-    });
+    );
+    this.setLoadingFalse();
   };
 
-  userLogOut = () => {
-    this.removeToken();
+  userLogOut = async () => {
+    JwtToken.removeToken();
     this.setState(
       {
         ...this.state,
@@ -241,14 +248,13 @@ class AppProviderBasic extends Component {
   };
 
   isLoggedIn = () => {
-    if (!!this.getToken()) {
+    if (!!JwtToken.getToken()) {
       this.setState({
         ...this.state,
         isLogged: true
       });
     }
-
-    return !!this.getToken();
+    return !!JwtToken.getToken();
   };
 
   // fetch jobs list
