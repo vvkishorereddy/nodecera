@@ -61,7 +61,10 @@ class Profile extends Component {
                   </li>
                   <li
                     role="presentation"
-                    onClick={e => openTab(e, "profile")}
+                    onClick={e => {
+                      openTab(e, "profile");
+                      this.props.context.fetchUserActiveJobs();
+                    }}
                     data-id="open-role"
                     className="tabTitle"
                     style={{ cursor: "pointer" }}
@@ -75,7 +78,10 @@ class Profile extends Component {
                   </li>
                   <li
                     role="presentation"
-                    onClick={e => openTab(e, "profile")}
+                    onClick={e => {
+                      openTab(e, "profile");
+                      this.props.context.fetchUserArchivedJobs();
+                    }}
                     data-id="archived"
                     className="tabTitle"
                     style={{ cursor: "pointer" }}

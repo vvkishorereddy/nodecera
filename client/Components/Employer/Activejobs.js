@@ -4,10 +4,6 @@ import Axios from "axios";
 import Loader from "../Loader";
 
 class Activejobs extends Component {
-  componentDidMount() {
-    this.props.context.fetchUserActiveJobs();
-  }
-
   render() {
     const {
       userActiveJobs,

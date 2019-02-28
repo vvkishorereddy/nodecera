@@ -3,10 +3,6 @@ import withContext from "../../hoc/ContextConsumer";
 import Loader from "../Loader";
 
 class ArchivedJobs extends Component {
-  componentDidMount() {
-    this.props.context.fetchUserArchivedJobs();
-  }
-
   render() {
     const {
       userArchivedJobs,
