@@ -108,7 +108,7 @@ class AccountInfo extends Component {
                     id="upload-photo"
                     name="uplaod-photo"
                     onChange={() => {
-                      this.props.context.uploadImage(this.files);
+                      this.props.context.uploadCompanyLogo(this.files);
                     }}
                     ref={ele => (this.files = ele)}
                   />

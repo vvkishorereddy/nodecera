@@ -58,7 +58,7 @@ class AppProviderBasic extends Component {
       getSingleJob: this.getSingleJob,
       editProfile: this.editProfile,
       editCancel: this.editCancel,
-      uploadImage: this.uploadImage,
+      uploadCompanyLogo: this.uploadCompanyLogo,
       handleChange: this.handleChange,
       upDateCompanyProfile: this.upDateCompanyProfile,
       fetchCompanyData: this.fetchCompanyData,
@@ -235,6 +235,8 @@ class AppProviderBasic extends Component {
     }
   };
 
+  //jobs list functions
+
   fetchJobs = async () => {
     this.setLoadingTrue();
 
@@ -262,8 +264,6 @@ class AppProviderBasic extends Component {
       }, this.setLoadingFalse());
     }
   };
-
-  // fetch jobs list
 
   jobSearch = async keyword => {
     this.setLoadingTrue();
@@ -369,27 +369,6 @@ class AppProviderBasic extends Component {
     }));
   };
 
-  uploadImage = filesData => {
-    const access_token = this.getToken();
-    const formData = new FormData();
-    formData.append("file", filesData.files[0]);
-
-    Axios.post("/api/upload", formData, {
-      headers: {
-        "content-type": "multipart/form-data",
-        "x-access-token": access_token
-      }
-    }).then(response => {
-      this.setState(state => ({
-        ...state,
-        companyInfo: {
-          ...state.companyInfo,
-          company_logo: response.data.data.logo
-        }
-      }));
-    });
-  };
-
   uploadExcel = filesData => {
     const access_token = this.getToken();
     const formData = new FormData();
@@ -445,7 +424,22 @@ class AppProviderBasic extends Component {
     }));
   };
 
-  upDateCompanyProfile = e => {
+  uploadCompanyLogo = async filesData => {
+    const formData = new FormData();
+    formData.append("file", filesData.files[0]);
+
+    let url = `/api/upload`;
+    const response = await AxiosFunctions.uploadFunction(url, formData);
+    this.setState(state => ({
+      ...state,
+      companyInfo: {
+        ...state.companyInfo,
+        company_logo: response.data.data.logo
+      }
+    }));
+  };
+
+  upDateCompanyProfile = async e => {
     e.preventDefault();
     const access_token = this.getToken();
     // update data
@@ -467,19 +461,17 @@ class AppProviderBasic extends Component {
       website: company_website
     };
 
-    Axios.post("/api/company", data, {
-      headers: {
-        "x-access-token": access_token
+    let url = `/api/company`;
+    let params = {};
+
+    const response = await AxiosFunctions.postFunction(url, data, params);
+    this.setState(state => ({
+      ...state,
+      companyInfo: {
+        ...state.companyInfo,
+        isEditing: false
       }
-    }).then(response => {
-      this.setState(state => ({
-        ...state,
-        companyInfo: {
-          ...state.companyInfo,
-          isEditing: false
-        }
-      }));
-    });
+    }));
   };
 
   render() {

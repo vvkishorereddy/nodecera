@@ -26,5 +26,11 @@ export default {
       headers: headers,
       params: params
     });
+  },
+  uploadFunction: (url, formData) => {
+    headers["content-type"] = "multipart/form-data";
+    return Axios.post(url, formData, {
+      headers: headers
+    });
   }
 };
