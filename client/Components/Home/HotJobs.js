@@ -3,6 +3,10 @@ import JobRow from "../JobRow";
 import withContext from "../../hoc/ContextConsumer";
 
 class HotJobs extends Component {
+  componentDidMount() {
+    this.props.context.fetchHotJobs();
+  }
+
   render() {
     const { hotJobs } = this.props.context;
 

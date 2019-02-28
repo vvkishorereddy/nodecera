@@ -8,10 +8,6 @@ import withContext from "../../hoc/ContextConsumer";
 import Loader from "../Loader";
 
 class Home extends Component {
-  componentDidMount() {
-    this.props.context.fetchJobs();
-  }
-
   render() {
     const { isLoading } = this.props.context;
     return isLoading ? (

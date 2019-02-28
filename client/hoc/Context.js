@@ -57,7 +57,6 @@ class AppProviderBasic extends Component {
       LoginUser: this.LoginUser,
       userLogOut: this.userLogOut,
       isLoggedIn: this.isLoggedIn,
-      fetchJobs: this.fetchJobs,
       getUserProfile: this.getUserProfile,
       saveJob: this.saveJob,
       saveUserSubscribe: this.saveUserSubscribe,
@@ -75,7 +74,11 @@ class AppProviderBasic extends Component {
       deleteUserPost: this.deleteUserPost,
       handleRegisterForm: this.handleRegisterForm,
       fetchTotalJobs: this.fetchTotalJobs,
-      loadMoreFetchTotalJobs: this.loadMoreFetchTotalJobs
+      loadMoreFetchTotalJobs: this.loadMoreFetchTotalJobs,
+      fetchCompanyOtherJobs: this.fetchCompanyOtherJobs,
+      fetchHotJobs: this.fetchHotJobs,
+      fetchPopularJobs: this.fetchPopularJobs,
+      fetchRecentJobs: this.fetchRecentJobs
     };
   }
 
@@ -303,11 +306,10 @@ class AppProviderBasic extends Component {
     );
   };
 
-  fetchJobs = async () => {
-    this.setLoadingTrue();
+  fetchCompanyOtherJobs = async () => {
     let url = `/api/jobs`;
     let params = {
-      limit: 10,
+      limit: 4,
       skip: 0
     };
 
@@ -323,9 +325,84 @@ class AppProviderBasic extends Component {
       this.setState(state => {
         return {
           ...state,
-          jobs: [...state.jobs, ...data]
+          similarJobs: data
         };
-      }, this.setLoadingFalse());
+      });
+    }
+  };
+
+  fetchHotJobs = async () => {
+    let url = `/api/jobs`;
+    let params = {
+      limit: 8,
+      skip: 0
+    };
+
+    const response = await AxiosFunctions.getFunction(url, params);
+    const { data } = response.data;
+    if (!!data) {
+      data.map(job => {
+        job.title = TextTrim(job.title, 36);
+        job.location = TextTrim(job.location, 30);
+        return job;
+      });
+
+      this.setState(state => {
+        return {
+          ...state,
+          hotJobs: data
+        };
+      });
+    }
+  };
+
+  fetchRecentJobs = async () => {
+    let url = `/api/jobs`;
+    let params = {
+      limit: 8,
+      skip: 7
+    };
+
+    const response = await AxiosFunctions.getFunction(url, params);
+    const { data } = response.data;
+    if (!!data) {
+      data.map(job => {
+        job.title = TextTrim(job.title, 36);
+        job.location = TextTrim(job.location, 30);
+        return job;
+      });
+
+      this.setState(state => {
+        return {
+          ...state,
+          recentJobs: data
+        };
+      });
+    }
+  };
+
+  fetchPopularJobs = async () => {
+    let url = `/api/jobs`;
+    let params = {
+      limit: 8,
+      skip: 14
+    };
+
+    const response = await AxiosFunctions.getFunction(url, params);
+    const { data } = response.data;
+    if (!!data) {
+      data.map(job => {
+        job.title = TextTrim(job.title, 36);
+        job.location = TextTrim(job.location, 30);
+        return job;
+      });
+
+      this.setState(state => {
+        return {
+          ...state,
+          popularJobs: data
+        };
+      });
     }
   };
 

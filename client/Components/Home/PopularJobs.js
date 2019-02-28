@@ -3,6 +3,9 @@ import JobRow from "../JobRow";
 import withContext from "../../hoc/ContextConsumer";
 
 class PopularJobs extends Component {
+  componentDidMount() {
+    this.props.context.fetchPopularJobs();
+  }
   render() {
     const { popularJobs } = this.props.context;
 

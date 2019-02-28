@@ -3,6 +3,9 @@ import JobRow from "../JobRow";
 import withContext from "../../hoc/ContextConsumer";
 
 class SimilarJobs extends Component {
+  componentDidMount() {
+    this.props.context.fetchCompanyOtherJobs();
+  }
   render() {
     const { similarJobs } = this.props.context;
     return (
