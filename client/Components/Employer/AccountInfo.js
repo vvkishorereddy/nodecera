@@ -288,7 +288,7 @@ class AccountInfo extends Component {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={this.props.context.upDateProfile}
+                onClick={this.props.context.upDateCompanyProfile}
               >
                 Update Profile
               </button>

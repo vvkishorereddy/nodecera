@@ -51,9 +51,7 @@ class AppProviderBasic extends Component {
       userLogOut: this.userLogOut,
       isLoggedIn: this.isLoggedIn,
       fetchJobs: this.fetchJobs,
-      setToken: this.setToken,
       getToken: this.getToken,
-      removeToken: this.removeToken,
       getUserProfile: this.getUserProfile,
       saveJob: this.saveJob,
       saveUserSubscribe: this.saveUserSubscribe,
@@ -62,7 +60,7 @@ class AppProviderBasic extends Component {
       editCancel: this.editCancel,
       uploadImage: this.uploadImage,
       handleChange: this.handleChange,
-      upDateProfile: this.upDateProfile,
+      upDateCompanyProfile: this.upDateCompanyProfile,
       fetchCompanyData: this.fetchCompanyData,
       jobSearch: this.jobSearch,
       uploadExcel: this.uploadExcel,
@@ -72,11 +70,7 @@ class AppProviderBasic extends Component {
     };
   }
 
-  setToken = access_token => localStorage.setItem("access_token", access_token);
-
   getToken = () => localStorage.getItem("access_token");
-
-  removeToken = () => localStorage.removeItem("access_token");
 
   setLoadingTrue = () => {
     this.setState(state => {
@@ -104,93 +98,7 @@ class AppProviderBasic extends Component {
     cb(response);
   };
 
-  deleteUserPost = async postId => {
-    let url = `/api/jobs/${postId}`;
-    const response = await AxiosFunctions.deleteFunction(url);
-
-    // filter deleted
-    if (response.data.data.ok) {
-      const filterData = this.state.userActiveJobs.data.filter(
-        post => post._id !== postId
-      );
-      this.setState(state => {
-        return {
-          ...state,
-          userActiveJobs: {
-            ...state.userActiveJobs,
-            data: filterData
-          }
-        };
-      });
-    }
-  };
-
-  loadMoreUserActiveJobs = () => {
-    this.setState(
-      state => {
-        return {
-          ...state,
-          userActiveJobs: {
-            ...state.userActiveJobs,
-            skip: state.userActiveJobs.skip + 5,
-            isLoading: true
-          }
-        };
-      },
-      () => {
-        this.fetchUserActiveJobs();
-      }
-    );
-  };
-
-  fetchUserActiveJobs = async () => {
-    let url = `/api/jobs`;
-    let params = {
-      limit: 5,
-      skip: this.state.userActiveJobs.skip
-    };
-    const response = await AxiosFunctions.getFunction(url, params);
-    this.setState(state => {
-      return {
-        ...state,
-        userActiveJobs: {
-          ...state.userActiveJobs,
-          data: [...state.userActiveJobs.data, ...response.data.data],
-          isLoading: false
-        }
-      };
-    });
-  };
-
-  fetchJobs = async () => {
-    this.setLoadingTrue();
-
-    let url = `/api/jobs`;
-    let params = {
-      limit: 10,
-      skip: 0
-    };
-
-    const response = await AxiosFunctions.getFunction(url, params);
-
-    const { data } = response.data;
-    if (!!data) {
-      data.map(job => {
-        job.title = TextTrim(job.title, 36);
-        job.location = TextTrim(job.location, 30);
-        return job;
-      });
-
-      this.setState(state => {
-        return {
-          ...state,
-          jobs: [...state.jobs, ...data]
-        };
-      }, this.setLoadingFalse());
-    }
-  };
-
-  //Auth Functions
+  //Auth related Functions
 
   LoginUser = async (email, password) => {
     this.setLoadingTrue();
@@ -233,6 +141,16 @@ class AppProviderBasic extends Component {
     this.setLoadingFalse();
   };
 
+  isLoggedIn = () => {
+    if (!!JwtToken.getToken()) {
+      this.setState({
+        ...this.state,
+        isLogged: true
+      });
+    }
+    return !!JwtToken.getToken();
+  };
+
   userLogOut = async () => {
     JwtToken.removeToken();
     this.setState(
@@ -247,14 +165,102 @@ class AppProviderBasic extends Component {
     );
   };
 
-  isLoggedIn = () => {
-    if (!!JwtToken.getToken()) {
-      this.setState({
-        ...this.state,
-        isLogged: true
+  //user profile functions
+
+  getUserProfile = async () => {
+    this.setLoadingTrue();
+    let url = `/api/user/profile`;
+    let params = {};
+
+    const response = await AxiosFunctions.getFunction(url, params);
+    console.log(response);
+    this.setLoadingFalse();
+  };
+
+  //user active posts related functions
+
+  fetchUserActiveJobs = async () => {
+    let url = `/api/jobs`;
+    let params = {
+      limit: 5,
+      skip: this.state.userActiveJobs.skip
+    };
+    const response = await AxiosFunctions.getFunction(url, params);
+    this.setState(state => {
+      return {
+        ...state,
+        userActiveJobs: {
+          ...state.userActiveJobs,
+          data: [...state.userActiveJobs.data, ...response.data.data],
+          isLoading: false
+        }
+      };
+    });
+  };
+
+  loadMoreUserActiveJobs = () => {
+    this.setState(
+      state => {
+        return {
+          ...state,
+          userActiveJobs: {
+            ...state.userActiveJobs,
+            skip: state.userActiveJobs.skip + 5,
+            isLoading: true
+          }
+        };
+      },
+      () => {
+        this.fetchUserActiveJobs();
+      }
+    );
+  };
+
+  deleteUserPost = async postId => {
+    let url = `/api/jobs/${postId}`;
+    const response = await AxiosFunctions.deleteFunction(url);
+    if (response.data.data.ok) {
+      const filterData = this.state.userActiveJobs.data.filter(
+        post => post._id !== postId
+      );
+      this.setState(state => {
+        return {
+          ...state,
+          userActiveJobs: {
+            ...state.userActiveJobs,
+            data: filterData
+          }
+        };
       });
     }
-    return !!JwtToken.getToken();
+  };
+
+  fetchJobs = async () => {
+    this.setLoadingTrue();
+
+    let url = `/api/jobs`;
+    let params = {
+      limit: 10,
+      skip: 0
+    };
+
+    const response = await AxiosFunctions.getFunction(url, params);
+
+    const { data } = response.data;
+    if (!!data) {
+      data.map(job => {
+        job.title = TextTrim(job.title, 36);
+        job.location = TextTrim(job.location, 30);
+        return job;
+      });
+
+      this.setState(state => {
+        return {
+          ...state,
+          jobs: [...state.jobs, ...data]
+        };
+      }, this.setLoadingFalse());
+    }
   };
 
   // fetch jobs list
@@ -290,16 +296,6 @@ class AppProviderBasic extends Component {
         jobsDetails: data
       };
     });
-    this.setLoadingFalse();
-  };
-
-  getUserProfile = async () => {
-    this.setLoadingTrue();
-    let url = `/api/user/profile`;
-    let params = {};
-
-    const response = await AxiosFunctions.getFunction(url, params);
-    console.log(response);
     this.setLoadingFalse();
   };
 
@@ -425,7 +421,31 @@ class AppProviderBasic extends Component {
     }));
   };
 
-  upDateProfile = e => {
+  // employer company related functions
+
+  fetchCompanyData = async () => {
+    let url = `/api/company`;
+    let params = {};
+    const response = await AxiosFunctions.getFunction(url, params);
+
+    const { data } = response.data;
+
+    this.setState(state => ({
+      ...state,
+      companyInfo: {
+        ...state.companyInfo,
+        company_name: data.name,
+        company_description: data.description,
+        company_location: data.address,
+        company_phone: data.phone,
+        company_email: data.email,
+        company_website: data.website,
+        company_logo: data.logo
+      }
+    }));
+  };
+
+  upDateCompanyProfile = e => {
     e.preventDefault();
     const access_token = this.getToken();
     // update data
@@ -460,28 +480,6 @@ class AppProviderBasic extends Component {
         }
       }));
     });
-  };
-
-  fetchCompanyData = async () => {
-    let url = `/api/company`;
-    let params = {};
-    const response = await AxiosFunctions.getFunction(url, params);
-
-    const { data } = response.data;
-
-    this.setState(state => ({
-      ...state,
-      companyInfo: {
-        ...state.companyInfo,
-        company_name: data.name,
-        company_description: data.description,
-        company_location: data.address,
-        company_phone: data.phone,
-        company_email: data.email,
-        company_website: data.website,
-        company_logo: data.logo
-      }
-    }));
   };
 
   render() {
