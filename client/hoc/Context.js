@@ -14,7 +14,6 @@ class AppProviderBasic extends Component {
     this.state = {
       isLoading: false,
       isLogged: false,
-      jobsPageNumber: 0,
       jobs: [],
       hotJobs: [],
       popularJobs: [],
@@ -72,6 +71,38 @@ class AppProviderBasic extends Component {
       deleteUserPost: this.deleteUserPost
     };
   }
+
+  setToken = access_token => localStorage.setItem("access_token", access_token);
+
+  getToken = () => localStorage.getItem("access_token");
+
+  removeToken = () => localStorage.removeItem("access_token");
+
+  setLoadingTrue = () => {
+    this.setState(state => {
+      return {
+        ...state,
+        isLoading: true
+      };
+    });
+  };
+
+  setLoadingFalse = () => {
+    this.setState(state => {
+      return {
+        ...state,
+        isLoading: false
+      };
+    });
+  };
+
+  saveUserSubscribe = async (email, cb) => {
+    let url = `/api/subscribe`;
+    let data = { email: email };
+    let params = {};
+    const response = await AxiosFunctions.postFunction(url, data, params);
+    cb(response);
+  };
 
   deleteUserPost = async postId => {
     let url = `/api/jobs/${postId}`;
@@ -131,15 +162,6 @@ class AppProviderBasic extends Component {
     });
   };
 
-  updateJobsPageNumber = () => {
-    this.setState(state => {
-      return {
-        ...state,
-        jobsPageNumber: state.jobsPageNumber * 10 + state.jobsPageNumber
-      };
-    });
-  };
-
   fetchJobs = () => {
     this.setLoadingTrue();
     const skip = this.state.jobsPageNumber;
@@ -159,24 +181,6 @@ class AppProviderBasic extends Component {
           };
         }, this.setLoadingFalse());
       }
-    });
-  };
-
-  setLoadingTrue = () => {
-    this.setState(state => {
-      return {
-        ...state,
-        isLoading: true
-      };
-    });
-  };
-
-  setLoadingFalse = () => {
-    this.setState(state => {
-      return {
-        ...state,
-        isLoading: false
-      };
     });
   };
 
@@ -247,61 +251,50 @@ class AppProviderBasic extends Component {
     return !!this.getToken();
   };
 
-  setToken = access_token => localStorage.setItem("access_token", access_token);
-
-  getToken = () => localStorage.getItem("access_token");
-
-  removeToken = () => localStorage.removeItem("access_token");
-
   // fetch jobs list
 
-  jobSearch = keyword => {
-    this.setState({
-      ...this.state,
-      isLoading: true
-    });
-    Axios.get("/api/jobs", { params: { key: keyword } }).then(res => {
-      const { data } = res;
-      if (!!data.data) {
-        this.setState(state => {
-          return {
-            ...state,
-            jobs: data.data,
-            isLoading: false
-          };
-        });
-      }
-    });
-  };
-
-  getSingleJob = id => {
+  jobSearch = async keyword => {
     this.setLoadingTrue();
-    Axios.get(`/api/jobs/${id}`).then(response => {
-      const { data } = response.data;
+    let url = `/api/jobs`;
+    let params = { key: keyword };
+
+    const response = await AxiosFunctions.getFunction(url, params);
+
+    const { data } = response.data;
+    if (!!data) {
       this.setState(state => {
         return {
           ...state,
-          jobsDetails: data
+          jobs: data
         };
       });
       this.setLoadingFalse();
-    });
+    }
   };
 
-  getUserProfile = () => {
+  getSingleJob = async id => {
     this.setLoadingTrue();
-    const access_token = this.getToken();
-    let headers = {};
-    if (!!access_token) {
-      headers["x-access-token"] = access_token;
-    }
-
-    Axios.get("/api/user/profile", {
-      headers: headers
-    }).then(data => {
-      console.log(data);
-      this.setLoadingFalse();
+    let url = `/api/jobs/${id}`;
+    let params = {};
+    const response = await AxiosFunctions.getFunction(url, params);
+    const { data } = response.data;
+    this.setState(state => {
+      return {
+        ...state,
+        jobsDetails: data
+      };
     });
+    this.setLoadingFalse();
+  };
+
+  getUserProfile = async () => {
+    this.setLoadingTrue();
+    let url = `/api/user/profile`;
+    let params = {};
+
+    const response = await AxiosFunctions.getFunction(url, params);
+    console.log(response);
+    this.setLoadingFalse();
   };
 
   saveJob = form => {
@@ -350,12 +343,6 @@ class AppProviderBasic extends Component {
       e.checked = false;
     });
     form.terms.parentElement.classList.value = "";
-  };
-
-  saveUserSubscribe = (email, cb) => {
-    Axios.post("/api/subscribe", { email: email }).then(response => {
-      cb(response);
-    });
   };
 
   editProfile = e => {
@@ -469,28 +456,26 @@ class AppProviderBasic extends Component {
     });
   };
 
-  fetchCompanyData = () => {
-    const access_token = this.getToken();
-    Axios.get("/api/company", {
-      headers: {
-        "x-access-token": access_token
+  fetchCompanyData = async () => {
+    let url = `/api/company`;
+    let params = {};
+    const response = await AxiosFunctions.getFunction(url, params);
+
+    const { data } = response.data;
+
+    this.setState(state => ({
+      ...state,
+      companyInfo: {
+        ...state.companyInfo,
+        company_name: data.name,
+        company_description: data.description,
+        company_location: data.address,
+        company_phone: data.phone,
+        company_email: data.email,
+        company_website: data.website,
+        company_logo: data.logo
       }
-    }).then(response => {
-      const { data } = response.data;
-      this.setState(state => ({
-        ...state,
-        companyInfo: {
-          ...state.companyInfo,
-          company_name: data.name,
-          company_description: data.description,
-          company_location: data.address,
-          company_phone: data.phone,
-          company_email: data.email,
-          company_website: data.website,
-          company_logo: data.logo
-        }
-      }));
-    });
+    }));
   };
 
   render() {

@@ -20,5 +20,11 @@ export default {
       headers: headers,
       params: params
     });
+  },
+  postFunction: (url, data, params) => {
+    return Axios.post(url, data, {
+      headers: headers,
+      params: params
+    });
   }
 };
