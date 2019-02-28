@@ -12,8 +12,8 @@ class FourColumn extends Component {
         <div className="row">
           {data.map((data, index) => (
             <Fragment key={data._id}>
+              {!(index % 12) && index !== 0 && <AddResume />}
               <JobRow job={data} />
-              {!((index + 1) % 12) && <AddResume />}
             </Fragment>
           ))}
         </div>
