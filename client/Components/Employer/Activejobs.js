@@ -77,7 +77,7 @@ class Activejobs extends Component {
         })}
         {isLoading ? (
           <Loader />
-        ) : (
+        ) : data.length ? (
           <div style={{ textAlign: "center" }}>
             <button
               type="button"
@@ -85,6 +85,12 @@ class Activejobs extends Component {
               onClick={loadMoreUserActiveJobs}
             >
               Load More
+            </button>
+          </div>
+        ) : (
+          <div style={{ textAlign: "center" }}>
+            <button type="button" className="btn btn-primary">
+              No more Active posts
             </button>
           </div>
         )}

@@ -223,7 +223,7 @@ class AppProviderBasic extends Component {
   //user active posts related functions
 
   fetchUserActiveJobs = async () => {
-    let url = `/api/jobs`;
+    let url = `/api/jobs/active`;
     let params = {
       limit: this.state.userActiveJobs.limit,
       skip: this.state.userActiveJobs.skip
@@ -288,7 +288,7 @@ class AppProviderBasic extends Component {
   };
 
   fetchUserArchivedJobs = async () => {
-    let url = `/api/jobs`;
+    let url = `/api/jobs/archive`;
     let params = {
       limit: this.state.userArchivedJobs.limit,
       skip: this.state.userArchivedJobs.skip

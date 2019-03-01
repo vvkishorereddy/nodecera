@@ -10,9 +10,14 @@ jobs.get = (req, res) => {
   if (req.query.key) {
     regexValue = new RegExp(req.query.key, "i");
   }
+  let whereCondition = {};
+  whereCondition.title = { $regex: regexValue };
+  if (res.locals.userId) {
+    whereCondition.user = res.locals.userId;
+  }
 
   jobsModel
-    .find({ title: { $regex: regexValue } }, (err, jobs) => {
+    .find(whereCondition, (err, jobs) => {
       jobs.map(job => {
         job.company_logo = UPLOAD_PATH + job.company_logo;
       });
@@ -36,7 +41,6 @@ jobs.post = (req, res) => {
     dataObject.company_email = data.email;
     dataObject.company_website = data.website;
     dataObject.user = data.user;
-    console.log(dataObject, "do");
 
     jobsModel.create(dataObject, (err, jobs) => {
       if (err) return next();
