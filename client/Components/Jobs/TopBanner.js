@@ -18,13 +18,16 @@ class TopBanner extends Component {
               <li className="active">Jobs</li>
             </ol>
             <div className="banner-form">
-              <form action="listing.html#">
+              <form>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Job Keyword"
                   ref={ele => (this.search = ele)}
                   name="searchKeyWord"
+                  onKeyPress={e => {
+                    e.charCode === 13 && e.preventDefault();
+                  }}
                 />
 
                 <button
@@ -32,6 +35,7 @@ class TopBanner extends Component {
                   className="btn btn-primary"
                   value="Search"
                   onClick={e => {
+                    e.preventDefault();
                     this.props.context.jobSearch(this.search.value);
                   }}
                 >
