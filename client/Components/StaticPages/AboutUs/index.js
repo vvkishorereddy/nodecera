@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import TopBanner from "./TopBanner";
+import TopBanner from "../TopBanner";
 import AboutUs from "./AboutUs";
 
 export default class Contact extends Component {
@@ -7,7 +7,7 @@ export default class Contact extends Component {
     return (
       <Fragment>
         <TopBanner />
-        <AboutUs />
+        <AboutUs title="About Us" />
       </Fragment>
     );
   }

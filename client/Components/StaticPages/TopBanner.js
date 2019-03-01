@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class TopBanner extends Component {
   render() {
@@ -7,13 +8,13 @@ export default class TopBanner extends Component {
         <div className="container">
           <div className="breadcrumb-info text-center">
             <div className="page-title">
-              <h1>Privacy Policy</h1>
+              <h1>{this.props.title}</h1>
             </div>
             <ol className="breadcrumb">
               <li>
-                <a href="index.html">Home</a>
+                <Link to="/">Home</Link>
               </li>
-              <li className="active">Privacy Policy</li>
+              <li className="active">{this.props.title}</li>
             </ol>
           </div>
         </div>
