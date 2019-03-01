@@ -16,7 +16,8 @@ class AccountInfo extends Component {
       company_email,
       company_website,
       company_logo,
-      socialLinks
+      socialLinks,
+      lastUpdated
     } = this.props.context.companyInfo;
 
     return (
@@ -82,7 +83,7 @@ class AccountInfo extends Component {
             </span>
             <div className="updated-info">
               <span className="pull-left">Profile last updated on</span>
-              <span className="pull-right">24/4/2017</span>
+              <span className="pull-right">{lastUpdated}</span>
             </div>
           </div>
           {/* /.resume-last-updated */}

@@ -40,6 +40,7 @@ class AppProviderBasic extends Component {
       loggedUser: {},
       companyInfo: {
         isEditing: false,
+        lastUpdated: "",
         socialLinks: {
           facebook: "https://www.facebook.com",
           twitter: "https://www.twitter.com",
@@ -709,7 +710,10 @@ class AppProviderBasic extends Component {
         company_phone: data.phone,
         company_email: data.email,
         company_website: data.website,
-        company_logo: data.logo
+        company_logo: data.logo,
+        lastUpdated: HelperFunctions.convertDateToUserFormat(
+          data.updated_at
+        ).toLocaleDateString()
       }
     }));
   };
@@ -794,6 +798,7 @@ class AppProviderBasic extends Component {
         isEditing: false
       }
     }));
+    this.notify("success", response.data.message);
   };
 
   render() {

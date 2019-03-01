@@ -10,6 +10,7 @@ CompanyController.post = (req, res) => {
   if (res.locals.userId) {
     query.user = res.locals.userId;
   }
+  companyData.updated_at = Date.now();
 
   companyModel.findOneAndUpdate(
     query,
