@@ -16,14 +16,20 @@ class AppProviderBasic extends Component {
       jobs: [],
       hotJobs: {
         data: [],
+        skip: 15,
+        limit: 8,
         isLoading: false
       },
       popularJobs: {
         data: [],
+        skip: 5,
+        limit: 8,
         isLoading: false
       },
       recentJobs: {
         data: [],
+        skip: 0,
+        limit: 8,
         isLoading: false
       },
       similarJobs: [],
@@ -62,7 +68,9 @@ class AppProviderBasic extends Component {
         data: [],
         skip: 0,
         limit: 12,
-        isLoading: false
+        isLoading: false,
+        firstSearch: true,
+        searchKey: ""
       }
     };
     this.methodsList = {
@@ -217,7 +225,7 @@ class AppProviderBasic extends Component {
   fetchUserActiveJobs = async () => {
     let url = `/api/jobs`;
     let params = {
-      limit: 5,
+      limit: this.state.userActiveJobs.limit,
       skip: this.state.userActiveJobs.skip
     };
     this.setState(state => {
@@ -249,7 +257,7 @@ class AppProviderBasic extends Component {
           ...state,
           userActiveJobs: {
             ...state.userActiveJobs,
-            skip: state.userActiveJobs.skip + 5,
+            skip: state.userActiveJobs.skip + state.userActiveJobs.limit,
             isLoading: true
           }
         };
@@ -282,7 +290,7 @@ class AppProviderBasic extends Component {
   fetchUserArchivedJobs = async () => {
     let url = `/api/jobs`;
     let params = {
-      limit: 5,
+      limit: this.state.userArchivedJobs.limit,
       skip: this.state.userArchivedJobs.skip
     };
     this.setState(state => {
@@ -314,7 +322,7 @@ class AppProviderBasic extends Component {
           ...state,
           userArchivedJobs: {
             ...state.userArchivedJobs,
-            skip: state.userArchivedJobs.skip + 5,
+            skip: state.userArchivedJobs.skip + state.userArchivedJobs.limit,
             isLoading: true
           }
         };
@@ -399,7 +407,13 @@ class AppProviderBasic extends Component {
           }
         };
       },
-      () => this.fetchTotalJobs()
+      () => {
+        if (this.state.totalJobs.firstSearch) {
+          this.fetchTotalJobs();
+        } else {
+          this.jobSearch(this.state.totalJobs.searchKey);
+        }
+      }
     );
   };
 
@@ -426,8 +440,8 @@ class AppProviderBasic extends Component {
   fetchHotJobs = async () => {
     let url = `/api/jobs`;
     let params = {
-      limit: 8,
-      skip: 0
+      limit: this.state.hotJobs.limit,
+      skip: this.state.hotJobs.skip
     };
 
     this.setState(state => {
@@ -461,8 +475,8 @@ class AppProviderBasic extends Component {
   fetchRecentJobs = async () => {
     let url = `/api/jobs`;
     let params = {
-      limit: 8,
-      skip: 7
+      limit: this.state.recentJobs.limit,
+      skip: this.state.recentJobs.skip
     };
 
     this.setState(state => {
@@ -496,8 +510,8 @@ class AppProviderBasic extends Component {
   fetchPopularJobs = async () => {
     let url = `/api/jobs`;
     let params = {
-      limit: 8,
-      skip: 14
+      limit: this.state.popularJobs.limit,
+      skip: this.state.popularJobs.skip
     };
 
     this.setState(state => {
@@ -528,9 +542,33 @@ class AppProviderBasic extends Component {
     }
   };
 
+  modifiedState(state, modifiedData, keyword) {
+    let finalData = [...modifiedData];
+    let firstSearch = state.totalJobs.firstSearch;
+    if (!firstSearch) {
+      finalData = [...state.totalJobs.data, ...modifiedData];
+    }
+
+    if (firstSearch) {
+      firstSearch = false;
+    }
+
+    return {
+      ...state.totalJobs,
+      data: finalData,
+      isLoading: false,
+      firstSearch: firstSearch,
+      searchKey: keyword
+    };
+  }
+
   jobSearch = async keyword => {
     let url = `/api/jobs`;
-    let params = { key: keyword, limit: 10, skip: 0 };
+    let params = {
+      key: keyword,
+      limit: this.state.totalJobs.limit,
+      skip: this.state.totalJobs.skip
+    };
     const response = await AxiosFunctions.getFunction(url, params);
     const { data } = response.data;
     if (!!data) {
@@ -539,11 +577,7 @@ class AppProviderBasic extends Component {
       this.setState(state => {
         return {
           ...state,
-          totalJobs: {
-            ...state.totalJobs,
-            data: [...modifiedData],
-            isLoading: false
-          }
+          totalJobs: this.modifiedState(state, modifiedData, keyword)
         };
       });
     }

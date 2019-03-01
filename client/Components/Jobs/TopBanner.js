@@ -9,7 +9,7 @@ class TopBanner extends Component {
         <div className="container">
           <div className="breadcrumb-info text-center">
             <div className="page-title">
-              <h1>Latest Jobs</h1>
+              <h1>Jobs</h1>
             </div>
             <ol className="breadcrumb">
               <li>
