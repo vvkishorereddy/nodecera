@@ -28,7 +28,7 @@ jobs.get = (req, res) => {
     .limit(parseInt(req.query.limit));
 };
 
-jobs.post = (req, res) => {
+jobs.post = (req, res, next) => {
   const dataObject = req.body;
 
   // fetch company data

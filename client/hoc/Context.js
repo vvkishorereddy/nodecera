@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 import * as JwtToken from "../Helpers/JwtToken";
 import AxiosFunctions from "../Helpers/AxiosFunctions";
 import HelperFunctions from "../Helpers/HelperFunctions";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AppContext = React.createContext();
 const AppConsumer = AppContext.Consumer;
@@ -13,6 +15,7 @@ class AppProviderBasic extends Component {
     this.state = {
       isLoading: false,
       isLogged: false,
+      isCompanyProfileFilled: false,
       jobs: [],
       hotJobs: {
         data: [],
@@ -107,6 +110,8 @@ class AppProviderBasic extends Component {
     };
   }
 
+  notify = message => toast.info(message);
+
   setLoadingTrue = () => {
     this.setState(state => {
       return {
@@ -130,6 +135,7 @@ class AppProviderBasic extends Component {
     let data = { email: email };
     let params = {};
     const response = await AxiosFunctions.postFunction(url, data, params);
+    this.notify("Thanks for subscribing.");
     cb(response);
   };
 
@@ -661,9 +667,22 @@ class AppProviderBasic extends Component {
     const response = await AxiosFunctions.getFunction(url, params);
 
     const { data } = response.data;
+    let companyDataDilled = false;
+    if (
+      data.name &&
+      data.description &&
+      data.address &&
+      data.phone &&
+      data.email &&
+      data.website &&
+      data.logo
+    ) {
+      companyDataDilled = true;
+    }
 
     this.setState(state => ({
       ...state,
+      isCompanyProfileFilled: companyDataDilled,
       companyInfo: {
         ...state.companyInfo,
         company_name: data.name,
@@ -762,6 +781,7 @@ class AppProviderBasic extends Component {
     return (
       <AppContext.Provider value={{ ...this.state, ...this.methodsList }}>
         {this.props.children}
+        <ToastContainer hideProgressBar transition={Slide} />
       </AppContext.Provider>
     );
   }
