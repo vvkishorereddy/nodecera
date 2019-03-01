@@ -110,7 +110,25 @@ class AppProviderBasic extends Component {
     };
   }
 
-  notify = message => toast.info(message);
+  notify = (type, message) => {
+    switch (type) {
+      case "info":
+        toast.info(message);
+        break;
+      case "success":
+        toast.success(message);
+        break;
+      case "warning":
+        toast.warn(message);
+        break;
+      case "error":
+        toast.error(message);
+        break;
+      default:
+        toast(message);
+        break;
+    }
+  };
 
   setLoadingTrue = () => {
     this.setState(state => {
@@ -135,7 +153,7 @@ class AppProviderBasic extends Component {
     let data = { email: email };
     let params = {};
     const response = await AxiosFunctions.postFunction(url, data, params);
-    this.notify("Thanks for subscribing.");
+    this.notify("info", "Thanks for subscribing.");
     cb(response);
   };
 
@@ -709,6 +727,7 @@ class AppProviderBasic extends Component {
         company_logo: response.data.data.logo
       }
     }));
+    this.notify("success", response.data.message);
   };
 
   editCompanyProfile = e => {
